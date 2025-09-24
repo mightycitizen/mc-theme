@@ -1,0 +1,20 @@
+{% set card_classes = 'col-span-12 md:col-span-4' %}
+
+{% if columns == 1 %}
+  {% set card_classes = 'col-span-12 md:col-span-12' %}
+{% elseif columns == 2 %}
+  {% set card_classes = 'col-span-12 md:col-span-6' %}
+{% endif %}
+
+<div class="grid grid-cols-12  gap-6 align-{{ alignment | default('center') }}" data-equalizer data-equalize-on="medium">
+  {% for card in cards %}
+      <div class="{{ card_classes }}">
+        {% if card is iterable %}
+          {% set card = card | merge({lazyload_class: 'data-splide-lazy', equalize: true}) %}
+          {% include "@molecules/cards/card/card.twig" with card only %}
+        {% else %}
+          {{ card }}
+        {% endif %}
+      </div>
+  {% endfor %}
+</div>

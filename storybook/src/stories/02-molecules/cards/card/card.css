@@ -1,0 +1,26 @@
+.card--featured {
+  .card_image {
+    position: relative;
+    &:after {
+      background: linear-gradient(180deg,rgba(216, 216, 216, 0.05) 20%, rgba(0, 0, 0, 0.6) 100%);
+      content: '';
+      bottom: 0;
+      height: 100%;
+      left: 0;
+      position: absolute;
+      width: 100%;
+    }
+  }
+}
+
+.card--click {
+  @apply relative;
+}
+.card_click:after {
+  bottom: 0;
+  content: '';
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}

@@ -1,0 +1,16 @@
+{
+  "spacer": "8px",
+  "box-shadow": "0 0 0 1px rgba(0,0,0,0.1)",
+  "font-weight-normal": "400",
+  "font-weight-semibold": "600",
+  "font-weight-bold": "800",
+  "line-height": 1.2,
+  "bg-light-opacity": 0.4,
+  "spacers-range": 14,
+  "spacers-additional": {
+    "025": 0.25,
+    "05": 0.5,
+    "105": 1.5,
+    "205": 2.5
+  }
+}

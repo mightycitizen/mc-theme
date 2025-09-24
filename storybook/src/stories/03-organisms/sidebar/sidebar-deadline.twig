@@ -1,0 +1,48 @@
+<div class="sidebar-bottom pt-8 space-y-6">
+  {% if media_name | default %}
+    <div class="media-contact border-b-[1px] border-b-neutrals-100 pb-6">
+      <h2 class="text-lg font-semibold">Event contact</h2>
+      <ul class="list-none space-y-2.5">
+        <li>{{ media_name }}</li>
+        {% if media_email | default %}
+          <li><a href="mailto:{{ media_email }}">{{ media_email }}</a></li>
+        {% endif %}
+        {% if media_phone | default %}
+          <li>{{ media_phone }}</li>
+        {% endif %}
+      </ul>
+    </div>
+  {% endif %}
+  {% if event_series | default %}
+    <div class="event-series border-b-[1px] border-b-neutrals-100 pb-6">
+      <h2 class="text-lg font-semibold">Event Series [if appl.]</h2>
+      {% include "@atoms/links/read-more/read-more.twig" with event_series %}
+    </div>
+  {% endif %}
+
+  {% if who_its_for | default %}
+    <div class="topics border-b-[1px] border-b-neutrals-100 pb-6">
+      <h2 class="text-lg font-semibold">Who it's for:</h2>
+      <ul class="list-none flex flex-wrap gap-2.5">
+        {% for item in who_its_for %}
+          <li>
+            <a class="read-more" href="{{ item.url }}">{{ item.text }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if topics | default %}
+    <div class="topics border-b-[1px] border-b-neutrals-100 pb-6">
+      <h2 class="text-lg font-semibold">Topics</h2>
+      <ul class="list-none flex flex-wrap gap-2.5">
+        {% for item in topics %}
+          <li>
+            <a class="read-more" href="{{ item.url }}">{{ item.text }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</div>

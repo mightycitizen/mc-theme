@@ -1,0 +1,10 @@
+<div class="anchor-nav bg-primary-50 px-6 py-5 mb-4 md:mb-0">
+  <p class="uppercase text-primary-900 font-bold text-sm mb-5">Table of Contents (Editable title)</p>
+  <ul class="list-none font-semibold{% if horizontal_nav %} lg:flex lg:flex-wrap lg:gap-x-4 lg:gap-y-2{% else %} space-y-2{% endif %}">
+    {% for item in anchor_nav %}
+      <li class="shrink-0">
+        <a class="" href="{{ item.url }}">{{ item.text }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

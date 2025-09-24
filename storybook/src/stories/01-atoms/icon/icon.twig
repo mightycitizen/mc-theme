@@ -1,0 +1,7 @@
+{% set modifiers = modifiers ?? '' %}
+{% if icon.background %}
+  {% set background_classes = (icon.background == 'light') ? 'text-primary bg-primary-50' : 'text-white bg-primary' %}
+{% endif %}
+<span class="text-2xl leading-[0]{% if icon.background %} inline-flex items-center justify-center rounded-full py-4 px-4 {{ background_classes }}{% endif %} {{ modifiers }}">
+  <span class="{{ icon.name }}"></span>
+</span>

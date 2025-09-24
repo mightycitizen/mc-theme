@@ -1,0 +1,21 @@
+
+{% set alert_border = 'border-neutrals-200' %}
+
+{% if alert_type.type == 'emergency' %}
+  {% set background_color = 'tertiary-50' %}
+  {% set alert_border = 'border-tertiary-700' %}
+{% endif %}
+
+{% if alert_type.type == 'weather' %}
+  {% set background_color = 'primary-50' %}
+  {% set alert_border = 'border-primary-500' %}
+{% endif %}
+
+<div class="card bg-{{ background_color | default('white')}} rounded-[4px] shadow-lg {{ class | default }} {{ modifier | default ? 'card--' ~ modifier : '' }} {% if clickCard | default %}card--click{% endif %}{% if alert_border | default %} border {{ alert_border }}{% endif %}" >
+
+  <div class="card_section py-6 px-4 md:px-7 bg-{{ background_color | default('white')}}" {% if equalize | default %}data-equalizer-watch{% endif %}>
+
+    {% include '@molecules/cards/alert/alert-content.twig' %}
+
+  </div>
+</div>

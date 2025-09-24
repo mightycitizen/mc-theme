@@ -1,0 +1,106 @@
+{% extends '@wrappers/default.twig' %}
+{% block top %}
+
+{% endblock %}
+{% block main %}
+
+  {% embed '@organisms/section/section-embed.twig' with {
+    padding: 'tight',
+  } %}
+    {% block section_content %}
+      {% include '@base/layout/layout.twig' %}
+
+      {% set sidebar %}
+        {% include '@organisms/sidebar/sidebar-deadline.twig' with page_sidebar %}
+      {% endset %}
+
+      {% set hero_section %}
+        <div>
+          {% block breadcrumbs %}
+            {{ breadcrumbs }}
+          {% endblock %}
+          <p class="font-bold text-sm uppercase mb-1">{{ page_type }}</p>
+          <h1>{{ page_title }}</h1>
+          {% if page_subheading | default %}
+            <div class="mb-4">{{ page_subheading }}</div>
+          {% endif %}
+
+          <h2>Deadline Information</h2>
+          <ul class="list-none space-y-2 mb-4">
+            <li class="flex gap-x-4">
+              <span class="ph ph-[calendar-blank] text-primary text-2xl"></span>
+              <span class="text-neutrals-900 font-bold">{{ page_date }}</span>
+            </li>
+            <li class="flex gap-x-4">
+              <span class="ph ph-[clock] text-primary text-3xl"></span>
+              <span class="text-neutrals-900 font-bold">{{ page_time }}</span>
+            </li>
+            {%  if page_location_url | default %}
+            <li class="flex gap-x-4">
+              <span class="ph ph-[map-pin] text-primary text-2xl"></span>
+              <span class="text-neutrals-900 font-bold"><a href="{{ page_location_url }}">Location goes here</a></span>
+            </li>
+            {% endif %}
+          </ul>
+
+          <ul class="list-none flex gap-x-4 items-center">
+            <li class="font-semibold"><span>Status:</span></li>
+            {% if page_status.upcoming | default %}
+              <li>
+                  {% include '@atoms/inline-text/badge/badge.twig' with {
+                    icon: 'icon-lightning-fill',
+                    text: 'Upcoming',
+                    class: 'inline-flex',
+                    style: 'light'
+                  } %}
+              </li>
+            {% endif %}
+            {% if page_status.approaching | default %}
+              <li>
+                {% include '@atoms/inline-text/badge/badge.twig' with {
+                  icon: 'icon-lightning-fill',
+                  text: 'Approaching',
+                  class: 'inline-flex',
+                  style: 'light'
+                } %}
+              </li>
+            {% endif %}
+            {% if page_status.expired_past | default %}
+              <li>
+                {% include '@atoms/inline-text/badge/badge.twig' with {
+                  icon: 'icon-lightning-fill',
+                  text: 'Expired/Past',
+                  class: 'inline-flex',
+                  style: 'light'
+                } %}
+              </li>
+            {% endif %}
+          </ul>
+          {% if view_more_info | default %}
+            <p><a class="read-more" href="{{ view_more_info }}">View more information</a></p>
+          {% endif %}
+
+{#          {% if page_image | default %}#}
+{#            <img src="{{ page_image.src }}" alt="{{ page_image.alt }}" />#}
+{#          {% endif %}#}
+        </div>
+      {% endset %}
+
+      {% set content %}
+        {% for module in narrow_modules %}
+          {% if module.module_type == 'wysiwyg' %}
+            {{ module.wysiwyg }}
+          {% endif %}
+        {% endfor %}
+      {% endset %}
+
+    {% endblock %}
+  {% endembed %}
+
+  {% for module in modules %}
+    {% if module.module_type == 'short-list-horizontal' %}
+      {% include '@components/modules/short-list-horizontal/short-list-horizontal.twig' with module only %}
+    {% endif %}
+  {% endfor %}
+
+{% endblock %}

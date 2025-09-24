@@ -1,0 +1,16 @@
+<!-- AddToAny BEGIN -->
+<script>
+  var a2a_config = a2a_config || {};
+
+  a2a_config.icon_color = "white,black";
+
+
+</script>
+<div class="a2a_kit a2a_kit_size_32 justify-end text-right a2a_default_style {{ class | default }}">
+  <a class="a2a_button a2a_dd justify-end inline-flex gap-1 text-lg" href="https://www.addtoany.com/share" aria-label="Share this page">
+    <span class="hover:underline no-underline hidden lg:block">Share</span>
+    {# <span class="ph ph-[share-network--fill] mr-1 text-lg rounded-full p-1"></span> #}
+    {% include '@atoms/icon/icon.twig' with { icon: { name: 'ph ph-share-network bg-transparent'}, modifiers: 'text-lg mx-1' }%}
+  </a>
+</div>
+<script async src="https://static.addtoany.com/menu/page.js"></script>

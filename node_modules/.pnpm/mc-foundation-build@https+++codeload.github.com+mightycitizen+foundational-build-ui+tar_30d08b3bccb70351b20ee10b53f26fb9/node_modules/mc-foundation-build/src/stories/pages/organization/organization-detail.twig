@@ -1,0 +1,57 @@
+{% extends '@wrappers/default.twig' %}
+{% block top %}
+  {% include '@organisms/hero/hero.twig' with hero %}
+{% endblock %}
+{% block main %}
+  {% if narrow_modules | default | length > 0 %}
+    {% set content %}
+      <div class="anchor-nav bg-primary-50 px-6 py-5 mb-5">
+        <p class="uppercase text-primary-900 font-bold text-sm mb-5">Table of Contents (Editable title)</p>
+        <ul class="list-none font-semibold space-y-2">
+          {% for item in anchor_nav %}
+            <li>
+              <a class="" href="{{ item.url }}">{{ item.text }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% for module in narrow_modules %}
+        {% if module.module_type == 'wysiwyg' %}
+          {{ module.wysiwyg }}
+        {% elseif module.module_type == 'accordion' %}
+          {% include '@components/modules/accordion/accordion-module.twig' with module only %}
+        {% endif %}
+      {% endfor %}
+    {% endset %}
+    {% if sidebar_modules | default | length > 0 %}
+      {% set sidebar %}
+        {% include '@molecules/navigation/local-nav/local-nav.twig' with local_nav %}
+        {% for module in sidebar_modules %}
+          {% if module.module_type == 'accordion' %}
+            {% include '@components/modules/accordion/accordion-module.twig' with module only %}
+          {% endif %}
+        {% endfor %}
+      {% endset %}
+    {% endif %}
+    {% embed '@organisms/section/section-embed.twig' with {
+      padding: 'tight',
+    } %}
+      {% block section_content %}
+        {% include '@base/layout/content-with-sidebar.twig' %}
+      {% endblock %}
+    {% endembed %}
+  {% endif %}
+
+  {% for module in modules %}
+    {% if module.module_type == 'contact-block' %}
+      {% include '@components/modules/contact-block/contact-block.twig' with module only %}
+    {% endif %}
+  {% endfor %}
+
+  {% include '@molecules/navigation/anchor/anchor.twig' %}
+
+  {% for module in modules %}
+    {% include '@organisms/module/module.twig' with module only %}
+  {% endfor %}
+
+{% endblock %}

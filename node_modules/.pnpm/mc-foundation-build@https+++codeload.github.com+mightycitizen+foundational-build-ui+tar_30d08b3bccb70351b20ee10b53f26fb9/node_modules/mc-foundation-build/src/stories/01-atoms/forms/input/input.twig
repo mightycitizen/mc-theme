@@ -1,0 +1,8 @@
+{% embed '@atoms/forms/label/label.twig' %}
+  {% block field %}
+    <input 
+    {% if class | default %}class="{{ class }}"{% endif %}
+    
+    {% if disabled | default %}disabled{% endif %} type="{{ type | default('text') }}" value="{{ value }}" name="{{ name }}" id="{{ id }}" placeholder="{{ placeholder }}" {% if required | default %}required{% endif %}/>
+  {% endblock %}
+{% endembed %}

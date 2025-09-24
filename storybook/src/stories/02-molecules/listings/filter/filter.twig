@@ -1,0 +1,95 @@
+
+  <form class="view-filter" {% if action | default %}action="{{ action }}"{% endif %} {% if ajax | default %}x-data @change="if ($event.target.matches('select, input')) { $el.dispatchEvent(new Event('submit')); $el.submit() }" {% endif %} >
+    {% embed '@atoms/forms/form-group/form-group.twig' %}
+      {% block form_content %}
+        {% if keyword_filter | default %}
+          <div class="col-span-12 md:col-span-5">
+            {% include '@atoms/inline-text/label/label.twig' with {
+              value: queryParam | default,
+              label: label | default("Keywords"),
+              id: input_id | default("keywords"),
+              placeholder: placeholder | default("Filter by keywords"),
+              name: input_name | default('q')
+            }
+            %}
+          </div>
+        {% endif %}
+{#        <div class="col-span-12 md:col-span-5 lg:col-span-4">#}
+{#          {% include '@atoms/forms/select/select.twig' with {#}
+{#            label: category_label | default("Filter by Category"),#}
+{#            input_class: 'w-full ' ~ input_class | default,#}
+{#            id: "category",#}
+{#            autocomplete: 'off',#}
+{#            placeholder: category_placeholder | default("Select a Category"),#}
+{#            name: 'category',#}
+{#            value: category_selected | default,#}
+{#            options: categories | default([#}
+{#              {#}
+{#                value: 1,#}
+{#                label: 'Category 1'#}
+{#              }#}
+{#            ])#}
+{#          } only#}
+{#          %}#}
+{#        </div>#}
+
+        <div class="col-span-12">
+            {% include '@atoms/forms/checkbox-group/checkbox-group.twig' with {
+              input_class: 'w-full ' ~ input_class | default,
+              label: "Fieldset - checkbox",
+              id: "category",
+              autocomplete: 'off',
+              placeholder: category_placeholder | default("Select a Category"),
+              name: 'category',
+              value: category_selected | default,
+              options: categories | default([
+                {
+                  value: 1,
+                  label: 'Checkbox value'
+                },
+                {
+                  value: 2,
+                  label: 'Checkbox value'
+                },
+                {
+                  value: 3,
+                  label: 'Checkbox value'
+                }
+              ])
+            } only
+            %}
+        </div>
+
+        <div class="col-span-12">
+          {% include '@atoms/forms/radio-group/radio-group.twig' with {
+            input_class: 'w-full ' ~ input_class | default,
+            label: "Fieldset - radio",
+            id: "taxonomy",
+            name: 'category',
+            value: taxonomy_selected | default,
+            options: taxonomies | default([
+              {
+                value: 1,
+                label: 'Radio value'
+              },
+              {
+                value: 2,
+                label: 'Radio value'
+              },
+              {
+                value: 3,
+                label: 'Radio value'
+              }
+            ])
+          } only
+          %}
+        </div>
+
+        {% if ajax | default == false %}
+          <div class=" md:col-span-2">
+            <button class="button" type="submit">Search</button>
+          </div>
+        {% endif %}
+      {% endblock %}
+    {% endembed %}
+  </form>

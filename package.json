@@ -12,6 +12,7 @@
   "author": "Mighty Citizen <development@mightycitizen.com>",
   "license": "ISC",
   "dependencies": {
+    "mc-foundation-build": "github:mightycitizen/foundational-build-ui",
     "mc_foundation": "github:mightycitizen/foundational-build-ui",
     "tailwindcss": "^3.4.17"
   },

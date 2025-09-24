@@ -1,0 +1,16 @@
+<div class="card {% if no_outline is empty | default %}bg-{{ background_color | default('white')}} h-full shadow-md{% endif%} {{ class | default }} {{ modifier | default ? 'card--' ~ modifier : '' }}{% if clickCard | default %} card--click{% endif %}" >
+    <div class="card_icon bg-primary-100 w-full relative text-center py-8">
+      <div class="bg-white p-[8px] rounded-full inline-block border-[13px] border-primary">
+        {% include '@atoms/icon/icon.twig' with { modifiers: 'text-[2.75rem] align-middle' }%}
+      </div>
+    </div>
+
+  <div class="card_section {% if no_outline is empty | default %}p-6 {% else %}py-6 {% endif%}bg-white" {% if equalize | default %}data-equalizer-watch{% endif %}>
+  {% include '@molecules/cards/card/_card-content.twig' %}
+  {% if footer | default %}
+    <div class="card_footer">
+      {{ footer }}
+    </div>
+  {% endif %}
+  </div>
+</div>

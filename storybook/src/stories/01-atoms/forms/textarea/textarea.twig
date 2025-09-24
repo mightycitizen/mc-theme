@@ -1,0 +1,5 @@
+{% embed '@atoms/forms/label/label.twig' %}
+  {% block field %}
+    <textarea name="{{ name }}" id="{{ field_id }}" {% if required %}required{% endif %} placeholder="{{ placeholder }}"></textarea>
+  {% endblock %}
+{% endembed %}

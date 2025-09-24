@@ -1,0 +1,16 @@
+<div class="card card--featured{% if clickCard | default %} card--click{% endif %}" data-scroll-show>
+  <div class="card_section relative">
+
+    <div class="card_image">
+      <img class="object-cover object-center min-h-[540px]" {% if lazyload_attr | default %}{{ lazyload_attr }}="{{ image.src }}"{% else %}src="{{ image.src }}" loading="lazy"{% endif %}  alt="{{ image.alt }}">
+    </div>
+
+    <div class="card_section absolute bottom-0 h-full w-full py-6 px-8 text-white">
+      <div class="flex items-end h-full w-full">
+        <div class="flex flex-col">
+          {% include '@molecules/cards/card/_card-content.twig' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

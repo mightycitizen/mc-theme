@@ -1,0 +1,16 @@
+{% if items | default %}
+  <ul class="list-none">
+    {% for item in items %}
+      <li class="flex items-center gap-x-2 mb-2">
+        {% if item.icon %}
+          {{ include('@atoms/inline-text/icon-text/icon-text.twig', {
+            icon: item.icon,
+            text: item.text,
+          })}}
+        {% else %}
+          {{ item.text }}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}

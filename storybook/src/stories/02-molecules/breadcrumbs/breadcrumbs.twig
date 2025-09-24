@@ -1,0 +1,87 @@
+{% if breadcrumbs is not empty and breadcrumbs|length > 0 %}
+  <nav x-data="{ breadcrumbsOpen: false }" :class="breadcrumbsOpen ? 'is-active' : ''">
+
+    {#     trim last breadcrumb#}
+    {% set breadcrumbs_list = breadcrumbs|slice(0, breadcrumbs|length - 1) %}
+    {#     grab root#}
+    {% set root = breadcrumbs|first %}
+
+    {#     grab last 2#}
+
+    {% set last_two = breadcrumbs|slice(-2) %}
+    {% set breadcrumb = breadcrumbs|slice(0, breadcrumbs|length - 2) %}
+
+    {% set output = 2 %}
+    {% if breadcrumbs|length > 0 %}
+      <span class="icon-house text-lg py-6 align-middle"></span>
+    {% endif %}
+    {% if breadcrumbs|length > 2 %}
+      <a class="inline-block font-bold text-inherit py-6" href="{{ root.url }}">{{ root.text }}</a>
+      <span aria-hidden="true" class="icon-caret-right text-xs ml-2 mr-2 py-6 inline-block align-middle"></span>
+    {% endif %}
+    {% if breadcrumbs|length > 4 %}
+      <div class="inline-block relative{% if breadcrumbs|length == 1 %} lg:hidden{% endif %}" x-on:mouseleave.debounce.300="breadcrumbsOpen = false">
+        <button class="hover:text-underline bg-transparent border-0 cursor-pointer text-inherit py-6 px-2 hover:bg-primary-50" x-on:mouseover="breadcrumbsOpen = true" x-on:touchstart="breadcrumbsOpen = !breadcrumbsOpen">
+          ..... <span aria-hidden="true" class="icon-caret-down text-xs ml-2 inline-block align-middle"></span>
+        </button>
+        <span aria-hidden="true" class="icon-caret-right text-xs ml-2 mr-2 inline-block align-middle"></span>
+        <div class="absolute left-neg-1 shadow w-[250px] z-10 bg-white text-black px-5 py-5 border-t-2 border-t-primary-500" x-show="breadcrumbsOpen">
+          <ul class="list-none m-0 p-0 space-y-2">
+            {% set spacer = 2 %}
+            {% for item in breadcrumbs %}
+              <li class="c-breadcrumb__item {% if loop.first %}lg:hidden{% endif %} {% if loop.last == false %}pb-{{ spacer }} {% endif %} {% if loop.index0 == 1 %}lg:pt-0{% elseif loop.first %}pt-0{% endif %} pt-{{ spacer }}">
+                <a class="text-inherit text-underline hover:text-no-underline" href="{{ item.url }}">{{ item.text }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+
+    {% for item in last_two %}
+      {% if loop.last == false %}
+        <a class="text-inherit font-bold py-6" href="{{ item.url }}">{{ item.text }}</a>
+        <span aria-hidden="true" class="icon-caret-right text-xs py-6 ml-2 inline-block align-middle"></span>
+      {% else %}
+        <span aria-current="page" class="hidden lg:inline-block">
+              {{ item.text }}
+            </span>
+      {% endif %}
+    {% endfor %}
+
+  </nav>
+{% elseif breadcrumb_back %}
+  <a href="{{ breadcrumb_back.url }}" class="text-semibold display-inline-flex flex-align-center py-6 gx-05">
+    {% include '@atoms/icon/icon.twig' with {
+      icon_name: 'angle-left',
+      stroke_width: 2
+    } only %}
+    {{ breadcrumb_back.text }}
+  </a>
+{% endif %}
+
+{#{% if breadcrumbs %}#}
+{#  <nav role="navigation" aria-label="You are here:">#}
+{#    <ul class="breadcrumbs mb-0 flex gap-2 list-none">#}
+{#      {% for item in breadcrumbs %}#}
+{#        <li>#}
+{#          {% if item.url %}#}
+{#            {% if loop.index0 == 0 %}#}
+{#              <span class="icon-house text-lg"></span>#}
+{#            {% endif %}#}
+{#            <a class="font-bold" href="{{ item.url }}">#}
+{#              {{ item.text }}#}
+{#            </a>#}
+{#          {% else %}#}
+{#            <span class="breadcrumb__current">{{ item.text }}</span>#}
+{#          {% endif %}#}
+{#          {% if loop.last == false %}#}
+{#              <span aria-hidden="true" class="icon-caret-right text-xs ml-2 inline-block align-middle"></span>#}
+{#            {% endif %}#}
+{#        </li>#}
+{#      {% endfor %}#}
+{#    </ul>#}
+{#  </nav>#}
+{#{% endif %}#}
+
+

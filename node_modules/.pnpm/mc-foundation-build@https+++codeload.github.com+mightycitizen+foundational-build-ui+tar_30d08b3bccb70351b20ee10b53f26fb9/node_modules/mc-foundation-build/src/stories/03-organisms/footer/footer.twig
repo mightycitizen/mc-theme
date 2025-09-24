@@ -1,0 +1,120 @@
+{% set social = social ?? null %}
+{% set ctas = ctas ?? null %}
+{% set logo = logo ?? null %}
+{% set contact = contact ?? null %}
+{% set menu = menu ?? null %}
+{% set copyright_year = copyright_year ?? null %}
+{% set site_name = site_name ?? null %}
+{% set footer_links = footer_links ?? [] %}
+
+<footer class="l-footer bg-primary-200">
+
+  <div class="l-footer-top text-white bg-primary-800 pt-8 pb-10 md:py-8">
+    <div class="container">
+
+      {% if social or ctas %}
+        <div class="grid grid-cols-12 gap-6 mb-8">
+          {% if social %}
+            <div class="col-span-12 md:col-span-6 mb-0 self-center flex flex-col md:flex-row md:items-center">
+              <span class="font-bold align-top mb-2 md:mb-0 md:mr-4">Connect with us:</span>
+              {% include '@molecules/lists/social-media/social-media.twig' %}
+            </div>
+          {% endif %}
+          {% if ctas %}
+            <div class="col-span-12 md:col-span-6 mb-11 md:mb-0">
+              <ul class="menu flex gap-x-3 list-none md:justify-{{ social ? 'end' : 'start' }}">
+                {% for cta in ctas %}
+                  <li>{% include '@atoms/links/link/link.twig' with cta %}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="grid grid-cols-12 gap-6">
+        {% if logo or contact %}
+          <div class="col-span-12 md:col-span-3 mb-12 md:mb-0 md:text-left">
+            {% if logo %}
+              <div class="mb-4">
+                {% include '@atoms/logo/logo.twig' with logo %}
+              </div>
+            {% endif %}
+            {% if contact %}
+              <ul class="list-none space-y-5 flex flex-col">
+                {% for item in contact %}
+                  <li>
+                    <span class="icon {{ item.icon }} text-2xl md:text-[32px] align-middle mr-2"></span>
+                    {% if item.type == 'address' %}
+                      <span class="font-bold">{% include '@atoms/links/link/link.twig' with { text: item.label, url: item.url, targetString: '_blank' } %}</span>
+                    {% else %}
+                      <span class="font-bold">{{ item.label }}</span>
+                      <span>
+                        {% if item.url %}
+                          {% include '@atoms/links/link/link.twig' with item %}
+                        {% else %}
+                          {{ item.text }}
+                        {% endif %}
+                      </span>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if menu %}
+          {% set menu_item_col_size = (menu|length in [1, 2, 4]) ? '6' : '4'  %}
+          <div class="col-span-12 md:col-span-9 grid grid-cols-12">
+            {% for link in menu %}
+              <div class="col-span-12 md:col-span-{{menu_item_col_size}}">
+                {% if link.url is empty %}
+                  <span class="h5 block mb-4">{{ link.text }}</span>
+                {% else %}
+                  {% include '@atoms/links/link/link.twig' with link|merge({ modifier: 'font-bold no-underline hover:underline' }) %}
+                {% endif %}
+                {% if link.children %}
+                  <ul class="menu flex flex-col gap-x-3 gap-y-3 list-none mb-3 md:mb-0">
+                    {% for child_link in link.children %}
+                      <li>
+                        {% if child_link.url is empty %}
+                          <span class="h5 block mb-4">{{ child_link.text }}</span>
+                        {% else %}
+                          {% include '@atoms/links/link/link.twig' with child_link|merge({ modifier: 'font-bold no-underline hover:underline' }) %}
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  <div class="l-footer-bottom py-6">
+    <div class="container">
+      <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 md:col-span-4">
+          <p class="text-lg font-bold">&copy; Copyright {{ copyright_year | default(2025) }} {{ site_name | default }}</p>
+        </div>
+        <div class="col-span-12 md:col-span-8">
+          <ul class="list-none flex flex-col flex-wrap md:flex-row gap-4 justify-end mb-2">
+            {% for link in footer_links | default %}
+              <li>
+                {% include '@atoms/links/link/link.twig' with link|merge({ modifier: 'text-black font-semibold' }) %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include '@base/utils/back-to-top/back-to-top.twig' with {
+    scroll_show: true
+  } %}
+</footer>

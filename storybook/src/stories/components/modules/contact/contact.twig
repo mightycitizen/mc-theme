@@ -1,0 +1,17 @@
+{% embed '@organisms/section/section-embed.twig' with {
+    class: section_class | default,
+    exclude_container: true
+  }
+%}
+  {% block section_content %}
+      {% include '@molecules/panels/contact-panel/contact-panel.twig' with {
+        heading: heading,
+        description: description,
+        subheading: subheading,
+        items: items,
+        link: link
+      } only %}
+
+
+  {% endblock %}
+{% endembed %}

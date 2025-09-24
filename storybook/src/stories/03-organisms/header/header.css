@@ -1,0 +1,20 @@
+.l-header {
+  .logo_image {
+    max-width: 137px;
+    @media (max-width: 635px) {
+      max-width: 132px;
+    }
+  }
+  .search-form-wrapper {
+    @media (max-width: 1023px) {
+      width: 100%;
+    }
+  }
+  form {
+    width: 100%;
+    @media (min-width: 1024px) {
+      width: 751px;
+    }
+
+  }
+}

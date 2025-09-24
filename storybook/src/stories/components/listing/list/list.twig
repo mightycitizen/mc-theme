@@ -1,0 +1,54 @@
+<div>
+  {% for item in list %}
+    {% set label = item.label | default ? item.label : item.type.label | default %}
+    {% set item_type = item.type | default and item.type.handle ? item.type.handle : '' %}
+    <div class="item py-10">
+      <div class="grid grid-cols-12 gap-6 {% if item.start_date | default is empty %}items-center{% endif %} gap-y-6">
+        {% if item.image | default %}
+          <div class="col-span-12 md:col-span-5 lg:col-span-3 md:order-2">
+            <div class="wrapper image-size--landscapeCroppedMedium">
+              <img loading="lazy" src="{{ item.image.src }}" alt="{{ item.image.alt }}" class="">
+            </div>
+          </div>
+        {% endif %}
+        <div class="col-span-12 {% if item.image | default %}md:col-span-7 lg:col-span-9 md:order-1{% endif %}">
+          <div class="flex gap-x-6 items-start">
+
+            {% if item.start_date | default is not empty %}
+
+              {% include '@atoms/inline-text/date/date.twig' with item.start_date %}
+
+
+            {% endif %}
+
+            <div>
+              <h2><a class="text-black text-2xl" href="{{ item.url }}">{{ item.heading }}</a></h2>
+              {% if item_type | default != 'events' and item.date.full | default %}
+                {% include '@molecules/lists/meta/meta.twig' with {
+                  date: item.date,
+                  modifier: 'mb-3'
+                } %}
+              {% endif %}
+              {% if item.summary | default %}
+                <p class="{% if item.categories | default | length %}mb-4{% elseif item.url | default %}mb-2{% else %}mb-0{% endif %}">{{ item.summary }}</p>
+              {% endif %}
+              {% if item.url | default %}
+                <p class="mb-0"><a class="text-lg" href="{{ item.url }}">{{ item.url }}</a></p>
+              {% endif %}
+              {% if item.categories | default | length %}
+                {% include '@molecules/lists/meta/meta.twig' with {
+                    modifier: 'mb-0',
+                    categories: item.categories,
+                    date: null
+
+                } %}
+              {% endif %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="my-0">
+  {% endfor %}
+</div>

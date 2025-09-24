@@ -1,0 +1,82 @@
+{% if (section_image | default) or (section_video | default) %}
+  {% set media = true %}
+{% endif %}
+
+{% if section_heading | default %}
+  <div class="section_intro {{ intro_class }} {% if divider %}border-b-4 border-primary-500 pb-3{% endif %}">
+    <div class="grid {% if (media | default) or (intro_class != 'text-center') %}grid-cols-12 items-center{% endif %} gap-y-6 gap-x-10 justify-center">
+      {% if media | default %}
+        <div class="col-span-12 md:col-span-5 {{ narrow_image ? 'lg:col-span-4' : 'lg:col-span-6' }}{% if section_image.alignment  | default and section_image.alignment == 'right' %} md:order-2{% endif %}" >
+          {% if section_image %}
+          <div class="image-size--landscapeCroppedMedium">
+            <img loading="lazy" src="{{ section_image.src }}" alt="{{ section_image.alt }}" class="w-full">
+          </div>
+          {% endif %}
+          {% if video_id | default %}
+            {% set section_video %}
+              {% include '@atoms/video/video.twig' with {
+                trigger: "click"
+              }%}
+            {% endset %}
+          {% endif %}
+          {{ section_video }}
+        </div>
+      {% endif %}
+      <div class="col-span-12 {% if media | default %}md:col-span-7  {{ narrow_image ? 'lg:col-span-8' : 'lg:col-span-6' }}{% elseif section_style | default is empty %}md:col-span-8{% elseif intro_class != 'text-center' %}lg:col-span-8{% endif %}">
+        {% if section_label %}
+          <span class="section_label font-medium mb-5 inline-flex items-center gap-1.5">
+            {% if section_label.icon %}
+              {% include '@atoms/icon/icon.twig' with {
+                icon: section_label.icon,
+              } %}
+            {% endif %}
+            {% if section_label.text %}
+              <span class="font-bold">{{ section_label.text }}</span>
+            {% endif %}
+          </span>
+        {% endif %}
+        {% if section_heading | default %}
+          <h2 class="section_heading !mt-0">{{ section_heading }}</h2>
+        {% endif %}
+        {% if section_subheading | default %}
+          <h3 class="section_subheading">{{ section_subheading }}</h3>
+        {% endif %}
+        {% if section_description | default %}
+          <div class="lead {{ section_description_size | default('text-xl mb-8') }}">{{ section_description }}</div>
+        {% endif %}
+
+        {# Allow generic rendered content #}
+        {% if intro_content | default %}
+          {{ intro_content }}
+        {% endif %}
+
+        {# Add column wrapper for button and link if intro is not center #}
+        {% if intro_class != 'text-center' %}
+        </div>
+        <div class="col-span-12 md:col-span-4 md:ml-auto">
+        {% endif %}
+
+        <div class="flex flex-col gap-y-4 md:flex-row md:gap-x-4{% if intro_class == 'text-center' %} items-center justify-center{% else %} items-start{% endif %}{% if section_disclaimer | default %} mb-4{% endif %}">
+          {% if section_button | default %}
+            {% include '@atoms/links/button/button.twig' with section_button | merge({
+              color: 'secondary'
+            }) only %}
+          {% endif %}
+          {% if section_button_tertiary | default %}
+            {% include '@atoms/links/button/button.twig' with section_button_tertiary | merge({
+              color: 'tertiary'
+            }) only %}
+          {% endif %}
+          {% if section_link | default %}
+            {% include '@atoms/links/read-more/read-more.twig' with section_link only %}
+          {% endif %}
+        </div>
+
+        {% if section_disclaimer | default %}
+          <p class="">{{ section_disclaimer }}</p>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+{% endif %}

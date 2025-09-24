@@ -1,0 +1,53 @@
+<div class="bg-neutrals-50 lg:shadow space-y-6 px-6 py-5">
+  <div>
+    <p class="font-bold text-2xl">{{ page_title }}</p>
+    {% if register_button | default %}
+      <div class="mb-2">
+      {% include "@atoms/links/button/button.twig" with register_button %}
+      </div>
+    {% endif %}
+    {% if event_website | default %}
+      <div class="flex items-center gap-x-2 pt-4">
+        <span class="ph ph-[link] text-primary text-2xl"></span>
+        {% include "@atoms/links/read-more/read-more.twig" with event_website %}
+      </div>
+    {% endif %}
+  </div>
+  <div>
+    <h2 class="text-lg font-semibold mb-2">Date & time</h2>
+    <div class="flex items-center gap-x-2 mb-2">
+      <span class="ph ph-[calendar-blank] text-primary text-2xl"></span>
+      <span class="text-neutrals-900 font-bold">Date - {{ event_date }}</span>
+    </div>
+    <div class="flex items-center gap-x-2">
+      <span class="ph ph-[clock] text-primary text-3xl"></span>
+      <span class="text-neutrals-900 font-bold">Time range ({{ event_time }})</span>
+    </div>
+  </div>
+  <div>
+    <h2 class="text-lg font-semibold">Location</h2>
+    <div>
+      <span class="flex items-center gap-x-2 mb-2">
+        <span class="ph ph-[map-pin] text-primary text-2xl"></span>
+        <span class="text-neutrals-900 font-bold">Event Location</span>
+      </span>
+      <div class="text-neutrals-900 font-bold mb-3">
+        {{ event_location }}
+      </div>
+      {% if event_directions_url | default %}
+        {% include "@atoms/links/read-more/read-more.twig" with event_directions_url %}
+      {% endif %}
+    </div>
+  </div>
+  {% if event_virtual_meeting_url | default %}
+  <div>
+    <h2 class="text-lg font-semibold">Stream this event</h2>
+    {% include "@atoms/links/read-more/read-more.twig" with event_virtual_meeting_url %}
+  </div>
+  {% endif %}
+  <div class="text-right">
+    {% include '@base/utils/add2any/add2any.twig' with {
+      class: 'mb-0'
+    } %}
+  </div>
+</div>

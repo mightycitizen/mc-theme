@@ -1,0 +1,6 @@
+.local-tasks-nav {
+  @apply list-none flex !pl-0 !mb-0;
+}
+.local-tasks-nav a {
+  @apply font-bold bg-primary-500 text-white hover:bg-primary-900 px-4 py-3 no-underline;
+}

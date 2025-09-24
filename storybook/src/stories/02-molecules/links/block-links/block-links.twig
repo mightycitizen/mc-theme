@@ -1,0 +1,14 @@
+<ul class="block-links bg-neutrals-50 flex flex-col md:flex-row list-none w-full justify-between text-center">
+  {% for link in block_links %}
+    <li class="flex-1 ">
+      <a class="no-underline hover:bg-primary hover:text-white font-bold md:py-10 w-full" href="{{ link.url }}">
+        <span class="block-links_item py-7 px-4 flex items-center justify-center gap-x-2">
+          {% if link.icon %}
+            {% include '@atoms/icon/icon.twig' with { icon: link.icon } %}
+          {% endif %}
+          {{ link.text }}
+        </span>
+      </a>
+    </li>
+  {% endfor %}
+</ul>

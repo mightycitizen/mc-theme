@@ -1,0 +1,44 @@
+<div>
+  {% for item in list %}
+    <div class="item py-10">
+      <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 lg:col-span-4">
+          <div class="flex flex-col gap-x-6 items-start">
+            <h2><a class="text-black text-2xl" href="{{ item.url }}">{{ item.heading }}</a></h2>
+            {% if item.specializations %}
+              <label>Specializations:</label>
+              <div>
+                {{ item.specializations|raw }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        {% if item.type | default %}
+        <div class="col-span-12 lg:col-span-2">
+          {{ item.type }}
+        </div>
+        {% endif %}
+        {% if item.campus | default %}
+          <div class="col-span-12 lg:col-span-2">
+            {% include '@atoms/inline-text/badge/badge.twig' with {
+              icon: 'icon-buildings',
+              text: 'Campus',
+              class: 'inline-flex'
+            } %}
+          </div>
+        {% endif %}
+        {% if item.online | default %}
+          <div class="col-span-12 lg:col-span-2">
+            {% include '@atoms/inline-text/badge/badge.twig' with {
+              icon: 'icon-lightning-fill',
+              text: 'Online',
+              class: 'inline-flex',
+              style: 'light'
+            } %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    <hr class="my-0">
+  {% endfor %}
+</div>

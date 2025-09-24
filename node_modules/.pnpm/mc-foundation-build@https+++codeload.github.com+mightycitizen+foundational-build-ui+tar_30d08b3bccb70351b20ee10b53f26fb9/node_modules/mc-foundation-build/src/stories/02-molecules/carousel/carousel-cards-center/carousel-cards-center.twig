@@ -1,0 +1,20 @@
+{% embed '@base/utils/splide/splide.twig' with {
+    peekaboo: true,
+    type: 'center'    
+
+  }%}
+  {% block slide_content %}
+      {% for card in cards %}
+        {% set card = card | merge({                    
+          disable_lazy: true,
+          class: 'w-full relative',
+          modifier: "special"
+        }) %}
+                
+        <div class="lg:mx-2 splide__slide">
+          {% include "@molecules/cards/card/card.twig" with card only
+          %}
+        </div>
+      {% endfor %}
+  {% endblock %}
+{% endembed %}

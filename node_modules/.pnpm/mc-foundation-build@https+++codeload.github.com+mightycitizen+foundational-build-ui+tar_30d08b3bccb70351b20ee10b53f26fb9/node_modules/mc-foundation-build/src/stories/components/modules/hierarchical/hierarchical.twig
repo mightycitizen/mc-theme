@@ -1,0 +1,20 @@
+{% if featured_card.alignment == 'right' | default %}
+  {% set right_aligned = true %}
+{% endif %}
+
+{% embed '@organisms/section/section-embed.twig' with {
+  section_class: "section--heirarchical " ~ section_class | default,
+} %}
+  {% block section_content %}
+    <div class="grid grid-cols-12 gap-6 lg:gap-10">
+      <div class="col-span-12 md:col-span-6{% if right_aligned | default %} md:order-2{% endif %}">
+        {% include "@molecules/cards/card/card-featured.twig" with featured_card only %}
+      </div>
+      <div class="col-span-12 md:col-span-6">
+        {% include '@components/listing/thumbnail-list/thumbnail-list.twig' with {
+          single_column: true
+        } %}
+      </div>
+    </div>
+  {% endblock %}
+{% endembed %}

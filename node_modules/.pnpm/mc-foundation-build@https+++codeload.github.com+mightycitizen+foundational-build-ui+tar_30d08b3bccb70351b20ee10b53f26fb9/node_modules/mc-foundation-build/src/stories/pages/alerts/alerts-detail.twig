@@ -1,0 +1,34 @@
+{% extends '@wrappers/default.twig' %}
+{% set type = {
+  label: 'Alerts',
+  handle: 'alerts'
+}%}
+{% block top %}
+  {% include '@organisms/hero/hero.twig'  with {
+    content_type: 'alert',
+    heading: 'Emergency Alert: Sharknado Warning! Seek shelter immediately.',
+    alert_type: {
+      type: 'emergency',
+      label: 'Emergency Alert',
+      icon: {
+        name: 'icon-warning-fill',
+      },
+      icon_colors: 'bg-tertiary-100 text-tertiary-700'
+    },
+    badge: {
+      icon: {
+        name: 'icon-warning-fill',
+      },
+      style: 'warning',
+      text: 'Status: Active'
+    },
+    last_updated: 'Tuesday, March 11, 5:07 PM CT',
+    summary: '[Alert Message] Notice: Due to an unforeseen meteorological anomaly involving sharks and tornadoes, a temporary suspension of all outdoor activities is advised. Please consult your local shark-weather index for further instructions.'
+  } %}
+{% endblock %}
+{% block main %}
+  {% include '@components/modules/wysiwyg/wysiwyg.twig' with {
+    section_class: 'section--collapse',
+    wysiwyg: wysiwyg
+  }%}
+{% endblock %}

@@ -1,0 +1,5 @@
+import{t as o}from"./thumbnail-list-CZC1u2Fq.js";import"./twig-BXd3Gfe2.js";import"./_commonjsHelpers-BosuxZz1.js";import"./twig-foVUGi9y.js";import"./card-horizontal-CeXgDp20.js";import"./_card-content-BaGlXuAD.js";import"./badge-BbnVuUDR.js";import"./button-ByEZkqbv.js";import"./read-more-C6XiWcts.js";import"./link-YWvdyZwT.js";const _={title:"Components/Listing/Thumbnail List",argTypes:{}},s=r=>o(r),n=[...Array(5)].map((r,m)=>({no_outline:!0,heading:{text:"Event Title",url:"#"},url:"#",summary:null,image:{src:"https://placehold.co/120x120",alt:"Image alt text"},label:"Optional Label / TBD",categories:[{url:"#",title:"Category"}]})),l={cards:n},t=s.bind({});t.args=l;var e,a,i;t.parameters={...t.parameters,docs:{...(e=t.parameters)==null?void 0:e.docs,source:{originalSource:`args => {
+  // You can either use a function to create DOM elements or use a plain html string!
+  // return \`<div>\${label}</div>\`;
+  return twig(args);
+}`,...(i=(a=t.parameters)==null?void 0:a.docs)==null?void 0:i.source}}};const f=["ThumbnailList"];export{t as ThumbnailList,f as __namedExportsOrder,_ as default};

@@ -1,0 +1,88 @@
+{% include '@molecules/panels/info-panel/info-panel.twig' with {
+  panel_theme: 'light',
+  label_display: 'inline',
+  border: false,
+  columns: [
+    {
+      heading: 'Contact',
+      items: [
+        { icon: { name: 'ph ph-[at]' }, label: 'Email', content: 'example@mightyu.edu' },
+        { icon: { name: 'ph ph-[phone-call]' }, label: 'Phone', content: '123-456-7890' },
+        { icon: { name: 'ph ph-[phone-call]' }, label: 'Fax', content: '123-456-7890' },
+      ]
+    },
+    {
+      heading: 'Location',
+      items: [
+        { icon: { name: 'ph ph-[map-pin-line]' }, label: '<a href="#">Address</a>', additional_info: '1234 Mighty Building<br>Austin, TX 78745' },
+      ]
+    },
+    {
+      heading: 'Information',
+      items: [
+        { icon: { name: 'ph ph-[link]' }, content: '<a href="#">Faculty Website</a>' },
+        { icon: { name: 'ph ph-[link]' }, content: '<a href="#">Curriculum Vitae</a>' },
+      ]
+    }
+  ]
+}%}
+
+{# {% embed '@organisms/section/section-embed.twig' with {
+  section_class: 'lg:pt-0',
+}
+%}
+  {% block section_content %}
+
+    <div class="contact-block bg-primary-50">
+      <div class="md:max-w-[1152px] md:mx-auto px-[25px] py-10">
+        <div class="grid grid-cols-12 gap-y-10 md:gap-x-16">
+          <div class="col-span-12 md:col-span-4">
+            <h2 class="text-sm md:mb-7">CONTACT</h2>
+            <ul class="list-none space-y-6 md:space-y-11 border-l-primary-400">
+              {% if contact_email | default %}
+                <li class="flex gap-x-2 text-primary-500 items-center">
+                  <span class="ph ph-[at--fill] text-xl"></span><span class="font-bold">Email:</span> <a class="font-bold" href="mailto:{{ contact_email }}">{{ contact_email }}</a>
+                </li>
+              {% endif %}
+              {% if contact_phone | default %}
+                <li class="flex gap-x-2 text-primary-500 items-center">
+                  <span class="ph ph-[phone-call--fill] text-xl"></span><span class="font-bold">Phone:</span> <span class="font-bold">{{ contact_phone }}</span>
+                </li>
+              {% endif %}
+              {% if contact_fax | default %}
+                <li class="flex gap-x-2 text-primary-500 items-center">
+                  <span class="ph ph-[phone-call--fill] text-xl"></span><span class="font-bold">Fax:</span> <span class="font-bold">{{ contact_fax }}</span>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+          {% if contact_locations | default %}
+            <div class="col-span-12 md:col-span-4">
+              <h2 class="text-sm md:mb-7">LOCATION</h2>
+              <ul class="list-none space-y-6 border-l-primary-400">
+                {% for item in contact_locations %}
+                <li>
+                  <span class="flex gap-x-2 text-primary-500 items-center"><span class="ph ph-[map-pin-line--fill] text-xl"></span> <a class="font-bold" href="{{ item.url }}">{{ item.text }}</a></span>
+                  <div class="leading-8 pt-2">{{ item.address }}</div>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+          {% if contact_information %}
+            <div class="col-span-12 md:col-span-4">
+              <h2 class="text-sm md:mb-7">INFORMATION</h2>
+              <ul class="list-none space-y-6 md:space-y-11 border-l-primary-400">
+                {% for item in contact_information %}
+                  <li class="flex gap-x-2 text-primary-500 items-center">
+                    <span class="ph ph-[{{ item.icon }}] text-xl"></span> <a class="font-bold" href="{{ item.url }}">{{ item.text }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endblock %}
+{% endembed %} #}

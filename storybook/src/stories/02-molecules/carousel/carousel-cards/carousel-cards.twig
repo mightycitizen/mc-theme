@@ -1,0 +1,19 @@
+
+
+  {% embed '@base/utils/splide/splide.twig' with {
+    type: 'cards',    
+    equalize: true,    
+  } %}
+    {% block slide_content %}
+      {% for card in cards %}
+        <div class="splide__slide">
+          {% set card = card | merge({
+            lazyload_attr: 'data-splide-lazy',
+            class: 'w-full',
+          }) %}
+          {% include "@molecules/cards/card/card.twig" with card only %}
+        </div>
+      {% endfor %}
+    {% endblock %}
+  {% endembed %}
+

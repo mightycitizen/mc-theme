@@ -1,0 +1,16 @@
+{% embed '@organisms/section/section-embed.twig' with {
+  section_class: section_class | default,
+  section_style: "narrow"
+} %}
+  {% block section_content %}
+    <div class="flex flex-col gap-4 md:gap-6 md:pt-3">
+      {% if rendered_view is defined %}
+        {{ rendered_view }}
+      {% else %}
+        {% for alert_teaser in alert_teasers %}
+          {% include '@molecules/cards/alert/alert-teaser.twig' with alert_teaser only %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  {% endblock %}
+{% endembed %}

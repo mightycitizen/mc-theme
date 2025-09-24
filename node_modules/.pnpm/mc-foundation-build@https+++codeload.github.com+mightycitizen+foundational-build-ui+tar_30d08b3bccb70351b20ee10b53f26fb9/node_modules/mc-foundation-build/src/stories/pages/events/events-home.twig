@@ -1,0 +1,47 @@
+{% extends '@wrappers/default.twig' %}
+{% set type = {
+  label: 'Events',
+  handle: 'Events'
+}%}
+{% block top %}
+  {% include '@organisms/hero/hero.twig'  with {
+    heading: 'University Events',
+    subheading: '[WYSIWYG - text + links allowed] Lorem ipsum odor amet, consectetuer adipiscing elit. Nec urna commodo aliquam parturient ante curabitur. Accumsan morbi et non facilisi iaculis, tempus curabitur bibendum.'
+  } %}
+{% endblock %}
+{% block main %}
+
+  {% include '@components/modules/hierarchical/hierarchical-horizontal.twig'  with hierarchical_news %}
+
+  <div class="">
+    <div class="container">
+      <div class="bg-neutrals-50 grid grid-cols-12 gap-6 items-center justify-center">
+        <div class="col-span-12 md:col-span-8 md:pt-9 pb-8 px-10">
+          <h1 class="h2">Site Search</h1>
+          {% include '@atoms/forms/hero-search-form/hero-search-form.twig' %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topics-filter py-8">
+    <div class="container">
+      <div class="grid grid-cols-12 gap-6 items-center justify-center">
+        <div class="col-span-12">
+          <div class="flex gap-4 flex-wrap items-center">
+            <label>Explore topics:</label>
+            {% for topic in topics %}
+              <button class="filter-button">{{ topic.title }}</button>
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include '@components/modules/hierarchical/hierarchical.twig'  with hierarchical_news_two %}
+
+  {% include '@components/modules/hierarchical/hierarchical.twig'  with hierarchical_deadlines %}
+
+{% endblock %}

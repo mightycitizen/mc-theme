@@ -1,0 +1,17 @@
+{% embed '@organisms/section/section-embed.twig' with {
+  padding: 'tight',
+  section_class: "section--form " ~ section_class | default,
+  section_style: "narrow",
+  exclude_container: true
+} %}
+  {% block section_content %}
+    <div class="grid grid-cols-12 gap-6 lg:gap-14">
+      <div class="col-span-12 md:col-span-6{% if reversed %} md:order-1{% endif %}">
+        {{ column_left }}
+      </div>
+      <div class="col-span-12 md:col-span-6">
+        {{ column_right }}
+      </div>
+    </div>
+  {% endblock %}
+{% endembed %}

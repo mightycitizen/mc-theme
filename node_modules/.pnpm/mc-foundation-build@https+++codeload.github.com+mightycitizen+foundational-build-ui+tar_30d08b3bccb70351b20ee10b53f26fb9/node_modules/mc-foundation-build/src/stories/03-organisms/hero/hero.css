@@ -1,0 +1,10 @@
+.hero--background-image {
+  .hero--inner-wrapper {
+    /* background-color: rgba(255,255,255,0.95); */
+    --tw-bg-opacity: 0.95;
+    position: relative;
+    @media (min-width: 768px){
+      margin-top: -198px;
+    }
+  }
+}

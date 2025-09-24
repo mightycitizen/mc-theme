@@ -1,0 +1,15 @@
+{% embed '@organisms/section/section-embed.twig' with {
+    section_class: section_class | default,
+    heading: heading | default,
+    description:  description | default,
+    intro_class: "text-center"
+  }
+%}
+
+  {% block section_content %}    
+    {% include '@molecules/carousel/carousel-cards/carousel-cards.twig' with {
+      cards: cards
+    } %}
+
+  {% endblock %}
+{% endembed %}
