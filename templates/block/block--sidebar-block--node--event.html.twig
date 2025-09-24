@@ -1,0 +1,159 @@
+{#graphql
+query($node_id: ID!) {
+  node(id: $node_id) {
+    ... on NodeEvent {
+      dates {
+        start {
+          time
+        }
+        end {
+          time
+        }
+        recurrence {
+          start {
+            time
+          }
+        }
+      }
+      eventTopics {
+        ... on TermEventTopic {
+          id
+          text: name
+          url: path
+        }
+      }
+      link {
+        text: title
+        url
+      }
+      linkRegister {
+        text: title
+        url
+      }
+      linkVirtual {
+        text: title
+        url
+      }
+      location {
+        ... on NodeLocation {
+          id
+          title
+        }
+      }
+      personTypes {
+        ... on TermPersonType {
+          id
+          text: name
+          url: path
+        }
+      }
+      roomNumber
+      title
+    }
+  }
+}
+#}
+
+{% import 'block--sidebar-block.html.twig' as macros %}
+
+{% set event = graphql.node %}
+{% set primary_sections = [] %}
+{% set secondary_sections = [] %}
+
+{% set share_bottom = TRUE %}
+{% set sidebar_title = event.title %}
+
+{% if event.linkRegister %}
+  {% set sidebar_cta = {
+    text: event.linkRegister.text|default('Register now'|t),
+    url: event.linkRegister.url
+  } %}
+{% endif %}
+
+{% if event.link %}
+  {% set sidebar_link = {
+    icon: mc_icon('phosphor:link'),
+    text: event.link.text|default('Event Website'|t),
+    url: event.link.url
+  } %}
+{% endif %}
+
+{# primary sections #}
+{% if event.dates %}
+  {% set event_dates %}
+    {% if event.dates.0.recurrence %}
+      {{ macros.parse_smartdate([event.dates.0]) }}
+      {{ drupal_field('field_dates', 'node', node_id) }}
+    {% else %}
+      {{ macros.parse_smartdate(event.dates) }}
+    {% endif %}
+  {% endset %}
+  {% set primary_sections = primary_sections|merge([{
+    title: 'Date & time'|t,
+    content: event_dates,
+  }]) %}
+{% endif %}
+
+{% if formatted_location.0 %}
+  {% set location %}
+    <div class="text-neutrals-900 font-bold">
+      {% if event.location %}
+        {{ include('mc_theme:icon-text', {
+          icon: mc_icon('phosphor:map-pin', NULL, 'text-primary'),
+          text: event.location.title,
+        })}}
+      {% endif %}
+      <p>
+        {% if event.roomNumber %}{{ event.roomNumber }}<br />{% endif %}
+        {{ formatted_location.0.full }}
+      </p>
+    </div>
+  {% endset %}
+  {% set primary_sections = primary_sections|merge([{
+    title: 'Location'|t,
+    content: location,
+  }]) %}
+{% endif %}
+
+{% if event.linkVirtual %}
+  {% set linkVirtual %}
+    {{include('mc_theme:link', {
+      arrow: TRUE,
+      link: {
+        text: event.linkVirtual.text|default('Virtual meeting link'),
+        url: event.linkVirtual.url,
+      }
+    })}}
+  {% endset %}
+  {% set primary_sections = primary_sections|merge([{
+    title: 'Stream this event'|t,
+    content: linkVirtual,
+  }]) %}
+{% endif %}
+
+{# secondary_sections #}
+{% if event %}
+  {% set eventContact %}
+    TODO
+  {% endset %}
+  {% set secondary_sections = secondary_sections|merge([{
+    title: 'Event Contact',
+    content: eventContact,
+  }]) %}
+{% endif %}
+
+{% if event.personTypes %}
+  {% set secondary_sections = secondary_sections|merge([{
+    title: 'Who it\'s for'|t,
+    content: macros.parse_taxonomy(event.personTypes, 'inline', TRUE),
+  }]) %}
+{% endif %}
+
+{% if event.eventTopics %}
+  {% set secondary_sections = secondary_sections|merge([{
+    title: 'Topics'|t,
+    content: macros.parse_taxonomy(event.eventTopics, 'inline', TRUE),
+  }]) %}
+{% endif %}
+
+{% include 'block--sidebar-block.html.twig' %}

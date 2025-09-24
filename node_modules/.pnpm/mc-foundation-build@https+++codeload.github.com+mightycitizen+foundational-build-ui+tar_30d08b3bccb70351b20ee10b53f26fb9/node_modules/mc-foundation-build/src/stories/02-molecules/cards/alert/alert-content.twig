@@ -1,0 +1,52 @@
+{#
+  alert-content.twig
+
+  Props:
+    - alert_icon
+    - alert_icon_bg
+    - alert_icon_color
+    - alert_message
+    - alert_type
+      - type: 'emergency', 'weather', 'default', etc.
+      - label: 'Emergency Alert', 'Weather Alert', 'Notice', etc.
+      - icon
+    - alert_type_color
+    - heading
+      - text
+      - url
+    - last_updated
+#}
+{% set alert_type_color = 'primary-700' %}
+{% set alert_icon = 'warning-circle-fill' %}
+{% set alert_icon_color = 'primary-500' %}
+{% set alert_icon_bg = 'primary-100' %}
+
+{% if alert_type.type == 'emergency' %}
+  {% set alert_type_color = 'tertiary-900' %}
+  {% set alert_icon = 'warning-fill' %}
+  {% set alert_icon_color = 'tertiary-700' %}
+  {% set alert_icon_bg = 'tertiary-100' %}
+{% endif %}
+
+{% if alert_type.type == 'weather' %}
+  {% set alert_icon = 'cloud-lightning-fill' %}
+{% endif %}
+
+<div class="flex items-center gap-x-4 mb-3">
+  <span class="bg-{{ alert_icon_bg }} inline-block w-[40px] h-[40px] rounded-full flex items-center justify-center">
+    {% include '@atoms/icon/icon.twig' with {
+      icon: { name: alert_type.icon.name | default(alert_icon) },
+      modifiers: 'text-' ~ alert_icon_color,
+    }%}
+  </span>
+  <span class="font-bold text-lg text-{{ alert_type_color }}">{{ alert_type.label }}</span>
+</div>
+
+<h2 class="!mt-0"><a class="text-black text-lg md:text-xl" href="{{ heading.url }}">{{ heading.text }}</a></h2>
+
+{% if last_updated | default %}
+  <p class="md:text-lg font-bold mb-4">Last Updated: {{ last_updated }}</p>
+{% endif %}
+{% if alert_message | default %}
+  <p class="md:text-lg text-neutrals-900">{{ alert_message }}</p>
+{% endif %}

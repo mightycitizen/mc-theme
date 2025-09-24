@@ -1,0 +1,24 @@
+{% set items = [] %}
+
+{% for card in cards %}
+  {% if card is iterable %}
+    {% set card = card | merge({lazyload_class: 'data-splide-lazy', equalize: true}) %}
+    {% set item %}
+      {% if view_mode == 'stacked' %}
+        {% include '@molecules/cards/card/card-horizontal.twig' with card only %}
+      {% elseif view_mode == 'statistic' %}
+        {% include '@molecules/cards/statistic/statistic.twig' with card only %}
+      {% else %}
+        {% include '@molecules/cards/card/card.twig' with card only %}
+      {% endif %}
+    {% endset %}
+  {% else %}
+    {% set item = card %}
+  {% endif %}
+  {% set items = items | merge([item]) %}
+{% endfor %}
+
+{% include '@molecules/list-content/list-content.twig' with {
+  items,
+  columns: columns|default(3),
+} %}

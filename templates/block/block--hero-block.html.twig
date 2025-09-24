@@ -1,0 +1,31 @@
+{% set type = entity.bundle() %}
+
+{% if type in ['news', 'event', 'location'] %}
+  {% set hero_inline = TRUE %}
+  {% set eyebrow = type|upper %}
+  {% set summary = entity.field_subheading ? entity.field_subheading.0.value : NULL %}
+  {% if entity.field_image|file_uri %}
+    {% set below_hero %}
+      {{ drupal_field('field_media_image', 'media', entity.field_image.entity.id(), {label: 'hidden', type: 'image', settings: {image_style: 'horizontal_16_9_lg'}}) }}
+    {% endset %}
+  {% endif %}
+    {# {% set image_below = {
+      src: entity.field_image|file_uri|image_style('large'),
+      alt: '',
+    } %}
+  {% endif %} #}
+{% endif %}
+
+{% if type in ['news'] %}
+  {% set authors = [] %}
+  {% for author in entity.field_author %}
+    {% set authors = authors|merge([ author.entity.title.value ]) %}
+  {% endfor %}
+
+  {% set byline = {
+    authors: authors|join(', '),
+    publish_date: created|date('F j, Y'),
+  }%}
+{% endif %}
+
+{{ include('mc_theme:hero') }}

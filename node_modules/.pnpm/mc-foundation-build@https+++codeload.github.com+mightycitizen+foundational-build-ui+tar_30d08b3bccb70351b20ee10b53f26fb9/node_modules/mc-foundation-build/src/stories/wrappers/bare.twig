@@ -1,0 +1,16 @@
+<div class="l-wrapper">
+  <div class="l-main" id="main">
+    {% include '@molecules/cards/alert/alert.twig' with {
+      alert_label: "Alert",
+      text: "Important message goes here and is an optional link lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    }%}
+    <div class="l-top" id="top">
+      {% block top %}
+      {% endblock %}
+    </div>
+    <div class="l-body">
+      {% block main %}
+      {% endblock %}
+    </div>
+  </div>
+</div>

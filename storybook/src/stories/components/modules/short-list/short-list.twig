@@ -1,0 +1,7 @@
+{% embed '@organisms/section/section-embed.twig' with {
+  section_class: "section--short-list " ~ section_class | default,
+} %}
+  {% block section_content %}
+    {% include '@components/listing/thumbnail-list/thumbnail-list.twig' %}
+  {% endblock %}
+{% endembed %}

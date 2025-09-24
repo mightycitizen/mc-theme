@@ -1,0 +1,86 @@
+{#
+  @TODO: Refactor!!
+  Was quickly taken from storybook/src/stories/components/listing/list/list-program.twig
+  and mushed with node--card.html.twig
+#}
+{% set card_data = card_data|default([]) %}
+{% set heading = node.field_heading.0.value ?? label %}
+{% set summary = content.field_program_formats_info %}
+{% if content.field_program_types.0 %}
+  {% set card_data = card_data|merge({
+    subheading: content.field_program_types,
+  })%}
+{% endif %}
+{% if content.field_programs.0 %}
+  {% set card_data = card_data|merge({
+    specializations_label: node.field_programs_label.0.value ?? 'Specializations'|t,
+    specializations: content.field_programs,
+  })%}
+{% endif %}
+{% if content.field_program_formats.0 %}
+  {# @TODO: refactor with badges #}
+  {% set campus = false %}
+  {% set online = false %}
+  {% set formats = mc_entities(node.field_program_formats.value, 'taxonomy_term') %}
+  {% for format in formats %}
+    {% if (format.text == 'Campus') %}{% set campus = true %}{% endif %}
+    {% if (format.text == 'Online') %}{% set online = true %}{% endif %}
+  {% endfor %}
+  {% set card_data = card_data|merge({
+    campus,
+    online,
+  })%}
+{% endif %}
+
+{% set card_data = card_data|merge( {
+  badges: [],
+  heading: heading,
+  url: url,
+  summary: summary|default(content.body),
+  image: image_uri ? {
+    src: image_uri|image_style('horizontal_5_3_md'),
+    alt: '',
+  } : null,
+})%}
+{% set item = card_data %}
+
+<div class="item py-10">
+  <div class="grid grid-cols-12 gap-6">
+    <div class="col-span-12 lg:col-span-4">
+      <div class="flex flex-col gap-x-6 items-start">
+        <h2><a class="text-black text-2xl" href="{{ item.url }}">{{ item.heading }}</a></h2>
+        {% if item.specializations %}
+          <label>Specializations:</label>
+          <div>
+            {{ item.specializations }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    {% if item.subheading | default %}
+    <div class="col-span-12 lg:col-span-2">
+      {{ item.subheading }}
+    </div>
+    {% endif %}
+    {% if item.campus | default %}
+      <div class="col-span-12 lg:col-span-2">
+        {% include '@atoms/badge.twig' with {
+          icon: 'icon-buildings',
+          text: 'Campus',
+          class: 'inline-flex'
+        } %}
+      </div>
+    {% endif %}
+    {% if item.online | default %}
+      <div class="col-span-12 lg:col-span-2">
+        {% include '@atoms/badge.twig' with {
+          icon: 'icon-lightning-fill',
+          text: 'Online',
+          class: 'inline-flex',
+          style: 'light'
+        } %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+<hr class="my-0">

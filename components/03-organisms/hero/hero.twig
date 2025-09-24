@@ -1,0 +1,4 @@
+{% set breadcrumbs = breadcrumbs ?? drupal_block('system_breadcrumb_block') %}
+{% set heading = heading ?? drupal_title() %}
+
+{% include '@organisms/hero.twig' %}

@@ -1,0 +1,180 @@
+{% set badges = badges ?? [] %}
+{% set publish_date = publish_date ?? null %}
+{% set type = type ?? null %}
+{% set heading = heading ?? null %}
+{% set label = label ?? null %}
+{% set authors = authors ?? [] %}
+{% set subheading = subheading ?? null %}
+{% set subheading_modifier = subheading_modifier ?? null %}
+{% set specializations = specializations ?? null %}
+{% set specializations_label = specializations_label ?? null %}
+{% set specializations_modifier = specializations_modifier ?? null %}
+{% set summary = summary ?? null %}
+{% set summary_modifier = summary_modifier ?? null %}
+{% set date = date ?? null %}
+{% set address = address ?? null %}
+{% set button = button ?? null %}
+{% set jobtitle = jobtitle ?? null %}
+{% set contact_email = contact_email ?? null %}
+{% set contact_phone = contact_phone ?? null %}
+{% set department = department ?? null %}
+{% set list_items = list_items ?? [] %}
+{% set link = link ?? null %}
+{% set clickCard = clickCard ?? false %}
+{% set campus = campus ?? false %}
+{% set online = online ?? false %}
+{% set categories = categories ?? [] %}
+{% set featured = featured ?? false %}
+
+{# Badges #}  
+{% if badges %}
+  {% if featured | default %}<div class="absolute top-8 right-5 lg:top-14 lg:right-8">{% endif %}
+  <ul class="list-none flex gap-x-2 mb-3">
+  {% for item in badges %}
+    <li>
+      {% include '@atoms/inline-text/badge/badge.twig' with item %}
+    </li>
+  {% endfor %}
+  </ul>
+  {% if featured | default %}</div>{% endif %}
+{% endif %}
+
+{% if type | default %}
+  <p class="text-sm uppercase text-neutrals-800 font-bold mb-2">{{ type }}</p>
+{% endif %}
+
+{% set heading_level = heading.level | default ? heading.level : 3 %}
+
+<h{{ heading_level }} class="card_title text-lg md:text-2xl {{ heading.modifier | default }}">
+  {% if heading.url | default %}
+    <a class="{% if clickCard | default %}card_click {% endif %}{% if featured | default is empty %}text-black{% endif %}" href="{{ heading.url }}">
+  {% endif %}
+      {{ heading.text }}
+  {% if heading.url | default %}
+    </a>
+  {% endif %}
+</h{{ heading_level }}>
+
+{% if label | default or authors | default %}
+  <ul class="list-none flex gap-x-4 mb-3">
+  {% if label | default %}
+    <li class="text-sm uppercase text-neutrals-800 font-bold">{{ label }}</li>
+  {% endif %}
+
+  {% if authors | default %}
+    {% for author in authors %}
+      <li class="text-sm"><a class="text-neutrals-800" href="{{ author.url }}">{{ author.text }}</a></li>
+    {% endfor %}
+  {% endif %}
+  </ul>
+{% endif %}
+
+{% if subheading | default %}
+  <p class="card_subheading mb-4 font-bold {{ subheading_modifier | default }}">{{ subheading }}</p>
+{% endif %}
+
+{% if publish_date %}
+  <p class="card_publish-date mb-4 text-primary-500 font-bold">{{ publish_date }}</p>
+{% endif %}
+
+{% if specializations | default %}
+  <p class="card_specialization mb-4 {{ specializations_modifier | default }}">
+    <span class="font-bold">{{ specializations_label | default('Specializations' )}}:</span> {{ specializations }}
+  </p>
+{% endif %}
+
+{% if summary | default %}
+  <p class="card_summary mb-4 {{ summary_modifier | default }}">{{ summary }}</p>
+{% endif %}
+
+{# TODO: merge into additional_info below #}
+{% if date | default or address | default %}
+<ul class="list-none{% if featured | default %} flex gap-x-4{% endif %}">
+  {% if date | default %}
+    <li class="flex items-center gap-x-2 mb-2">
+      <span class="ph ph-[calendar-blank] {% if featured is empty %}text-primary {% endif%}text-2xl"></span>
+      <span class="font-bold">{{ date }}</span>
+    </li>
+  {% endif %}
+
+  {% if address | default %}
+    <li class="flex items-center gap-x-2 mb-2">
+      <span class="ph ph-[map-pin] {% if featured is empty %}text-primary {% endif%} text-2xl"></span>
+      <span class="font-bold">{{ address }}</span>
+    </li>
+  {% endif %}
+</ul>
+{% endif %}
+
+{% if button | default %}
+  {% include '@atoms/links/button/button.twig' with {
+    text: button.text,
+    url: button.url
+  } %}
+{% endif %}
+{% if jobtitle | default %}
+  <p class="items-center font-bold mb-2">
+    {{ jobtitle }}
+  </p>
+{% endif %}
+
+{# TODO: merge into additional_info below #}
+ {% if contact_email | default %}
+   <p class="flex gap-x-2 text-primary-500 items-center mb-2">
+     <span class="ph ph-[envelope] text-xl"></span> <a href="mailto:{{ contact_email }}">Email</a>
+   </p>
+ {% endif %}
+  {% if contact_phone | default %}
+    <p class="flex gap-x-2 text-primary-500 items-center mb-2">
+      <span class="ph ph-[phone] text-xl"></span> <a href="mailto:{{ contact_phone }}">{{ contact_phone }}</a>
+    </p>
+  {% endif %}
+{% if department | default %}
+  <p class="flex gap-x-2 text-primary-500 items-center mb-2">
+    <span class="ph ph-[buildings] text-xl"></span> <a href="{{ department.url }}">{{ department.text }}</a>
+  </p>
+{% endif %}
+
+{% if list_items | default %}
+  {{ include('@molecules/lists/icon-list/icon-list.twig', { items: list_items }) }}
+{% endif %}
+
+{% if link | default %}
+  {% include '@atoms/links/read-more/read-more.twig' with {
+    class: 'h4',
+    text: link.text,
+    url: link.url,
+    target: link.target | default
+  } %}
+  {% if clickCard | default %}
+    <a href="{{ link.url }}" class="card_click">{{ link.text }}</a>
+  {% endif %}
+{% endif %}
+
+{% if campus | default or online | default %}
+  <div>
+  {% if campus | default %}
+    {% include '@atoms/inline-text/badge/badge.twig' with {
+      icon: 'icon-buildings',
+      text: 'Campus',
+      class: 'inline-flex'
+    } %}
+  {% endif %}
+  {% if online | default %}
+    {% include '@atoms/inline-text/badge/badge.twig' with {
+      icon: 'icon-lightning-fill',
+      text: 'Online',
+      class: 'inline-flex',
+      style: 'light'
+    } %}
+  {% endif %}
+  </div>
+{% endif %}
+
+{% if categories | default %}
+  <ul class="list-none flex gap-x-4">
+  {% for item in categories %}
+    <li><a class="filter-button" href="{{ item.url }}">{{ item.text }}</a></li>
+  {% endfor %}
+  </ul>
+{% endif %}

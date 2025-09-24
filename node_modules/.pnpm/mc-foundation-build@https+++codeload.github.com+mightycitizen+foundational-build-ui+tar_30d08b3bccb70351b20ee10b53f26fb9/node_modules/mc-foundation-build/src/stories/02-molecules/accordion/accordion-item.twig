@@ -1,0 +1,24 @@
+{% set notch = item.icon | default or modifier | default == 'steps' %}
+<li class="accordion-item border-l-[6px] border-l-primary-500 hover:border-l-primary-300 shadow {{ loop.last ? 'mb-0' : 'mb-3' }}" data-accordion-item>
+  <button @click="expanded = expanded === {{ loop.index0 }} ? null : {{ loop.index0 }}"  tabindex="0"
+           class="text-left leading-6 w-full bg-neutrals-50 hover:bg-primary-700 font-bold text-black hover:text-white accordion-title gap-x-4 flex flex-wrap lg:flex-nowrap lg:justify-end items-center py-4 relative px-4 md:px-8 text-lg" aria-controls="accordion-{{ accordion_id | default }}-{{ loop.index }}" id="accordion-toggle-{{ accordion_id | default }}-{{ loop.index }}">
+    <span class="inline-flex gap-2 items-center basis-0 lg:basis-auto grow-[4] mr-auto order-2 lg:order-none">
+      {% if notch %}
+        <span class="accordion-notch h-full font-bold rounded-full inline-flex items-center justify-center {% if modifier | default == 'steps' %}accordion-step bg-primary-500 text-white py-2 px-5{% endif%} -ml-1 lg:-ml-3 mr-1 lg:mr-3 w-4 {{ item.icon | default }}">{% if modifier | default == 'steps' %}{{ loop.index }}{% endif %}</span>
+      {% endif %}
+      {{ item.heading }}
+    </span>
+    <span class="accordion-badge-wrapper shrink-0 order-1 lg:order-none mb-3 lg:mb-0{% if notch %} pl-6 lg:pl-0{% endif %}">
+      <span class="accordion-badge bg-primary-500 text-white font-medium text-xs rounded-full px-3 py-1">
+        <span class="icon-lightning-fill"></span>
+        Badge
+      </span>
+    </span>
+    <span class="accordion-title-icon block text-black order-3 lg:order-none" :class="expanded === {{ loop.index0 }} ? 'rotate-180' : ''">
+      <span class="icon-caret-down"></span>
+    </span>
+  </button>
+  <div x-show="expanded === {{ loop.index0 }}" class="accordion-content border-t border-t-neutrals-100 px-3 lg:px-6 py-4 lg:py-6 border border-gray-100 border-t-0" id="accordion-{{ accordion_id | default }}-{{ loop.index }}" aria-labelledby="accordion-{{ accordion_id | default }}-{{ loop.index }}">
+    {{ item.content | raw }}
+  </div>
+</li>

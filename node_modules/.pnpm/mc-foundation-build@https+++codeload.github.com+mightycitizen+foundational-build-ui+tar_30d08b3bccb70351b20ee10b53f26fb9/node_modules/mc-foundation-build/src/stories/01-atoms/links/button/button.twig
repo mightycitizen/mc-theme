@@ -1,0 +1,39 @@
+
+{% set modifiers = [] %}
+{% if color | default %}
+  {% set modifiers = modifiers | merge([color]) %}
+{% endif %}
+{% if size | default %}
+  {% if size | default == 'xs' %}
+    {% set button_modifiers = 'p-2 text-xs ' %}
+  {% elseif size | default == 'sm' %}
+    {% set button_modifiers = 'p-3 text-sm' %}
+  {% elseif size | default == 'lg' %}
+    {% set button_modifiers = 'py-4 px-5 text-xl' %}
+  {% endif %}
+
+  {% set modifiers = modifiers | merge([button_modifiers]) %}
+{% endif %}
+{% if outline | default %}
+  {% set modifiers = modifiers | merge(['outline']) %}
+{% endif %}
+{% if block | default %}
+  {% set modifiers = modifiers | merge(['block']) %}
+{% endif %}
+{% if rounded | default %}
+  {% set modifiers = modifiers | merge(['rounded']) %}
+{% endif %}
+{% if disabled | default %}
+  {% set modifiers = modifiers | merge(['disabled']) %}
+{% endif %}
+{% if icon | default %}
+  {% set modifiers = modifiers | merge(['icon']) %}
+{% endif %}
+
+<a href="{{ url }}" {% if target | default %}target="{{ target }}"{% endif %} class="button {{ modifiers | join(' ')}} {{ classes }}">
+  {{ text | default }}
+  {% if icon | default %}
+    <i class="icon align-middle text-2xl icon-{{ icon }}"></i>
+  {% endif %}
+</a>
+

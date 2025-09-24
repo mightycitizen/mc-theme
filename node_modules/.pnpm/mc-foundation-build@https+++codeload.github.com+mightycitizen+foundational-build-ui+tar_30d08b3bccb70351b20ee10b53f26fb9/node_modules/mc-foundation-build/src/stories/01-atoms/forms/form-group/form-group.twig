@@ -1,0 +1,29 @@
+<div>
+  {% block form_content %}
+    <div class=" md:w-1/2">
+      {% include '@atoms/forms/input/input.twig' with {
+        label: "Text",
+        name: "text",
+        id: "field_group_1",
+        class: 'w-full',
+        input_class: "my-0",
+        placeholder: "Prompt Text",
+        required: true
+      } %}
+    </div>
+    <div class=" md:w-1/2">
+      {% include '@atoms/forms/input/input.twig' with {
+        label: "Text",
+        name: "text",
+        class: 'w-full',
+        input_class: "my-0",
+        id: "field_group_2",
+        placeholder: "Prompt Text",
+        required: true
+      } %}
+    </div>
+
+    <button class="button self-end w-full md:w-auto" type="submit">Submit</button>
+
+  {% endblock %}
+</div>

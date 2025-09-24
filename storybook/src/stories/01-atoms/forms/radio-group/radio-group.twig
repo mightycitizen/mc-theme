@@ -1,0 +1,19 @@
+<fieldset class="options my-4 collapsible"  x-data="{ expanded: {%if closed |default %}false{% else %}true{% endif %}}">
+  <legend @click="expanded = ! expanded">
+    {{ label }} {% if required | default %}<span class="form-required">*</span>{% endif %}
+    <span class="icon-caret-down-fill text-lg float-right" :class="{ 'rotate-180': expanded }"></span>
+  </legend>
+  <div class="collapsible-group" x-show="expanded" x-collapse>
+    <ul class="radio-group list-none">
+      {% for option in options %}
+        <li>
+          <input class="custom" id="{{ id }}_{{ option.id is not empty ? option.id : option.value }}" name="{{ name }}" value="{{ option.value }}" type="radio" {% if required %}required {% endif %}>
+          <label for="{{ id }}_{{ option.id is not empty ? option.id : option.value }}">{{ option.label }}</label>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+    {# {% if required %}
+      <span class="form-error block">{{ label }} is required</span>
+    {% endif %} #}
+  </fieldset>

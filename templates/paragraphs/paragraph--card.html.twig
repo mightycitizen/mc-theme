@@ -1,0 +1,61 @@
+{# twig-cs-fixer-disable-next-line #}
+{#graphql
+query($paragraph_id: ID!) {
+  paragraph(id: $paragraph_id) {
+    ... on ParagraphCard {
+      id
+      body {
+        processed
+      }
+      heading
+      label
+      link {
+        url
+        internal
+      }
+      media {
+        ... on MediaImage {
+          mediaImage {
+            alt
+            card: variations(styles: HORIZONTAL53_MD) { url }
+            square: variations(styles: SQUARE_MD) { url }
+          }
+        }
+      }
+    }
+  }
+}
+#}
+{% block content %}
+  {% set card = graphql.paragraph %}
+  {% set parent = paragraph._referringItem.parent.parent.entity %}
+  {% if parent %}
+    {% set view_mode = parent.field_card_view_mode.value %}
+  {% endif %}
+
+  {{ include('mc_theme:card', {
+    view_mode: view_mode|default('card'),
+    card: {
+      badges: [
+        {
+          icon: "icon-lightning-fill",
+          text: "Badge 1"
+        },
+        {
+          icon: "icon-lightning-fill",
+          text: "Badge 2"
+        }
+      ],
+      heading: {
+        text: card.heading,
+        url: card.link ? card.link.url : NULL,
+        level: 3
+      },
+      summary: card.body.processed,
+      image: card.media ? {
+        src: (view_mode == 'list') ? card.media.mediaImage.square.0.url : card.media.mediaImage.card.0.url,
+        alt: card.media.mediaImage.alt
+      } : NULL,
+    }
+  }) }}
+{% endblock %}

@@ -1,0 +1,48 @@
+<div class="hero{% if background_image %} hero--background-image{% endif %}{% if background_color %} text-white bg-primary-800 {% endif%}{% if content_type == 'alert' %} bg-neutrals-50{% endif%} relative">
+  {% if background_image %}
+    <div class="inset-0 w-full h-full max-h-[600px] overflow-hidden">
+      <img src="{{ background_image.src }}" alt="{{ background_image.alt }}" class="w-full h-full object-cover object-center">
+    </div>
+  {% endif %}
+  <div class="hero--inner-wrapper pb-4 lg:pt-0">
+
+    <div class="hero_search-form bg-neutrals-50 md:border-b md:pt-9 pb-8 mb-16">
+      <div class="container">
+        <div class="mb-8 lg:mb-4{% if background_color is empty %} text-primary-500{% endif %}">
+          {% include '@molecules/breadcrumbs/breadcrumbs.twig' with breadcrumbs %}
+        </div>
+        <div class="grid grid-cols-12 gap-6 items-center justify-center">
+          <div class="col-span-12 md:col-span-8 md:col-start-3 md:pt-8 pb-5">
+            <h1 class="h2">Search Mighty University</h1>
+            {% include '@atoms/forms/hero-search-form/hero-search-form.twig' %}
+          </div>
+        </div>
+      </div>
+    </div>
+{#    <div class="container">#}
+{#      <div class="grid.twig grid.twig-cols-12 gap-6 gap-y-8 lg:g-y-0">#}
+{#        <div class="col-span-12">#}
+{#          <div class="hero_content">#}
+{#            #}
+
+{#          </div>#}
+{#        </div>#}
+
+{#      </div>#}
+{#    </div>#}
+  </div>
+{#  {% if links_bar_menu | default %}#}
+{#    <div class="links-bar {% if background_color %}bg-neutrals-50 text-primary-500 shadow{% else %}bg-primary-500 text-white{% endif %}">#}
+{#      <div class="container">#}
+{#        <ul class="menu lg:flex lg:gap-x-3 py-4 lg:py-4 space-y-3 lg:space-y-0 list-none lg:justify-between lg:text-lg items-center">#}
+{#          {% for item in links_bar_menu %}#}
+{#            <li class="shrink-0">#}
+{#              <span class="icon-{{ item.icon }} text-xl align-middle"></span>#}
+{#              <a class="no-underline hover:underline" href="{{ item.url }}">{{ item.text }}</a>#}
+{#            </li>#}
+{#          {% endfor %}#}
+{#        </ul>#}
+{#      </div>#}
+{#    </div>#}
+{#  {% endif %}#}
+</div>

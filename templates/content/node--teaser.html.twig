@@ -1,0 +1,26 @@
+{#
+/**
+ * @file
+ * Teaser view mode for all nodes.
+ */
+#}
+{% set card_data = card_data|default([]) %}
+
+{% if node.bundle == 'event' %}
+  {% set card_data = card_data|merge({
+    categories: mc_entities(node.field_event_topics.value, 'taxonomy_term'),
+  })%}
+{% endif %}
+
+{% if node.bundle == 'news' %}
+  {% set card_data = card_data|merge({
+    authors: mc_entities(node.field_author.value, 'node'),
+    categories: mc_entities(node.field_news_topics.value, 'taxonomy_term'),
+  })%}
+{% endif %}
+
+{{ include ('node.html.twig', {
+  image_style: 'square_md',
+  view_mode: 'teaser',
+  card_data,
+}) }}

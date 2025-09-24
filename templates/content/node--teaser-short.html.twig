@@ -1,0 +1,56 @@
+{#
+/**
+ * @file
+ * Teaser (short) view mode for all nodes.
+ */
+#}
+{% set card_data = card_data|default([]) %}
+
+{% set image_uri = node.field_image|file_uri %}
+{% set summary = content.body|render|striptags %}
+
+{% if node.bundle == 'news' %}
+  {% set list_items = [{
+    icon: mc_icon('phosphor:calendar-blank', NULL, 'text-primary'),
+    text: node.created.value|date('F j, Y'),
+  }] %}
+  {% set card_data = card_data|merge({ list_items })%}
+{% endif %}
+
+{% if node.bundle == 'event' %}
+  {% set list_items = [{
+    icon: mc_icon('phosphor:calendar-blank', NULL, 'text-primary'),
+    text: content.field_dates,
+  }] %}
+  {% if formatted_location.0 %}
+    {% set list_items = list_items|merge([{
+      icon: mc_icon('phosphor:map-pin', NULL, 'text-primary'),
+      text: formatted_location.0.inline,
+    }]) %}
+  {% endif %}
+  {% set card_data = card_data|merge({ list_items })%}
+{% endif %}
+
+{% set card_data = card_data|merge({
+  no_outline: true,
+  label: eyebrow|default(),
+  badges: [],
+  heading: {
+    text: heading|default(label),
+    url: url,
+    level: 3
+  },
+  summary: (node.bundle != 'person' and node.bundle != 'organization') ? summary : null,
+  image: image_uri ? {
+    src: image_uri|image_style(image_style|default('square_md')),
+    alt: '',
+    alignment: 'right'
+  } : null,
+  image_position: image_position|default(''),
+})%}
+
+{{ include('mc_theme:card', {
+  view_mode: 'list',
+  card: card_data,
+}) }}
+

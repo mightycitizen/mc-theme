@@ -1,0 +1,28 @@
+{% set fields = [
+  'field_college_school',
+  'field_program_credential_types',
+  'field_program_formats',
+  'field_program_subject_areas',
+  'field_program_types',
+] %}
+
+{% set view_args = [] %}
+{% for field in fields %}
+  {% set terms = attribute(paragraph, field).value %}
+  {% if terms %}
+    {% set term_ids = terms|map(t => t['target_id'])|join('+') %}
+    {% set view_args = view_args|merge([term_ids]) %}
+  {% endif %}
+{% endfor %}
+{% set view_args = view_args|default(['all']) %}
+
+{% set view_display = (paragraph.field_card_view_mode.0.value == 'card') ? 'block_card' : 'block_teaser' %}
+
+{% block content %}
+  {{ include('mc_theme:section', {
+    padding: 'tight',
+    section_class: "section--form " ~ section_class | default,
+    intro: content.field_intro.0,
+    section_content: drupal_view('programs', view_display, ...view_args)
+  }) }}
+{% endblock %}

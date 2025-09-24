@@ -1,0 +1,47 @@
+{#
+/**
+ * @file sitewide_alert.html.twig
+ * Default theme implementation to present Sitewide Alert data.
+ *
+ * This template is used when viewing Sitewide Alert messages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element. This should contain the `data-uuid` attribute needed for
+ *   the loading to work.
+ * - uuid: The UUID of the sitewide alert.
+ * - is_dismissible: True if this alert is dismissable, false otherwise.
+ * - style: The alert style.
+ * - style_class: A style class derived from the style.
+ * - sitewide_alert: The sitewide alert entity.
+ *
+ * @see template_preprocess_sitewide_alert()
+ *
+ * @ingroup themeable
+ */
+#}
+
+{# Get values for display logic #}
+{% set alert_status = sitewide_alert.status.0.value %}
+{% set alert_style = sitewide_alert.style.value %}
+
+{# Set variables for component #}
+{% set heading = {
+  text: sitewide_alert.name.value,
+  url: sitewide_alert|entity_url,
+} %}
+{% set alert_message = sitewide_alert.message|view %}
+{% set last_updated = sitewide_alert.changed.value|date('l, F j, g:i A T') %}
+
+{# Render alert banner #}
+{% include '@molecules/alert.twig' with {
+  attributes: attributes.removeAttribute('class'),
+  title: heading.text,
+  text: alert_message,
+  alert_type: alert_type,
+  link: heading,
+  closable: is_dismissible,
+  closeable_button_class: 'js-dismiss-button',
+} only %}
+

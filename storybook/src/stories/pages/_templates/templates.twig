@@ -1,0 +1,25 @@
+{% extends '@wrappers/default.twig' %}
+{% block top %}
+  {% include '@organisms/hero/hero.twig'  with {
+    heading: 'Templates',
+    subheading: null
+  } %}
+{% endblock %}
+{% block main %}
+  {% embed '@organisms/section/section-embed.twig' with {
+    padding: 'tight',
+    section_class: 'section--collapse'
+  } %}
+    {% block section_content %}
+      <ul>
+        {% for template in templates %}
+          <li>
+            <a href="{{ template.url }}">{{ template.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+      <hr>      
+      <a href="/">Storybook</a>
+    {% endblock %}
+  {% endembed %}
+{% endblock %}

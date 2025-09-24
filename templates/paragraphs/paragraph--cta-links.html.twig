@@ -1,0 +1,68 @@
+{# twig-cs-fixer-disable-next-line #}
+{#graphql
+query($paragraph_id: ID!) {
+  paragraph(id: $paragraph_id) {
+    ... on ParagraphCtaLink {
+      id
+      intro {
+        ...Intro
+      }
+      links4 {
+        icon {
+          id
+        }
+        internal
+        text:title
+        url
+      }
+    }
+  }
+}
+
+fragment Intro on ParagraphIntro {
+  id
+  body {
+    processed
+  }
+  heading
+  label
+  icon
+  link {
+    text: title
+    url
+    internal
+  }
+}
+#}
+
+{% set cta = graphql.paragraph %}
+
+{% set intro %}
+  {{ include('mc_theme:intro', {
+    section_id: id,
+    section_heading: cta.intro.heading,
+    section_description: cta.intro.body.processed,
+    section_label: {
+      icon: cta.intro.icon ? mc_icon(cta.intro.icon) : NULL,
+      text: cta.intro.label
+    },
+    section_button: cta.intro.link,
+    divider: FALSE,
+    intro_class: 'text-center',
+  }) }}
+{% endset %}
+
+{% set block_links = [] %}
+{% for link in cta.links4 %}
+  {% set link = link|merge({
+    icon: link.icon.id ? mc_icon(link.icon.id) : NULL,
+  }) %}
+  {% set block_links = block_links|merge([link]) %}
+{% endfor %}
+
+{% block content %}
+  {{ include('mc_theme:cta', {
+    intro,
+    block_links,
+  }) }}
+{% endblock %}

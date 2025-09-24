@@ -1,0 +1,16 @@
+{% set section_content %}
+  {% if sidebar %}
+    {{ include('mc_theme:columns', {
+      columns: 'narrow',
+      col_1: sidebar,
+      col_2: section_content,
+    }) }}
+  {% else %}
+    {{ section_content }}
+  {% endif %}
+{% endset %}
+
+{{ include('@organisms/section.twig', {
+  padding: padding,
+  section_content: section_content,
+}) }}

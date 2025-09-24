@@ -1,0 +1,47 @@
+<ul class="list-none space-y-6 lg:space-y-0 lg:gap-y-6 gap-x-24 lg:grid lg:grid-cols-3 justify-between {{ listing_class }}">
+
+    {% for item in items %}
+
+      <li>
+        <span class="font-bold lg:text-lg text-primary-500 mb-3 {% if item.icon | default %}inline-flex gap-1 items-center{% endif %}">
+          {# {% if item.icon | default %}<i class="ph ph-[{{ item.icon }}] text-xl lg:text-2xl"></i>{% endif %} #}
+          {% if item.icon | default %}
+            {% include '@atoms/icon/icon.twig' with {
+              icon: item.icon,
+              modifiers: 'text-xl lg:text-2xl',
+            } %}
+          {% endif %}
+          {% if item.label %}{{ item.label }}:{% endif %}
+          {% if item.value %}{{ item.value }}{% endif %}
+          {% if item.number %}{{ item.number }}{% endif %}
+          {% if item.address %}{{ item.address }}{% endif %}
+          {% if item.email %}
+            <a href="mailto:{{ item.email }}">{{ item.email }}</a>
+          {% endif %}
+        </span>
+        {# <br />
+        {% if item.url | default %}
+          <a href="{{ item.url }}">{{ item.value }}</a>
+        {% else %}
+          {{ item.value }}
+        {% endif %} #}
+        {% if item.secondary %}
+          <ul class="list-none gap-y-2 lg:gap-y-4 flex flex-col">
+            {% for item in item.secondary %}
+              <li>
+                {% if item.label %}{{ item.label }}:{% endif %}
+                {% if item.value %}{{ item.value }}{% endif %}
+                {% if item.number %}{{ item.number }}{% endif %}
+                {% if item.address %}{{ item.address }}{% endif %}
+                {% if item.email %}
+                  <a class="text-black" href="mailto:{{ item.email }}">{{ item.email }}</a>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+
+    {% endfor %}
+
+  </ul>

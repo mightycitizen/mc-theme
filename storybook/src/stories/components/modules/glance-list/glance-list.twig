@@ -1,0 +1,44 @@
+{% set columns = [] %}
+{% if items|length > 4 %}
+  {% set batches = items|length > 12 ? items|batch(5) : items|batch(4) %}
+  {% for batch in batches %}
+    {% set columns = columns|merge([{items: batch}]) %}
+  {% endfor %}
+{% else %}
+  {% for item in items %}
+    {% set columns = columns|merge([{items: [item]}]) %}
+  {% endfor %}
+{% endif %}
+
+{% include '@molecules/panels/info-panel/info-panel.twig' with {
+  panel_heading: 'Program at a Glance',
+  panel_theme: 'dark',
+  label_display: 'above',
+  border: true,
+  columns
+}%}
+
+{#
+{% embed '@organisms/section/section-embed.twig' with {
+  section_class: section_class | default,
+}
+%}
+  {% block section_content %}
+    <h2 class="md:text-center mb-8">{{ heading }}</h2>
+    <div class="glance-list grid grid-cols-12 gap-y-6 gap-x-5 justify-center">
+      {% for row in items|batch(4) %}
+      <div class="col-span-12 md:col-span-4">
+        <ul class="list-none space-y-6 md:space-y-11 border-l-primary-400">
+        {% for index, column in row %}
+          <li>
+            <label class="md:text-lg">{{ column.label }}</label>
+            <span class="text-sm md:text-base">{{ column.content|raw }}</span>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+  {% endblock %}
+{% endembed %}
+#}

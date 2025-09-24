@@ -1,0 +1,54 @@
+{% extends '@wrappers/default.twig' %}
+{% block top %}
+
+{% endblock %}
+{% block main %}
+
+  {% embed '@organisms/section/section-embed.twig' with {
+    padding: 'tight',
+  } %}
+    {% block section_content %}
+      {% include '@base/layout/layout.twig' %}
+
+      {% set sidebar %}
+        {% include '@organisms/sidebar/sidebar-location.twig' with page_sidebar %}
+      {% endset %}
+
+      {% set hero_section %}
+        <div>
+          {% block breadcrumbs %}
+            {{ breadcrumbs }}
+          {% endblock %}
+          <p class="font-bold text-sm uppercase mb-1">{{ page_type }}</p>
+          <h1>{{ page_title }}</h1>
+          {% if page_subheading | default %}
+            <div class="mb-4">{{ page_subheading }}</div>
+          {% endif %}
+
+          {% if below_hero.page_image | default %}
+            <img src="{{ below_hero.page_image.src }}" alt="{{ below_hero.page_image.alt }}" />
+          {% endif %}
+        </div>
+      {% endset %}
+
+      {% set content %}
+        {% for module in narrow_modules %}
+          {% if module.module_type == 'wysiwyg' %}
+            {{ module.wysiwyg }}
+          {% endif %}
+        {% endfor %}
+      {% endset %}
+
+      {% set sidebar_bottom %}
+        {% include '@organisms/sidebar/sidebar-location-bottom.twig' with page_sidebar %}
+      {% endset %}
+    {% endblock %}
+  {% endembed %}
+
+  {% for module in modules %}
+    {% if module.module_type == 'short-list-horizontal' %}
+      {% include '@components/modules/short-list-horizontal/short-list-horizontal.twig' with module only %}
+    {% endif %}
+  {% endfor %}
+
+{% endblock %}

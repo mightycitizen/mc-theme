@@ -1,0 +1,100 @@
+{#
+/**
+ * @file
+ * Display for theme color swatches.
+ *
+ * Each color swatch is populated from the json file within
+ * this same directory (colors.json). Add or remove
+ * any colors there.
+ */
+#}
+
+<div class="container">
+
+  {% set sections = {
+    "Brand": [
+      {
+        "name": "Primary",
+        "colors": primary
+      },
+      {
+        "name": "Secondary",
+        "colors": secondary
+      },
+      {
+        "name": "Tertiary",
+        "colors": tertiary
+      }
+    ],
+    "Neutrals": [
+      {
+        "name": "Neutrals",
+        "colors": neutrals
+      }
+    ],
+    "Utility": [
+      {
+        "name": "Utility",
+        "colors": utility
+      }
+    ],
+    "Warning": [
+      {
+        "name": "Warning",
+        "colors": warning
+      }
+    ],
+    "Supporting": [
+      {
+        "name": "Success",
+        "hex": success
+      },
+      {
+        "name": "Alert",
+        "hex": alert
+      },
+      {
+        "name": "Warning",
+        "hex": warning
+      }
+    ]
+  }
+
+  %}
+
+  {% for title, section in sections %}
+    {% if loop.first == false %}
+      <hr>
+    {% endif %}
+    <h3>{{ title }}</h3>
+
+    {% for color in section %}
+      <h4>{{ color.name }}</h4>
+      <div class="flex flex-wrap pb-5">
+        {% if color.colors.default %}
+
+          {% include './_swatch.stories.twig' with {
+            hex: color.colors.default
+          }%}
+
+
+          {% for key, value in color.colors.variants %}
+            {% include './_swatch.stories.twig' with {
+              hex: value,
+              type: key
+            }%}
+          {% endfor %}
+
+
+        {% else %}
+          {% include './_swatch.stories.twig' with {
+            hex: color.hex
+          }%}
+        {% endif %}
+      </div>
+    {% endfor %}
+
+  {% endfor %}
+
+
+</div>

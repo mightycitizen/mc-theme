@@ -1,0 +1,46 @@
+{# twig-cs-fixer-disable-next-line #}
+{#graphql
+query($paragraph_id: ID!) {
+  paragraph(id: $paragraph_id) {
+    ... on ParagraphAccordion {
+      id
+      paragraphs {
+        ... on ParagraphAccordionItem {
+          id
+          heading
+          body {
+            processed
+          }
+        }
+      }
+    }
+  }
+}
+#}
+
+{% set accordion = graphql.paragraph %}
+
+{# Format accordion items #}
+{% set items = [] %}
+{% for item in accordion.paragraphs %}
+  {% set items = items|merge([{
+    heading: item.heading,
+    content: item.body.processed,
+    content_id: item.id,
+  }]) %}
+{% endfor %}
+
+{# Load accordion #}
+{% set section_content %}
+  {{ include('mc_theme:accordion', {
+    accordion_id: accordion.id,
+    items
+  }) }}
+{% endset %}
+
+{# Load module #}
+{{ include('mc_theme:module', {
+  module_type: 'accordion',
+  intro: content.field_intro.0,
+  section_content,
+}) }}

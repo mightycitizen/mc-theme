@@ -1,0 +1,7 @@
+{
+  "name": "mightycitizen/mc-theme",
+  "description": "Mighty Citizen custom Drupal theme",
+  "type": "drupal-theme",
+  "version": "1.0.0",
+  "license": "GPL-2.0-or-later"
+}

@@ -1,0 +1,7 @@
+{% block content %}
+  {{ include('mc_theme:section', {
+    padding: 'tight',
+    intro: content.field_intro.0,
+    section_content: rendered_view,
+  }) }}
+{% endblock %}

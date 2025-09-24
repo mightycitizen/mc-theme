@@ -1,0 +1,97 @@
+{#graphql
+query($node_id: ID!) {
+  node(id: $node_id) {
+    ... on NodePage {
+      body {
+        processed
+      }
+      ctaPrimary {
+        internal
+        text: title
+        url
+      }
+      ctaSecondary {
+        internal
+        text: title
+        url
+      }
+      heading
+      heroTheme
+      image {
+        ... on MediaImage {
+          mediaImage {
+            alt
+            xl: variations(styles: HORIZONTAL169_XL) { url }
+          }
+        }
+      }
+      media {
+        ... on MediaImage {
+          mediaImage {
+            alt
+            md: variations(styles: HORIZONTAL32_MD) { url }
+          }
+        }
+        ... on MediaRemoteVideo {
+          mediaOembedVideo
+        }
+      }
+      label
+      links5 {
+        icon {
+          id
+        }
+        internal
+        text:title
+        url
+      }
+      title
+    }
+  }
+}
+#}
+
+{% set node = graphql.node %}
+
+{# Large background image #}
+{% if node.image %}
+  {% set background_image = {
+    src: node.image.mediaImage.xl.0.url,
+    alt: node.image.mediaImage.alt,
+  } %}
+{% endif %}
+
+{# Split content media #}
+{% if node.media.mediaImage %}
+  {% set image = {
+    src: node.media.mediaImage.md.0.url,
+    alt: node.media.mediaImage.alt,
+  } %}
+{% elseif node.media.mediaOembedVideo %}
+  {% set media = drupal_field('field_media', 'node', node_id) %}
+{% endif %}
+
+{# Add icons to links #}
+{% if node.links5 %}
+  {% set links_bar_menu = [] %}
+  {% for key, link in node.links5 %}
+    {% set link = link|merge({
+      icon: link.icon.id ? mc_icon(link.icon.id) : NULL,
+    }) %}
+    {% set links_bar_menu = links_bar_menu|merge([link]) %}
+  {% endfor %}
+{% endif %}
+
+{{ include('mc_theme:hero', {
+  eyebrow: node.label ?? NULL,
+  heading: node.heading ?? node.title,
+  summary: node.body.processed ?? NULL,
+  background_image: background_image ?? NULL,
+  image: image ?? NULL,
+  media: media ?? NULL,
+  split_content: image or media ? TRUE : NULL,
+  hero_button: node.ctaPrimary ?? NULL,
+  readmore_link: node.ctaSecondary ?? NULL,
+  background_color: node.heroTheme ?? NULL,
+  links_bar_menu: links_bar_menu ?? NULL,
+}) }}

@@ -1,0 +1,159 @@
+{#graphql
+query($node_id: ID!) {
+  node(id: $node_id) {
+    ... on NodeProgram {
+      body {
+        processed
+      }
+      ctaPrimary {
+        internal
+        text: title
+        url
+      }
+      ctaSecondary {
+        internal
+        text: title
+        url
+      }
+      heading
+      image {
+        ... on MediaImage {
+          mediaImage {
+            alt
+            xl: variations(styles: HORIZONTAL169_XL) { url }
+          }
+        }
+      }
+      subheading
+      title
+      componentsHero {
+        ... on ParagraphMedia {
+          id
+          media {
+            ... on MediaImage {
+              id
+              mediaImage {
+                alt
+                md: variations(styles: HORIZONTAL32_MD) { url }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+#}
+
+{% set node = graphql.node %}
+
+{# Large background image #}
+{% if node.image %}
+  {% set background_image = {
+    src: node.image.mediaImage.xl.0.url,
+    alt: node.image.mediaImage.alt,
+  } %}
+{% endif %}
+
+{# Split content media #}
+{% if node.componentsHero.media.mediaImage %}
+  {% set image = {
+    src: node.componentsHero.media.mediaImage.md.0.url,
+    alt: node.componentsHero.media.mediaImage.alt,
+  } %}
+{% else %}
+  {% set media = drupal_field('field_components_hero', 'node', node_id, {label: 'hidden'}) %}
+{% endif %}
+
+{% set items = [] %}
+
+{# Get key/value pairs for the "At a Glance" block. #}
+{% set glance_fields = [
+  'field_college_school',
+  'field_program_types',
+  'field_program_credential_types',
+  'field_program_formats',
+  'field_locations',
+  'field_programs',
+  'field_program_completion_time',
+  'field_program_cost_per_hour',
+  'field_program_cost_total',
+  'field_program_credit_hours',
+  'field_program_accelerated',
+] %}
+{% for field_name in glance_fields %}
+  {% if entity.(field_name).0 %}
+    {% set field = drupal_field(field_name, 'node', node_id, 'default') %}
+
+    {# Defaults #}
+    {% set item_label = field['#title'] %}
+    {% set item_content = field %}
+
+    {# Field-specific overrides #}
+    {% if field_name == 'field_programs' %}
+      {% set item_label = entity.field_programs_label.0.value ?? item_label %}
+    {% endif %}
+
+    {% if field_name == 'field_program_formats' %}
+      {% set item_content %}
+        {{ item_content }}
+        {{ drupal_field('field_program_formats_info', 'node', node_id) }}
+      {% endset %}
+    {% endif %}
+
+    {% set items = items|merge([{
+      label: item_label,
+      content: item_content,
+    }]) %}
+  {% endif %}
+{% endfor %}
+
+{% set columns = [] %}
+{% if items|length > 3 %}
+
+  {% if items|length > 12 %}
+    {% set batchnum =  5 %}
+  {% elseif items|length > 9 %}
+    {% set batchnum = 4 %}
+  {% else %}
+    {% set batchnum = 2 %}
+  {% endif %}
+
+  {% set batches = items|batch(batchnum) %}
+  {% for batch in batches %}
+    {% set columns = columns|merge([{items: batch}]) %}
+  {% endfor %}
+{% else %}
+  {% for item in items %}
+    {% set columns = columns|merge([{items: [item]}]) %}
+  {% endfor %}
+{% endif %}
+
+
+{# Render the "At a Glance" block. #}
+{% if (columns) %}
+  {% set info_panel %}
+    {{ include('mc_theme:info-panel', {
+      panel_theme: 'dark',
+      label_display: 'above',
+      border: true,
+      panel_heading: 'Program at a Glance'|t,
+      columns
+    }) }}
+  {% endset %}
+{% endif %}
+
+{{ include('mc_theme:hero', {
+  eyebrow: node.label ?? NULL,
+  heading: node.heading ?? node.title,
+  tagline: node.subheading ?? NULL,
+  summary: node.body.processed ?? NULL,
+  background_image: background_image ?? NULL,
+  image: image ?? NULL,
+  media: media ?? NULL,
+  split_content: image or media ? TRUE : NULL,
+  hero_button: node.ctaPrimary ?? NULL,
+  readmore_link: node.ctaSecondary ?? NULL,
+  background_color: node.heroTheme ?? NULL,
+  links_bar_menu: links_bar_menu ?? NULL,
+}) }}

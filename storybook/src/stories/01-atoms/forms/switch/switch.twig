@@ -1,0 +1,8 @@
+   <div x-data="{ isChecked: false }" class="flex items-center">
+        <label for="toggle" class="relative inline-flex items-center cursor-pointer mb-0">
+            <input type="checkbox" id="toggle" x-model="isChecked" class="sr-only" />
+            <div :class="isChecked ? 'bg-primary' : 'bg-gray'" class="w-11 h-6 rounded-full shadow-inner"></div>
+            <div :class="isChecked ? 'translate-x-5' : 'translate-x-1'" class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></div>
+        </label>
+        <span class="ml-3 text-gray-700" x-text="isChecked ? 'On' : 'Off'"></span>
+    </div>

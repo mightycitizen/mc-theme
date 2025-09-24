@@ -1,0 +1,467 @@
+import twig from './general.twig';
+
+import { placeholder, sizes } from '../../global/placeholders/images.json';
+
+import {
+  accordion,
+  tabs,
+  breadcrumbs,
+  hero_primary,
+  hero_secondary,
+  card,
+  contact,
+  testimonial,
+  wysiwyg,
+  video,
+  steps,
+  statistic,
+  links
+} from '../../global/placeholders/components.json';
+
+import { menu, social, logo, address, utility_menu, cta_menu, header_dropdown, menu_column, anchor_nav, local_nav, links_bar_menu, footer_links, site_name } from '../../global/placeholders/global.json';
+//More on default export: https://storybook.js.org/docs/html/writing-stories/introduction#default-export
+export default {
+  title: 'Pages/General'
+};
+
+// More on component templates: https://storybook.js.org/docs/html/writing-stories/introduction#using-args
+const Template = (args) => {
+  return twig(args);
+};
+
+const Default = Template.bind({});
+const defaultArgs = {
+  breadcrumbs,
+  menu,
+  utility_menu,
+  links_bar_menu,
+  anchor_nav,
+  local_nav,
+  cta_menu,
+  header_dropdown,
+  logo,
+  social,
+  address,
+  footer_links,
+  site_name,
+  menu_column,
+  hero: hero_primary,
+  modules: [
+    {
+      module_type: 'wysiwyg',
+      section_id: 'section-1',
+      wysiwyg
+    },
+    {
+      module_type: 'video',
+      ...video,
+      caption: 'Youtube Video Example'
+    },
+    {
+      module_type: 'video',
+      ...video,
+      video_type: 'vimeo',
+      video_id: '559422073',
+      caption: 'Vimeo Video Example'
+    },
+    {
+      module_type: 'contact',
+      ...contact
+    },
+    {
+      module_type: 'contact',
+      ...contact
+    },
+    {
+      module_type: 'accordion',
+      section_id: 'section-2',
+      ...accordion
+    },
+    {
+      module_type: 'accordion',
+      ...Object.assign(
+        { ...accordion },
+        {
+          accordion_id: 'accordion_steps',
+          modifier: 'steps'
+        }
+      )
+    },
+    {
+      module_type: 'accordion',
+      accordion_id: 'accordion_icons',
+      items: [
+        {
+          heading: 'Heading',
+          content: 'Content',
+          icon: 'icon-bell'
+        },
+        {
+          heading: 'Heading',
+          content: 'Content',
+          icon: 'icon-search'
+        }
+      ]
+    },
+    {
+      module_type: 'horizontalCard',
+      ...Object.assign(
+        { ...card },
+        {
+          image: {
+            src:
+              placeholder +
+              sizes.landscapeCroppedMedium.width +
+              'x' +
+              sizes.landscapeCroppedMedium.height,
+            alt: 'Alt Text'
+          }
+        }
+      )
+    },
+    {
+      module_type: 'testimonial',
+      ...testimonial
+    },
+    {
+      module_type: 'tabs',
+      tabs_id: 'general_tabs',
+      tabs
+    },
+    {
+      module_type: 'cta',
+      section_heading: 'Default CTA',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      section_button: {
+        url: '#',
+        text: 'Text'
+      }
+    },
+    {
+      section_background: {
+        src:
+          placeholder +
+          sizes.wideCroppedXlarge.width +
+          'x' +
+          sizes.wideCroppedXlarge.height
+      },
+      module_type: 'cta',
+      section_heading: 'Default CTA',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      section_button: {
+        url: '#',
+        text: 'Text'
+      }
+    },
+    {
+      section_image: {
+        src:
+          placeholder +
+          sizes.landscapeCroppedMedium.width +
+          'x' +
+          sizes.landscapeCroppedMedium.height
+      },
+      module_type: 'cta',
+      section_heading: 'Default CTA',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      section_button: {
+        url: '#',
+        text: 'Text'
+      }
+    },
+    {
+      module_type: 'card-group',
+      section_heading: 'Three Up Cards',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      section_class: 'bg-secondary-200',
+      cards: Array.from({ length: 3 }, (v, i) => {
+        return {
+          ...card,
+          image: {
+            src:
+              placeholder +
+              sizes.landscapeCroppedSmall.width +
+              'x' +
+              sizes.landscapeCroppedSmall.height,
+            alt: 'Alt Text'
+          }
+        };
+      })
+    },
+    {
+      module_type: 'card-group',
+      section_heading: 'Three Up Event Cards',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      cards: Array.from({ length: 3 }, (v, i) => {
+        return {
+          ...card,
+          type: {
+            handle: 'events',
+            label: 'Events'
+          },
+          date: {
+            unformatted: '2020-12-20',
+            month_short: 'Dec',
+            day: 20,
+            full: 'December 20, 2020'
+          },
+          image: {
+            src:
+              placeholder +
+              sizes.landscapeCroppedSmall.width +
+              'x' +
+              sizes.landscapeCroppedSmall.height,
+            alt: 'Alt Text'
+          }
+        };
+      })
+    },
+    {
+      module_type: 'card-carousel',
+      section_class: 'bg-primary-200',
+      section_heading: 'Carousel',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      cards: Array.from({ length: 8 }, (v, i) => {
+        return {
+          ...card,
+          image: {
+            src:
+              placeholder +
+              sizes.landscapeCroppedSmall.width +
+              'x' +
+              sizes.landscapeCroppedSmall.height,
+            alt: 'Alt Text'
+          }
+        };
+      })
+    },
+    {
+      module_type: 'testimonial-carousel',
+      section_heading: 'Testimonial Carousel',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      cards: Array.from({ length: 8 }, (v, i) => {
+        return {
+          ...testimonial
+        };
+      })
+    },
+    {
+      module_type: 'card-carousel-center',
+      section_class:
+        'bg-gradient-to-b lg:bg-gradient-to-r from-primary-200 to-white',
+      section_heading: 'Center Carousel',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      cards: Array.from({ length: 8 }, (v, i) => {
+        return {
+          ...card,
+          image: {
+            src:
+              placeholder +
+              sizes.landscapeCroppedSmall.width +
+              'x' +
+              sizes.landscapeCroppedSmall.height,
+            alt: 'Alt Text'
+          }
+        };
+      })
+    },
+    {
+      module_type: 'step-list',
+      section_heading: 'Step List',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      steps
+    },
+    {
+      module_type: 'statistics',
+      section_heading: 'Statistics',
+      section_class: 'bg-primary-100',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      statistics: Array.from({ length: 3 }, (v, i) => {
+        return {
+          ...statistic
+        };
+      })
+    },
+    {
+      module_type: 'statistics',
+      section_heading: 'Statistics (Side)',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      section_style: 'side',
+      section_button: {
+        url: '#',
+        text: 'Text'
+      },
+      statistics: Array.from({ length: 3 }, (v, i) => {
+        return {
+          ...statistic
+        };
+      })
+    },
+    {
+      module_type: 'links',
+      section_heading: 'Links',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      section_class:
+        'bg-gradient-to-b lg:bg-gradient-to-r from-secondary-200 to-white',
+      links
+    }
+  ]
+};
+
+const parameters = {
+  layout: 'fullscreen'
+};
+
+const hero_secondary_background = {
+  background_color: true,
+  image: {
+    src: "/images/hero-secondary.jpg",
+    alt: "University view"
+  },
+  heading: "Hero title goes here",
+  summary: "[WYSIWYG - text + links allowed] Lorem ipsum odor amet, consectetuer adipiscing elit. Nec urna commodo aliquam parturient ante curabitur. Accumsan morbi et non facilisi iaculis, tempus curabitur bibendum. ",
+  hero_button: {
+    text: "Primary Button",
+    url: "#"
+  },
+  readmore_link: {
+    text: "Optional Link",
+    url: "#"
+  }
+};
+
+// console.log(defaultArgs);
+Default.args = defaultArgs;
+Default.parameters = parameters;
+
+const Cookies = Template.bind({});
+Cookies.args = {
+  ...defaultArgs,
+  cookie: 'Cookie Lorem ipsum'
+};
+Cookies.parameters = parameters;
+
+const AnchorMenu = Template.bind({});
+AnchorMenu.args = {
+  ...defaultArgs,
+  anchor_items: [
+    {
+      text: 'Test',
+      anchor: '#section-1'
+    },
+    {
+      text: 'Test 2',
+      anchor: '#section-2'
+    }
+  ]
+};
+
+AnchorMenu.parameters = parameters;
+
+const SectionTest = Template.bind({});
+SectionTest.args = {
+  ...defaultArgs,
+  modules: [
+    {
+      module_type: 'card-group',
+      section_class:
+        'bg-gradient-to-b lg:bg-gradient-to-r from-secondary-200 to-white',
+      section_heading: 'Bg Gradient Secondary',
+      cards: Array.from({ length: 3 }, (v, i) => card)
+    },
+    {
+      module_type: 'card-group',
+      //section_class: 'bg-gradient-secondary',
+      section_heading: 'No Background',
+      cards: Array.from({ length: 3 }, (v, i) => card)
+    },
+    {
+      module_type: 'card-group',
+      section_class:
+        'bg-gradient-to-b lg:bg-gradient-to-r from-primary-200 to-white',
+      section_heading: 'Bg Solid Primary Lightest',
+      cards: Array.from({ length: 3 }, (v, i) => card)
+    }
+  ]
+};
+SectionTest.parameters = parameters;
+
+const Sidebar = Template.bind({});
+Sidebar.args = {
+  breadcrumbs,
+  menu,
+  utility_menu,
+  links_bar_menu,
+  anchor_nav,
+  local_nav,
+  cta_menu,
+  header_dropdown,
+  logo,
+  social,
+  address,
+  footer_links,
+  site_name,
+  menu_column,
+  hero: hero_primary,
+  narrow_modules: [
+    {
+      module_type: 'wysiwyg',
+      wysiwyg
+    },
+    {
+      module_type: 'accordion',
+      exclude_container: true,
+      section_id: 'section-2',
+      ...accordion
+    }
+  ],
+  sidebar_modules: [
+    {
+      module_type: 'card',
+      ...card
+    }
+  ],
+  modules: [
+    {
+      module_type: 'cta',
+      section_heading: 'Default CTA',
+      section_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      section_button: {
+        url: '#',
+        text: 'Text'
+      }
+    }
+  ]
+};
+Sidebar.parameters = parameters;
+
+const SecondaryHero = Template.bind({});
+SecondaryHero.args = {
+  ...defaultArgs,
+  hero: hero_secondary
+};
+SecondaryHero.parameters = parameters;
+
+const SecondaryHeroBackground = Template.bind({});
+SecondaryHeroBackground.args = {
+  ...defaultArgs,
+  hero: hero_secondary_background
+};
+SecondaryHeroBackground.parameters = parameters;
+
+export { Default, Cookies, AnchorMenu, SectionTest, Sidebar, SecondaryHero, SecondaryHeroBackground };
+
+

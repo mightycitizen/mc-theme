@@ -1,0 +1,10 @@
+{% embed '@organisms/section/section-embed.twig' with {
+    padding: 'tight',    
+    section_class: section_class | default,
+    section_style: 'narrow'
+  }
+%}
+  {% block section_content %}
+    {% include '@molecules/accordion/accordion.twig' %}
+  {% endblock %}
+{% endembed %}

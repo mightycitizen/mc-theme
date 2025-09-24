@@ -1,0 +1,17 @@
+.accordion-title {
+  &:hover {
+    .accordion-title-icon {
+      @apply text-white;
+    }
+    .accordion-step,
+    .accordion-badge {
+      @apply bg-primary-200 text-black;
+    }
+  }
+}
+.accordion-badge-wrapper {
+  @media (max-width: 960px) {
+    flex: 1 100%;
+    width: 100%;
+  }
+}

@@ -1,0 +1,9 @@
+{% block content %}
+  {# Load Split Content component #}
+  {{ include('mc_theme:module', {
+    module_type: 'split-content',
+    col_1: content.field_body.0,
+    col_2: content.field_paragraph.0,
+    col_reverse: (paragraph.field_alignment.value == 'left') ? FALSE : TRUE,
+  }) }}
+{% endblock %}

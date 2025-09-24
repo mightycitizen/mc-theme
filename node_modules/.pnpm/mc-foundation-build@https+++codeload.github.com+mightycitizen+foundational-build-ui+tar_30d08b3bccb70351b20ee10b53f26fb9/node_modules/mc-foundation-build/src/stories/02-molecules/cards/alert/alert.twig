@@ -1,0 +1,51 @@
+{#
+  alert.twig
+
+  Props:
+    - alert_type
+      - type: 'emergency', 'weather', 'default', etc.
+      - label: 'Emergency Alert', 'Weather Alert', 'Notice', etc.
+      - icon
+    - attributes
+    - class
+    - closeable
+    - closeable_button_class
+    - closable_text
+    - link
+      - target
+      - url
+    - title
+    - text
+#}
+<div {{ attributes }} class="alert-bar bg-white py-6 px-6 shadow {{ class | default }}" {% if closable | default %}data-closable{% endif %}>
+  <div class="container flex gap-6 justify-between md:justify-center flex-wrap md:flex-nowrap items-center md:items-start">
+    {% if alert_type %}
+      <div class="alert-type-icon order-1">
+        {% include '@atoms/icon/icon.twig' with {
+          icon: alert_type.icon,
+          modifiers: 'w-[56px] h-[56px] rounded-full flex items-center justify-center ' ~ alert_type.icon_colors
+        } %}
+      </div>
+    {% endif %}
+    <div class="basis-full order-3 md:order-1">
+      {% if link | default %}
+        <a class="text-lg font-bold text-black" href="{{ link.url }}" {% if link.target %}target="{{ link.target }}"{% endif %}>{{ alert_type.label }}: {{ title }}</a>
+      {% else %}
+        <span class="alert-bar_label font-bold text-lg">{{ alert_type.label }}: {{ title }}</span>
+      {% endif %}
+      {% if text | default %}
+        <span class="block text-neutrals-800">{{ text }}</span>
+      {% endif %}
+    </div>
+    {% if closable | default %}
+      <div class="order-2 md:order-3">
+        {# <button class="{% if closable_text | default is empty %}close-button{% else %}button{% endif %}" aria-label="Dismiss alert" type="button" data-close>
+          <span class="text-3xl" aria-hidden="true">{% if closable_text | default %}{{ closable_text }}{% else %}&times;{% endif %}</span>
+        </button> #}
+        <button class="{{ closeable_button_class | default('close-button') }}" aria-label="Dismiss alert" type="button" data-close>
+          <span class="text-3xl" aria-hidden="true">{% if closable_text | default %}{{ closable_text }}{% else %}&times;{% endif %}</span>
+        </button>
+      </div>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,27 @@
+{# twig-cs-fixer-disable-next-line #}
+{#graphql
+query($paragraph_id: ID!) {
+  paragraph(id: $paragraph_id) {
+    ... on ParagraphLinksList {
+      id
+      links {
+        internal
+        text:title
+        url
+      }
+    }
+  }
+}
+#}
+
+{% block content %}
+  {% set links_list = graphql.paragraph %}
+
+  {# Load links component #}
+  {{ include('mc_theme:links-list', {
+    view_mode: view_mode,
+    intro: content.field_intro.0,
+    links: links_list.links,
+    icon_classes: 'ph ph-caret-right bg-transparent',
+  }) }}
+{% endblock %}

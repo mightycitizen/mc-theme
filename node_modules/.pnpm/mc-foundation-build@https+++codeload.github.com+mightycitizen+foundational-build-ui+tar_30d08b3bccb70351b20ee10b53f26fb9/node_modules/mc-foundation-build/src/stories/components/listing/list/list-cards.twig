@@ -1,0 +1,5 @@
+<div class="flex flex-col gap-5">
+  {% for card in cards %}
+    {% include '@molecules/cards/card/card-horizontal.twig' with card %}
+  {% endfor %}
+</div>

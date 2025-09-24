@@ -1,0 +1,15 @@
+{% block content %}
+  {% set rendered_cards = [] %}
+  {% for key, card in paragraph.field_cards %}
+    {% set rendered_card = content.field_cards[key]|render %}
+    {% set rendered_cards = rendered_cards|merge([rendered_card]) %}
+  {% endfor %}
+
+  {{ include('mc_theme:card-group', {
+    padding: 'tight',
+    section_class: "section " ~ section_class | default,
+    intro: content.field_intro.0,
+    cards: rendered_cards,
+    columns: paragraph.field_number_columns.value,
+  }) }}
+{% endblock %}

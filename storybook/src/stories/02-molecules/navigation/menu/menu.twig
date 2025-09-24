@@ -1,0 +1,225 @@
+
+<div id="main-menu" x-data="{
+	    breakpoint: 1024,
+	    dropdownOpen: { sm: null, lg: null },
+      align: 'left',
+      timeout: null,
+	    toggleDropdown(index) {
+	      if (window.innerWidth <= this.breakpoint) {
+	        this.dropdownOpen.sm = this.dropdownOpen.sm === index ? null : index;
+	      }else{
+          this.dropdownOpen.lg = this.dropdownOpen.lg === index ? null : index;
+          setTimeout(() => {
+            this.checkDropdownPosition();
+          }, 10);
+        }
+	    },
+      checkDropdownPosition() {
+        if (window.innerWidth > this.breakpoint) {
+          const dropdown = document.querySelector('.dropdown:not(.hidden)');
+
+          if (!dropdown) {
+            console.warn('Dropdown reference not found');
+            return;
+          }
+
+          const dropdownWidth = dropdown.offsetWidth; // Get the width of the dropdown
+          const dropdownPosition = dropdown.getBoundingClientRect().left; // Get the left position of the dropdown
+          const windowWidth = window.innerWidth; // Get the full width of the viewport
+          const windowRight = windowWidth - dropdownPosition - dropdownWidth; // Calculate space on the right side of the dropdown
+
+          // Determine alignment based on available space
+          if (windowRight < 0) {
+            this.align = 'right'; // Not enough space on the right
+          } else {
+            this.align = 'left'; // Enough space, align left
+          }
+
+
+        }
+      },
+	    handleMouseEnter(index) {
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+          this.align = 'left';
+          if (window.innerWidth > this.breakpoint) this.dropdownOpen['lg'] = index;
+          setTimeout(() => {
+            this.checkDropdownPosition();
+          }, 10);
+        }, 100);
+
+
+	    },
+	    handleMouseLeave() {
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+	        if (window.innerWidth > this.breakpoint) this.dropdownOpen['lg'] = null;
+        }, 100);
+	    },
+      handleDirection(direction){
+        if (direction === 'left') {
+          if (this.dropdownOpen.lg > 0) {
+            this.dropdownOpen.lg--;
+          }else{
+            this.dropdownOpen.lg = $refs.topbar.children.length - 1;
+          }
+        } else {
+          if (this.dropdownOpen.lg < $refs.topbar.children.length - 1) {
+            this.dropdownOpen.lg++;
+          }else{
+            this.dropdownOpen.lg = 0;
+          }
+        }
+        $refs.topbar.children[this.dropdownOpen.lg].querySelector('a').focus();
+      }
+	  }" class="absolute z-20 bg-primary-900 w-full py-4 lg:mt-4 lg:relative lg:block shadow-md lg:shadow-none lg:py-0" :class="(mainMenu ? '' : 'hidden')">
+	<div class="container">
+		<ul role="menubar"
+      x-ref="topbar"
+      @keydown.left="handleDirection('left')"
+      @keydown.right="handleDirection('right')"
+      class="flex flex-col justify-between gap-x-3 list-none lg:-mx-6 lg:flex-row" >
+			{% for link in menu %}
+				<li
+          @focusin="if (window.innerWidth > this.breakpoint) dropdownOpen.lg = {{ loop.index0 }}"
+          role="presentation" class="relative lg:border-0 {{ loop.last == false ? 'border-b border-gray-200' : '' }}"
+          {% if link.children %}
+            @mouseenter="handleMouseEnter({{ loop.index0 }})"
+            @mouseleave="handleMouseLeave()"
+          {% endif %}
+          >
+
+					{% if link.children | length %}
+						<button
+              @click="toggleDropdown({{ loop.index0 }})"
+              class="py-3 text-white no-underline w-full font-bold flex items-center gap-2 justify-between leading-5 lg:hidden " {% if link.new_window | default %} target="_blank" rel="noopener" {% endif %} role="menuitem">
+							{{ link.parent_text | default is not empty ? link.parent_text : link.text }}
+							<span :class="(dropdownOpen.sm === {{ loop.index0 }} ? 'rotate-180' : '') + ' ' + (dropdownOpen.lg === {{ loop.index0 }} ? 'lg:text-white' : 'lg:text-white')" class="icon-caret-down text-xs text-primary"></span>
+						</button>
+					{% endif %}
+
+					<a @keydown.enter="toggleDropdown({{ loop.index0 }})"  role="menuitem" :class="dropdownOpen.lg === {{ loop.index0 }} ? 'bg-primary text-white' : ''" class="{{ link.children ? 'hidden lg:inline-flex' : 'inline-flex' }} text-white font-bold px-6 py-3 gap-2 leading-5 items-center lg:inline-flex no-underline {% if link.url and link.children is empty %}hover:underline{% endif %}" {% if link.url %} href="{{ link.url }}"{% endif %}>
+            {% if link.icon %}
+              {% include '@atoms/icon/icon.twig' with { icon: link.icon } %}
+              {{ link.text }}
+            {% else %}
+              <span class="my-px">{{ link.text }}</span>
+            {% endif %}
+            {% if link.children %}
+						  <span :class="(dropdownOpen.sm === {{ loop.index0 }} ? 'rotate-180' : '') + ' ' + (dropdownOpen.lg === {{ loop.index0 }} ? 'lg:text-white' : 'lg:text-white')" class="icon-caret-down text-xs text-white"></span>
+            {% endif %}
+					</a>
+
+					{% if link.children | default %}
+						<ul role="presentation" class="list-none lg:absolute lg:bg-white lg:py-3 w-full lg:w-80 lg:shadow-md dropdown" :class="(dropdownOpen.sm === {{ loop.index0 }} || dropdownOpen.lg === {{ loop.index0 }} ? '' : 'hidden') + ' ' + (align + '-0')" x-data=" {
+								    breakpoint: 1024,
+								    childOpen: { sm: null, lg: null },
+                    childAlign: 'left',
+								    toggleChildDropdown(index) {
+								      if (window.innerWidth <= this.breakpoint) {
+                        this.childOpen.sm = this.childOpen.sm === index ? null : index;
+                      }else{
+                        this.childOpen.lg = this.childOpen.lg === index ? null : index;
+                        setTimeout(() => {
+                          this.checkDropdownPosition();
+                        }, 25);
+                      }
+
+								    },
+                    checkDropdownPosition() {
+                      if (window.innerWidth > this.breakpoint) {
+                        const dropdown = $el.querySelector('.dropdown:not(.hidden)');
+
+                        if (!dropdown) {
+                          console.warn('Dropdown reference not found');
+                          return;
+                        }
+
+                        const dropdownWidth = dropdown.offsetWidth; // Get the width of the dropdown
+                        const dropdownPosition = dropdown.getBoundingClientRect().left; // Get the left position of the dropdown
+                        const windowWidth = window.innerWidth; // Get the full width of the viewport
+                        const windowRight = windowWidth - dropdownPosition - dropdownWidth; // Calculate space on the right side of the dropdown
+
+                        // Determine alignment based on available space
+                        if (windowRight < 0) {
+                          this.childAlign = 'right'; // Not enough space on the right
+                        } else {
+                          this.childAlign = 'left'; // Enough space, align left
+                        }
+                      }
+                    },
+								    handleChildMouseEnter(index) {
+                      this.timeout = setTimeout(() => {
+                        this.childAlign = 'left';
+                        if (window.innerWidth > this.breakpoint) this.childOpen.lg = index;
+                        setTimeout(() => {
+                          this.checkDropdownPosition();
+                        }, 25);
+                      }, 100);
+								    },
+								    handleChildMouseLeave() {
+                      this.timeout = setTimeout(() => {
+								        if (window.innerWidth > this.breakpoint) this.childOpen.lg = null;
+                      }, 100);
+								    }
+								  }">
+{#
+							<li role="presentation" class="parent-link font-bold lg:px-6 py-1">
+								<a {% if link.new_window | default %} target="_blank" rel="noopener" {% endif %} href="{{ link.url }}" class="text-primary">{{ link.text }}
+									Overview</a>
+							</li>
+#}
+							{% for child in link.children %}
+								<li
+                  @focusin="if (window.innerWidth > this.breakpoint) childOpen.lg = {{ loop.index0 }}"
+                  class="py-1 lg:px-6"
+                  {% if child.children %}
+                    :class="childOpen.lg === {{ loop.index0 }} ? 'lg:bg-primary-100' : ''"
+                    @mouseenter="handleChildMouseEnter({{ loop.index0 }})"
+                    @mouseleave="handleChildMouseLeave()"
+                  {% endif %}>
+									{% if child.children | default %}
+										<button @click="toggleChildDropdown({{ loop.index0 }})" role="menuitem" href="{{ child.url }}" class="flex items-center gap-2 justify-between w-full lg:hidden text-primary">
+                      <span class="underline hover:no-underline flex w-full">
+											  {{ child.text }}
+                      </span>
+
+                      <span :class="childOpen.sm === {{ loop.index0 }} ? 'rotate-180' : ''" class="icon-caret-down lg:hidden text-primary text-xs no-underline"></span>
+                      <span class="icon-caret-right hidden lg:block text-primary text-xs no-underline"></span>
+
+										</button>
+									{% endif %}
+									<a @keydown.enter="toggleChildDropdown({{ loop.index0 }})" role="menuitem" class="no-underline {{ child.children ? 'hidden lg:flex justify-between gap-2 items-center w-full' : 'inline-flex' }}" href="{{ child.url }}">
+                    <span class="underline flex w-full hover:no-underline">
+                      {{ child.text }}
+                    </span>
+                    {% if child.children | default %}
+                      <span class="icon-caret-right hidden lg:block text-primary text-xs no-underline"></span>
+                    {% endif %}
+                  </a>
+
+									{% if child.children | default %}
+										<ul role="presentation" class="list-none dropdown lg:absolute my-3 lg:my-0 top-0 bg-primary-100 w-full lg:w-80 p-3 md:px-6 flex flex-col space-y-2 lg:shadow-md" :class="(childOpen.sm === {{ loop.index0 }} || childOpen.lg === {{ loop.index0 }} ? '' : 'hidden') + ' ' + (childAlign === 'right' ? 'lg:right-full' : 'lg:left-full')">
+											<li role="presentation" class="font-bold">
+												<a {% if child.new_window | default %} target="_blank" rel="noopener" {% endif %} href="{{ child.url }}">{{ child.text }}
+													Overview</a>
+											</li>
+											{% for grandchild in child.children %}
+												<li role="presentation">
+													<a role="menuitem" href="{{ grandchild.url }}">{{ grandchild.text }}</a>
+												</li>
+											{% endfor %}
+										</ul>
+									{% endif %}
+								</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</li>
+			{% endfor %}
+		</ul>
+		<div class="lg:hidden search-wrapper mt-4">
+			{% include '@atoms/forms/simple-form/simple-form.twig' with { input_id: 'keywords_mobile' } %}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,28 @@
+<nav aria-label="Pagination">
+  <ul class="pagination flex gap-3 md:gap-7 justify-center text-center mt-3 lg:mt-5 mb-0 list-none items-center">
+    {% if previous | default %}
+      <li class="pagination-previous">
+        {% include '@molecules/pagination/pagination-arrow.twig' with { direction: 'Previous', url: previous } %}
+        
+      </li>
+    {% endif %}
+    {% if pages | default | length %}
+      {% for link in pages %}
+        <li {% if link.current | default %}class="current"{% endif %}>
+          {% if link.ellipses | default %}
+            &hellip;
+          {% elseif link.current | default %}
+            <strong><span class="sr-only">Page</span> {{ link.index }}</strong>
+          {% else %}
+            <a href="{{ link.url }}" aria-label="Page {{ link.index }}"><span class="sr-only">Page</span> {{ link.index }}</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    {% endif %}
+    {% if next | default %}
+      <li class="pagination-next">
+        {% include '@molecules/pagination/pagination-arrow.twig' with { direction: 'Next', url: next } %}
+      </li>
+    {% endif %}
+  </ul>
+</nav>

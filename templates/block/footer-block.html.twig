@@ -1,0 +1,33 @@
+{#graphql
+fragment MenuItem on MenuItem {
+  text:title
+  url
+  internal
+  children {
+    text:title
+    url
+    internal
+  }
+}
+
+query Footer {
+  footer: menu(name: FOOTER) {
+    items {
+      ...MenuItem
+    }
+  }
+  footer_utility: menu(name: FOOTER_UTILITY) {
+    items {
+      ...MenuItem
+    }
+  }
+}
+#}
+
+{{ include('mc_theme:footer', {
+  menu: graphql.footer.items,
+  footer_links: graphql.footer_utility.items,
+  social,
+  ctas,
+  contact,
+}) }}

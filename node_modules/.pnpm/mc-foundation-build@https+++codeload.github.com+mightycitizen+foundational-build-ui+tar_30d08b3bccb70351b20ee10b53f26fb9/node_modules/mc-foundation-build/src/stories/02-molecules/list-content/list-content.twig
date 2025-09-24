@@ -1,0 +1,27 @@
+{#
+  Used to display lists of content within a section.
+  Does not include any padding or styling – that should be handled by the rendered content.
+
+  Content:
+    - items:              array of rendered content.
+
+  Styling:
+    - columns:            1 (default), 2, 3 (item_classes are set based on these values).
+    - item_modifiers:     additional classes (optional).
+#}
+
+{% set item_classes = 'col-span-12 md:col-span-12' %}
+
+{% if columns == 2 %}
+  {% set item_classes = 'col-span-12 md:col-span-6' %}
+{% elseif columns == 3 %}
+  {% set item_classes = 'col-span-12 md:col-span-4' %}
+{% endif %}
+
+<div class="grid grid-cols-12 gap-6 align-{{ alignment | default('center') }}" data-equalizer data-equalize-on="medium">
+  {% for item in items %}
+    <div class="{{ item_classes }} {{ item_modifiers }}">
+      {{ item }}
+    </div>
+  {% endfor %}
+</div>

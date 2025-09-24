@@ -1,0 +1,5 @@
+import{t as a}from"./tabs-module-BLlNcV2H.js";import{g as i}from"./components-Cl1ldek9.js";import"./twig-BXd3Gfe2.js";import"./_commonjsHelpers-BosuxZz1.js";import"./twig-foVUGi9y.js";import"./section-fyku9Cco.js";import"./section_intro-CrzTBB-w.js";import"./video-CBBgLTGM.js";import"./loader-BnDbBP6a.js";import"./icon-DbjO9X_E.js";import"./button-ByEZkqbv.js";import"./read-more-C6XiWcts.js";import"./link-YWvdyZwT.js";import"./tabs-DogQLL8S.js";const D={title:"Components/Modules/Tabs",argTypes:{}},n=s=>a(s),p={section_heading:"Heading",section_description:"Description",tabs_id:"example-tabs-2",tabs:i},t=n.bind({});t.args=p;var r,e,o;t.parameters={...t.parameters,docs:{...(r=t.parameters)==null?void 0:r.docs,source:{originalSource:`args => {
+  // You can either use a function to create DOM elements or use a plain html string!
+  // return \`<div>\${label}</div>\`;
+  return twig(args);
+}`,...(o=(e=t.parameters)==null?void 0:e.docs)==null?void 0:o.source}}};const M=["Tabs"];export{t as Tabs,M as __namedExportsOrder,D as default};

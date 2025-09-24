@@ -1,0 +1,25 @@
+
+.read-more {
+  @apply text-lg;
+    &:after {
+        content: "\e912";
+        display: inline-block;
+        font-family: 'icomoon';
+        font-size: 1.35rem;
+        @apply ml-2 no-underline;
+        text-decoration: none;
+        vertical-align: middle;
+    }
+
+    &:hover,
+    &:focus-visible {
+        @apply underline;
+        text-decoration-line: none;
+    }
+
+    &.text-2xl {
+        &:after {
+            @apply text-lg;
+        }
+    }
+}

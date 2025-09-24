@@ -1,0 +1,49 @@
+{% macro parse_taxonomy(terms = [], display = 'list', arrow = FALSE) %}
+  {% include '@molecules/links.twig' with {
+    display,
+    arrow,
+    links: terms
+  } %}
+{% endmacro %}
+
+{% macro parse_smartdate(dates = []) %}
+  {# @TODO: refactor with smart date display #}
+  {% for date in dates %}
+    {% set start_date = date.start.time|date('F j, Y') %}
+    {% set end_date = date.end.time|date('F j, Y') %}
+    {% set start_time = date.start.time|date('g:ia') %}
+    {% set end_time = date.end.time|date('g:ia') %}
+    <div class="{{ (dates|length > 1) ? 'mb-4' }}">
+      <div class="flex items-center gap-x-2 mb-2">
+        {{ include('mc_theme:icon', {
+          icon: mc_icon('phosphor:calendar-blank'),
+          modifiers: 'text-primary',
+        })}}
+        <span class="text-neutrals-900 font-bold">{{ start_date }}{{ (start_date != end_date) ? ' - ' ~ end_date : NULL }}</span>
+      </div>
+      <div class="flex items-center gap-x-2 mb-2">
+        {{ include('mc_theme:icon', {
+          icon: mc_icon('phosphor:clock'),
+          modifiers: 'text-primary',
+        })}}
+        <span class="text-neutrals-900 font-bold">{{ (start_time == '12:00am') and (end_time =='11:59pm') ? 'All day'|t : start_time ~ ' - ' ~ end_time }}</span>
+      </div>
+    </div>
+  {% endfor %}
+{% endmacro %}
+
+{% if region == 'sidebar_first' %}
+  {{ include('mc_theme:sidebar', {
+    share_top: share_top|default(FALSE),
+    share_bottom: share_bottom|default(FALSE),
+    primary_sections,
+    secondary_sections: NULL,
+  }) }}
+{% elseif region == 'sidebar_second' %}
+  {{ include('mc_theme:sidebar', {
+    share_top: FALSE,
+    share_bottom: FALSE,
+    primary_sections: NULL,
+    secondary_sections,
+  }) }}
+{% endif %}

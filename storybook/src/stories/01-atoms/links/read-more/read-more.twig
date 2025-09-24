@@ -1,0 +1,10 @@
+{% set modifier = 'hover:no-underline' %}
+{% if size | default == 'lg' %}
+  {% set modifier = modifier ~ ' text-2xl' %}
+{% endif %}
+  {% include '@atoms/links/link/link.twig' with {
+    url: url,
+    text: text,
+    target: target,
+    modifier: 'read-more' ~ (modifier | default ? ' ' ~ modifier : ''),
+  } only %}

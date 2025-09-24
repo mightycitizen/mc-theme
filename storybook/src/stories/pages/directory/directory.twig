@@ -1,0 +1,142 @@
+{% extends '@wrappers/default.twig' %}
+{% set type = {
+  label: 'Directory',
+  handle: 'directory'
+}%}
+{% block top %}
+  {% include '@organisms/hero/hero.twig'  with {
+    heading: 'Directory',
+    summary: "[WYSIWYG - text + links allowed] Lorem ipsum odor amet, consectetuer adipiscing elit. Nec urna commodo aliquam parturient ante curabitur. Accumsan morbi et non facilisi iaculis, tempus curabitur bibendum. ",
+    hero_button: {
+      text: "Primary Button",
+      url: "#"
+    },
+    readmore_link: {
+      text: "Optional Link",
+      url: "#"
+    }
+  } %}
+{% endblock %}
+{% block main %}
+
+  <div class="md:pt-9 pb-8 mb-0">
+    <div class="container">
+      <div class="grid grid-cols-12 gap-6 items-center justify-center">
+        <div class="col-span-12 md:col-span-8 md:pt-8 pb-5">
+          <h2>Search Faculty & Staff</h2>
+          {% include '@atoms/forms/hero-search-form/hero-search-form.twig' %}
+        </div>
+      </div>
+      <div class="grid grid-cols-12 gap-6 items-end justify-center">
+        <div class="col-span-12 md:col-span-6 md:pt-8 pb-5">
+          <h3>Results for [search term.]</h3>
+          <p>Showing 1 to 100 [total #] results.</p>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+          <div class="flex items-center justify-end gap-x-4">
+            <label class="shrink-0 mb-0" for="dropdown">Sort By </label>
+            <select id="dropdown" class="" name="dropdown">
+              <option value="">Relevance</option>
+              <option value="0">Dropdown A</option>
+              <option value="1">Dropdown B</option>
+              <option value="2">Dropdown C</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-span-12">
+          <div class="view-filter view-filter--horizontal flex items-center gap-x-5">
+            <h3 class="my-0">Filter results:</h3>
+            {% include '@atoms/forms/checkbox-group/checkbox-group.twig' with {
+              input_class: 'w-full ' ~ input_class | default,
+              label: "Department",
+              id: "category",
+              closed: true,
+              horizontal: true,
+              autocomplete: 'off',
+              placeholder: category_placeholder | default("Select a Category"),
+              name: 'category',
+              value: category_selected | default,
+              options: categories | default([
+                {
+                  value: 1,
+                  label: 'Checkbox value'
+                },
+                {
+                  value: 2,
+                  label: 'Checkbox value'
+                },
+                {
+                  value: 3,
+                  label: 'Checkbox value'
+                }
+              ])
+            } only
+            %}
+
+            {% include '@atoms/forms/radio-group/radio-group.twig' with {
+              input_class: 'w-full ' ~ input_class | default,
+              label: "Position Type",
+              id: "taxonomy",
+              closed: true,
+              horizontal: true,
+              name: 'category',
+              value: taxonomy_selected | default,
+              options: taxonomies | default([
+                {
+                  value: 1,
+                  label: 'Radio value'
+                },
+                {
+                  value: 2,
+                  label: 'Radio value'
+                },
+                {
+                  value: 3,
+                  label: 'Radio value'
+                }
+              ])
+            } only
+            %}
+          </div>
+          <div class="bg-neutrals-50 p-4">
+            <div>
+              <div data-active-filters="" data-active-filters-clearable="" class="active-filters" data-once="active-filters-removable active-filters-clear-all">
+
+                <dl class="active-filters__list">
+                  <dt class="active-filters__title hidden"><h2>Filters Applied:</h2></dt>
+                  <dl>
+                    <button class="bg-primary border-[1px] border-neutrals-300 rounded-[4px] px-2 py-2 text-xs text-white hover:bg-primary-700">Clear All Filters</button>
+                  </dl>
+                  <dl class="active-filters__item">
+                    <button data-active-filter-name="field_feature_type_target_id" data-active-filter-value="26" aria-label="Remove filter Topics value Effective Instruction" data-active-filter-removable="" class="active-filters__button">Category <span class="icon-x"></span></button>
+                  </dl>
+                  <dl class="active-filters__item">
+                    <button data-active-filter-name="field_feature_type_target_id" data-active-filter-value="28" aria-label="Remove filter Topics value Family Engagement" data-active-filter-removable="" class="active-filters__button">Category <span class="icon-x"></span></button>
+                  </dl>
+                  <dl class="active-filters__item">
+                    <button data-active-filter-name="field_feature_type_target_id" data-active-filter-value="28" aria-label="Remove filter Topics value Family Engagement" data-active-filter-removable="" class="active-filters__button">Category <span class="icon-x"></span></button>
+                  </dl>
+
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+
+  {% embed '@organisms/section/section-embed.twig' %}
+    {% set listing_image_transform = image_sizes.landscapeCroppedMedium %}
+    {% block section_content %}
+
+      {% include '@components/listing/list/list-cards.twig' with cards %}
+
+      {% include '@molecules/pagination/pagination.twig' with pagination %}
+    {% endblock %}
+  {% endembed %}
+{% endblock %}

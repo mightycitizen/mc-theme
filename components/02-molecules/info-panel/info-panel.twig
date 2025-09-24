@@ -1,0 +1,6 @@
+{% include '@molecules/info-panel.twig' with {
+  panel_heading: panel_heading|default(),
+  panel_theme: panel_theme|default('dark'),
+  label_display: label_display|default('above'),
+  columns: columns|default(),
+} %}

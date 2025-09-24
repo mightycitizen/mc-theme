@@ -1,0 +1,38 @@
+{#
+  Used to display columned content within a section.
+  Does not include any padding or styling – that should be handled by the rendered content.
+
+  Content:
+    - col_1:              rendered content.
+    - col_2:              rendered content.
+
+  Styling:
+    - columns:            'narrow', 'default', 'wide', or 'half' (col_1_classes and col_2_classes are set based on these values).
+    - col_reverse:        true/false, desktop only.
+    - col_1_modifiers:    additional classes (optional).
+    - col_2_modifiers:    additional classes (optional).
+#}
+
+{% set col_1_classes = 'md:col-span-4' %}
+{% set col_2_classes = 'md:col-span-8' %}
+{% set col_reverse = col_reverse|default(FALSE) %}
+
+{% if columns == 'narrow' %}
+  {% set col_1_classes = 'md:col-span-4 lg:col-span-3' %}
+  {% set col_2_classes = 'md:col-span-8 lg:col-span-9' %}
+{% elseif columns == 'wide' %}
+  {% set col_1_classes = 'md:col-span-5' %}
+  {% set col_2_classes = 'md:col-span-7' %}
+{% elseif columns == 'half' %}
+  {% set col_1_classes = 'md:col-span-6' %}
+  {% set col_2_classes = 'md:col-span-6' %}
+{% endif %}
+
+<div class="grid grid-cols-12 gap-4 md:gap-8 w-full">
+  <div class="col-span-12 {{ col_1_classes }} {{ col_1_modifiers }}{{ col_reverse ? ' md:order-1' }}">
+    {{ col_1 }}
+  </div>
+  <div class="col-span-12 {{ col_2_classes }} {{ col_2_modifiers }}">
+    {{ col_2 }}
+  </div>
+</div>

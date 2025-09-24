@@ -1,0 +1,12 @@
+{% embed '@organisms/section/section-embed.twig' with {
+  section_class: section_class | default,
+  section_style: "narrow"
+} %}
+  {% block section_content %}
+    {% if rendered_view is defined %}
+      {{ rendered_view }}
+    {% else %}
+      {% include '@components/listing/alerts/alerts-list.twig' %}
+    {% endif %}
+  {% endblock %}
+{% endembed %}

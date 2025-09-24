@@ -1,0 +1,30 @@
+<ol class="list-none flex flex-col space-y-5 lg:space-y-10">
+  {% for step in steps %}
+    <li class="{% if loop.first %}pb-6 lg:pb-10{% else %}py-6 lg:py-10{% endif %} {% if not loop.last %}border-b border-neutral-200{% endif %}">
+      <div class="flex">
+        <div class="lg:w-16 lg:flex lg:justify-end lg:pr-6 mb-3 lg:mb-0">
+          <div class="step__number font-semibold lg:font-bold text-white text-lg lg:text-base">
+            <span class="min-w-[40px] py-2 text-center inline-block bg-primary rounded-full">{{ '%02d'|format(loop.index) }}</span>
+          </div>
+        </div>
+        <div >
+          {% if step.label | default %}
+            <p class="uppercase text-sm font-bold text-neutral-500 tracking-widest mb-3">{{ step.label }}</p>
+          {% endif %}
+          <h3 class="mb-2">{{ step.heading }}</h3>
+          <p class="mb-3">{{ step.description }}</p>
+          {% if step.link | default is not empty %}
+            {% include '@atoms/links/read-more/read-more.twig' with {
+
+                text: step.link.text,
+                url: step.link.url,
+                target: step.link.target
+
+            }%}
+          {% endif %}
+        </div>
+      </div>
+    </li>
+  {% endfor %}
+
+</ol>

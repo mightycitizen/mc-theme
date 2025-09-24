@@ -1,0 +1,12 @@
+{% extends '@wrappers/default.twig' %}
+{% block top %}
+  {% include '@organisms/hero/hero.twig' with hero %}
+{% endblock %}
+{% block main %}
+
+  {% for module in modules %}
+    {% include '@organisms/module/module.twig' with module only %}
+  {% endfor %}
+
+{% endblock %}
+

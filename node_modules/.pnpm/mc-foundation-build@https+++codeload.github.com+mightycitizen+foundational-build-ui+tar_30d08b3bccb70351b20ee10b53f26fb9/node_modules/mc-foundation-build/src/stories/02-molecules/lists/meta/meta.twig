@@ -1,0 +1,26 @@
+<ul class="list-none flex text-xs leading-4 font-bold {{ modifier | default }}">
+  {% if date | default %}
+    <li class="font-bold border-right-1 border-gray mr-3 pr-1 ">
+      {% embed '@atoms/inline-text/label/label.twig' %}
+        {% block content %}
+            <time datetime="{{ date.unformatted }}">{{ date.full }}</time>
+            {% if endDate | default %}
+              &mdash;
+              <time datetime="{{ endDate.unformatted }}">
+                {{ endDate.full }}
+              </time>
+
+            {% endif %}
+        {% endblock %}
+      {% endembed %}
+    </li>
+  {% endif %}
+
+  {% if categories | default | length %}
+    <li>
+      <ul class="list-none flex gap-4 leading-4">
+        {% for category in categories %}<li><a href="{{ category.url }}">{{ category.title }}</a></li>{% endfor %}
+      </ul>
+    </li>
+  {% endif %}
+</ul>

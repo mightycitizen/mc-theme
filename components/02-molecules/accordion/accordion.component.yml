@@ -1,0 +1,37 @@
+$schema: 'https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json'
+name: Accordion
+status: stable
+group: Organisms/Accordion
+description: An accordion component that allows content to be expanded or collapsed.
+props:
+  type: object
+  properties:
+    accordion_id:
+      type: string
+      title: Accordion ID
+      description: Unique ID for the accordion.
+
+    section_heading:
+      type: string
+      title: Section heading
+      description: Section heading for the accordion component.
+
+    section_description:
+      type: string
+      title: Section description
+      description: Section description for the accordion component.
+
+    content_id:
+      type: string
+      title: Accordion item ID
+      description: Unique ID for the accordion item.
+
+    heading:
+      type: string
+      title: Accordion item heading
+      description: Item heading for the accordion item.
+slots:
+  content:
+    title: Accordion item content
+    description: Longform content for the accordion item.
+

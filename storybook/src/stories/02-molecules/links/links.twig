@@ -1,0 +1,11 @@
+<ul class="list-none flex {{ display == 'inline' ? 'flex-wrap' : 'flex-col' }} gap-2.5">
+  {% for link in links %}
+    <li>
+      {% if arrow | default %}
+        {% include "@atoms/links/read-more/read-more.twig" with link %}
+      {% else %}
+        {% include "@atoms/links/link/link.twig" with link %}
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,16 @@
+.block-links li {
+  a {
+    @apply border-b-[1px] md:border-b-0 border-neutrals-200;
+  }
+  .block-links_item {
+    @apply md:border-r-[1px] border-neutrals-200;
+  }
+  &:last-child {
+    a {
+      border-bottom: 0px none;
+    }
+    .block-links_item {
+      border-right: 0px none;
+    }
+  }
+}

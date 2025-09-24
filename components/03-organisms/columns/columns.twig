@@ -1,0 +1,10 @@
+{# Column options: 'narrow', 'default', 'wide', 'half' #}
+{% set columns = columns|default('default') %}
+{% set col_reverse = col_reverse|default(FALSE) %}
+
+{% include '@molecules/split-content.twig' with {
+  columns: columns,
+  col_reverse: col_reverse,
+  col_1: col_1,
+  col_2: col_2,
+} only %}

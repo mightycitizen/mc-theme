@@ -1,0 +1,50 @@
+table {
+  box-shadow: 0px 5px 15px 0px rgba(16, 24, 40, 0.12);
+  overflow: hidden;
+
+  thead th,
+  tbody th,
+  tbody td,
+  tfoot th {
+    @apply px-6 py-4;
+  }
+  caption {
+    @apply py-4;
+    caption-side: bottom;
+    font-size: 1rem !important;
+    font-weight: normal !important;
+    text-align: left;
+    &.top {
+      @apply pb-3;
+      caption-side: top;
+      font-weight: bold !important;
+      font-size: 1.5rem !important;
+    }
+  }
+}
+
+.table-scroll table {
+  @media (max-width: 639px) {
+    margin-left: 0 !important;
+    min-width: 250% !important;
+  }
+}
+
+@media (max-width: 639px) {
+  blockquote p:before {
+    display: block;
+  }
+}
+
+figure figcaption {
+  @apply bg-black text-white p-2;
+  font-size: 1rem;
+  margin-top: 0 !important;
+}
+
+
+
+.video_wrapper .icon-play:before {
+  filter: drop-shadow(-1px 4px 8px rgba(16, 24, 40, 0.3));
+}
+

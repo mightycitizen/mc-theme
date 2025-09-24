@@ -1,0 +1,106 @@
+{% set utility_menu = utility_menu ?? null %}
+{% set logo = logo ?? null %}
+{% set cta_menu = cta_menu ?? null %}
+{% set header_dropdown = header_dropdown ?? null %}
+{% set menu = menu ?? null %}
+<script>
+
+    function focusFirstFocusable() {
+        const mainElement = document.getElementById('main');
+        const focusableElements = mainElement.querySelectorAll('a, button, input, [tabindex]:not([tabindex="-1"])');
+
+        if (focusableElements.length > 0) {
+            focusableElements[0].focus();
+        }
+    }
+</script>
+<a href="#main" @keydown.enter.prevent="focusFirstFocusable" class="opacity-0 focus:opacity-100 fixed left-0 top-0 bg-primary text-white p-1" >Skip to main</a>
+<header class="l-header bg-primary py-3 lg:py-0" id="header" x-data="{{'{'}} mainMenu: false, dropdownOpen: {sm: null, lg: null} {{'}'}}">
+  <div class="container relative">
+    <div class="grid grid-cols-12 gap-6 items-center align-middle justify-between">
+      {% if utility_menu %}
+        <div class="col-span-12 lg:block hidden">
+          {% include '@molecules/navigation/utility-menu/utility-menu.twig' with {
+            menu_type: 'utility',
+            links: utility_menu
+          } %}
+        </div>
+      {% endif %}
+      {% if logo %}
+        <div class="col-span-10 lg:col-span-3 leading-[0]">
+          {% include '@atoms/logo/logo.twig' with logo %}
+        </div>
+      {% endif %}
+      <div class="col-span-12 lg:col-span-9 lg:block hidden">
+        <div class="flex items-center justify-end gap-4">
+          {% include '@molecules/navigation/utility-menu/utility-menu.twig' with {
+            menu_type: 'cta',
+            links: cta_menu
+          } %}
+
+          <div class="search-form inline-block" x-data="{ open: false }">
+            <button x-on:click="open = ! open" class="no-underline text-primary-700 inline-block relative z-30">
+              <span class="icon icon-magnifying-glass text-lg ml-2 rounded-full p-2 shadow mr-1" :class="{ 'icon-x bg-secondary-600 text-primary-500': open, 'icon-magnifying-glass bg-white' : !open }"></span>
+              <span class="text-white text-2xl font-bold">Search</span>
+
+            </button>
+            <div class="search-form-wrapper bg-neutrals-50 absolute z-30 bottom-[-186px] right-0 rounded-b shadow lg:px-10 lg:pt-10 lg:pb-9" x-show="open">
+              {% include '@atoms/forms/simple-form/simple-form.twig' %}
+            </div>
+          </div>
+
+          <div class="header-menu-popup inline-block relative" x-data="{ open: false }">
+            <button x-on:click="open = ! open" class="no-underline text-primary-700 inline-block relative z-30">
+              <span class="icon icon-list text-lg ml-2 rounded-full p-2 shadow mr-1"
+                    :class="{ 'icon-x bg-secondary-600 text-primary-500': open, 'icon-search bg-white' : !open }"
+              ></span>
+              <span class="text-white text-2xl font-bold">Menu</span>
+            </button>
+            <div class="header-menu-popup-wrapper bg-white w-[315px] shadow absolute absolute z-30 top-[81px] right-0 lg:px-12 lg:pt-9 lg:pb-7 z-30" x-show="open">
+              <span class="h5 block mb-4">Sample Dropdown</span>
+              <p>This menu is for demonstration purposes only and will require custom development per project.</p>
+              {% if header_dropdown %}
+                <ul class="menu flex flex-col gap-x-3 gap-y-3 list-none">
+                  {% for item in header_dropdown %}
+                    <li>
+                      <a class="font-bold no-underline hover:underline" href="{{ item.url }}">{{ item.text }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </div>
+
+
+          {#
+          <button data-toggle="search-form search-toggle" data-toggler="is-active" id="search-toggle" class="search-toggle">
+            <span class="sr-only">Search</span>
+            <span class="icon-search"></span>
+          </button>
+          <div id="search-form" data-toggler=".hide" class="hide search-form">
+            {% include '@atoms/forms/simple-form/simple-form.twig' %}
+          </div>#}
+        </div>
+      </div>
+      <div class="col-span-2 lg:hidden flex justify-end items-center">
+        <div class="search-form inline-block leading-[0]" x-data="{ open: false }">
+          <button x-on:click="open = ! open" class="no-underline text-primary-700 inline-block relative z-30">
+            <span class="icon icon-magnifying-glass text-lg ml-2 rounded-full p-2 shadow mr-1" :class="{ 'icon-x bg-secondary-600 text-primary-500': open, 'icon-magnifying-glass bg-white' : !open }"></span>
+            <span class="text-white text-2xl font-bold sr-only">Search</span>
+
+          </button>
+          <div class="search-form-wrapper leading-6 bg-neutrals-50 absolute z-50 bottom-[-145px] right-0 rounded-b shadow pt-5 pb-5 px-5 lg:px-10 lg:pt-10 lg:pb-9" x-show="open">
+            {% include '@atoms/forms/simple-form/simple-form.twig' %}
+          </div>
+        </div>
+        {% include  "@base/utils/hamburger/hamburger.twig" with {
+          toggle: "mainMenu"
+        } %}
+      </div>
+    </div>
+
+  </div>
+  {% if menu %}
+    {% include '@molecules/navigation/menu/menu.twig' with menu %}
+  {% endif %}
+</header>
