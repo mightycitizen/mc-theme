@@ -1,0 +1,82 @@
+{# twig-cs-fixer-disable-next-line #}
+{#graphql
+query ($paragraph_id: ID!) {
+  paragraph(id: $paragraph_id) {
+    ... on ParagraphContact {
+      id
+      intro {
+        ...Intro
+      }
+      contactItems {
+        ... on ParagraphContactItem {
+          id
+          labelValue {
+            label
+            value {
+              processed
+            }
+          }
+          contactType {
+            ... on TermContactType {
+              id
+              name
+              icon
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+fragment Intro on ParagraphIntro {
+  id
+  body {
+    processed
+  }
+  heading
+  label
+  icon
+  link {
+    text: title
+    url
+    internal
+  }
+}
+#}
+
+{% block content %}
+  {% set contact = graphql.paragraph %}
+  {# Format contact items #}
+  {% set items = [] %}
+  {% for item in contact.contactItems %}
+    {# primary values #}
+    {% set contactItem = {
+      icon: item.contactType.icon ? mc_icon(item.contactType.icon) : NULL,
+      label: item.labelValue.0.label,
+      value: item.labelValue.0.value.processed|striptags('<a><br>')|trans,
+    } %}
+    {# secondary values #}
+    {% set secondaryItems = [] %}
+    {% if item.labelValue|length > 1 %}
+      {% for secondaryItem in item.labelValue|slice(1, length) %}
+        {% set secondaryItems = secondaryItems|merge([{
+          label: secondaryItem.label,
+          value: secondaryItem.value.processed|replace({'</p><p>':'<br>'})|striptags('<a><br>')|trans,
+        }]) %}
+      {% endfor %}
+      {% set contactItem = contactItem|merge({secondary: secondaryItems})  %}
+    {% endif %}
+    {% set items = items|merge([contactItem])  %}
+  {% endfor %}
+
+  {# Load Contact component #}
+  {{ include('mc_theme:module', {
+    module_type: 'contact',
+    heading: contact.intro.heading,
+    description: contact.intro.body.processed,
+    subheading: contact.intro.label,
+    items: items,
+    link: contact.intro.link,
+  }) }}
+{% endblock %}

@@ -1,0 +1,51 @@
+{#
+/**
+ * @file
+ * Card (stacked or horizontal) view mode for all nodes.
+ */
+#}
+
+{% set card_data = card_data|default([]) %}
+{% set image_uri = node.field_image|file_uri %}
+
+{% if node.bundle == 'news' %}
+  {% set list_items = [{
+    icon: mc_icon('phosphor:calendar-blank'),
+    text: node.created.value|date('F j, Y'),
+  }] %}
+  {% set card_data = card_data|merge({ list_items })%}
+{% endif %}
+
+{% if node.bundle == 'event' %}
+  {% set list_items = [{
+    icon: mc_icon('phosphor:calendar-blank'),
+    text: content.field_dates,
+  }] %}
+  {% if formatted_location.0 %}
+    {% set list_items = list_items|merge([{
+      icon: mc_icon('phosphor:map-pin'),
+      text: formatted_location.0.inline,
+    }]) %}
+  {% endif %}
+  {% set card_data = card_data|merge({ list_items })%}
+{% endif %}
+
+{% set card_data = card_data|merge({
+  featured: true,
+  badges: [],
+  heading: {
+    text: heading|default(label),
+    url: url,
+    level: 3
+  },
+  image: image_uri ? {
+    src: image_uri|image_style(image_style|default('horizontal_16_9_lg')),
+    alt: '',
+  } : null,
+})%}
+
+{{ include('mc_theme:card', {
+  view_mode: 'featured',
+  card: card_data,
+}) }}
+

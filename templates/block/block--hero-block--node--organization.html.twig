@@ -1,0 +1,143 @@
+{#graphql
+query($node_id: ID!) {
+  node(id: $node_id) {
+    ... on NodeOrganization {
+      id
+      addresses {
+        organization
+      }
+      email
+      phone
+      fax
+      image {
+        ... on MediaImage {
+          mediaImage {
+            alt
+            md: variations(styles: HORIZONTAL32_MD) { url }
+          }
+        }
+      }
+      link {
+        title
+        url
+      }
+      locationsRooms {
+        location {
+          ... on NodeLocation {
+            id
+            title
+          }
+        }
+        roomNumber
+      }
+      organizationTypes {
+        ... on TermOrganizationType {
+          id
+          name
+        }
+      }
+      organizations {
+        ... on NodeOrganization {
+          id
+          url: path
+          text: title
+        }
+      }
+      shortName
+      title
+    }
+  }
+}
+#}
+
+{% set node = graphql.node %}
+
+{# Split content media #}
+{% if node.image %}
+  {% set image = {
+    src: node.image.mediaImage.md.0.url,
+    alt: node.image.mediaImage.alt,
+  } %}
+{% endif %}
+
+{% set columns = [] %}
+{% if (node.link or node.email or node.phone or node.fax) %}
+  {% set columns = columns|merge([{
+      heading: 'Contact'|t,
+      items: [
+        node.link ? {
+          icon: mc_icon('phosphor:link'),
+          content: drupal_link(node.link.title|default('Website'), node.link.url),
+        } : NULL ,
+        node.email ? {
+          icon: mc_icon('phosphor:at'),
+          label: 'Email'|t,
+          content: node.email,
+        } : NULL ,
+        node.phone ? {
+          icon: mc_icon('phosphor:phone-call'),
+          label: 'Phone'|t,
+          content: node.phone,
+        } : NULL ,
+        node.fax ? {
+          icon: mc_icon('phosphor:phone-call'),
+          label: 'Fax'|t,
+          content: node.fax,
+        } : NULL ,
+      ]
+  }])%}
+{% endif %}
+
+{% if (node.locationsRooms) %}
+  {% set locations = [] %}
+  {% for key, place in node.locationsRooms %}
+    {# get formatted_locations from preprocess function #}
+    {% set locations = locations|merge([{
+      icon: mc_icon('phosphor:map-pin-line'),
+      label: 'Location'|t,
+      content: place.location.title,
+      additional_info: formatted_locations.(key).full,
+    }]) %}
+  {% endfor %}
+  {% set columns = columns|merge([{
+      heading: 'Location'|t,
+      items: locations,
+  }])%}
+{% endif %}
+
+{% if (formatted_addresses.0) %}
+  {% set addresses = [] %}
+  {% for key, address in node.addresses %}
+    {# get formatted_addresses from preprocess function #}
+    {% set addresses = addresses|merge([{
+      icon: mc_icon('phosphor:envelope'),
+      label: 'Mailing Address'|t,
+      content: address.organization,
+      additional_info: formatted_addresses.(key).full,
+    }]) %}
+  {% endfor %}
+  {% set columns = columns|merge([{
+      heading: 'Information'|t,
+      items: addresses,
+  }])%}
+{% endif %}
+
+{% if (columns) %}
+  {% set info_panel %}
+    {{ include('mc_theme:info-panel', {
+      panel_theme: 'light',
+      label_display: 'inline',
+      columns
+    }) }}
+  {% endset %}
+{% endif %}
+
+{{ include('mc_theme:hero', {
+  background_color: 'neutral',
+  eyebrow: node.label ?? NULL,
+  heading: node.shortName ?? node.title,
+  subheading: node.organizationTypes.0 ? node.organizationTypes.0.name|replace({' or ': '/'}) : NULL,
+  image: image ?? NULL,
+  split_content: image or media ? TRUE : NULL,
+  inline_links: node.organizations,
+}) }}

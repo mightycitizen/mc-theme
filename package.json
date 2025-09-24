@@ -1,0 +1,23 @@
+{
+  "name": "mc-foundation",
+  "version": "1.0.0",
+  "description": "Foundational Build",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd storybook; pnpm start",
+    "build": "vite build",
+    "preview": "vite preview",
+    "update-frontend": "pnpm update mc_foundation && cp -R node_modules/mc_foundation/src/* storybook/src/"
+  },
+  "author": "Mighty Citizen <development@mightycitizen.com>",
+  "license": "ISC",
+  "dependencies": {
+    "mc_foundation": "github:mightycitizen/foundational-build-ui",
+    "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "postcss-url": "^10.1.3",
+    "vite": "^6.3.5",
+    "vite-plugin-restart": "^0.4.2"
+  }
+}

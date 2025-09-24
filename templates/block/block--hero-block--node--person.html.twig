@@ -1,0 +1,158 @@
+{#graphql
+query($node_id: ID!) {
+  node(id: $node_id) {
+    ... on NodePerson {
+      honorificPrefix {
+        ... on TermHonorific {
+          name
+        }
+      }
+      honorificSuffix {
+        ... on TermHonorific {
+          name
+        }
+      }
+      image {
+        ... on MediaImage {
+          mediaImage {
+            alt
+            md: variations(styles: HORIZONTAL32_MD) {
+              url
+            }
+          }
+        }
+      }
+      jobTitle
+      organizations {
+        ... on NodeOrganization {
+          id
+          text: title
+          url: path
+        }
+      }
+      title
+      phone
+      email
+      fax
+      locationsRooms {
+        location {
+          ... on NodeLocation {
+            id
+            address {
+              addressLine1
+              addressLine2
+              city: locality
+              state: administrativeArea
+              zip: postalCode
+            }
+          }
+        }
+        roomNumber
+      }
+      link {
+        url
+        title
+      }
+      linkCv {
+        url
+        title
+      }
+    }
+  }
+}
+
+#}
+
+{% set node = graphql.node %}
+
+{# Format full title #}
+{% set full_title = node.honorificPrefix ? node.honorificPrefix.name ~ ' ' ~ node.title : node.title %}
+
+{% if node.honorificSuffix %}
+  {% set title_suffix = [] %}
+  {% for suffix in node.honorificSuffix %}
+    {% set title_suffix = title_suffix|merge([suffix.name]) %}
+  {% endfor %}
+  {% set full_title = full_title ~ ', ' ~ title_suffix|join(', ') %}
+{% endif %}
+
+{# Split content media #}
+{% if node.image %}
+  {% set image = {
+    src: node.image.mediaImage.md.0.url,
+    alt: node.image.mediaImage.alt,
+  } %}
+{% endif %}
+
+{% set columns = [] %}
+{% if (node.email or node.phone or node.fax) %}
+  {% set columns = columns|merge([{
+      heading: 'Contact'|t,
+      items: [
+        node.email ? {
+          icon: mc_icon('phosphor:at'),
+          label: 'Email'|t,
+          content: node.email,
+        } : NULL ,
+        node.phone ? {
+          icon: mc_icon('phosphor:phone-call'),
+          label: 'Phone'|t,
+          content: node.phone,
+        } : NULL ,
+        node.fax ? {
+          icon: mc_icon('phosphor:phone-call'),
+          label: 'Fax'|t,
+          content: node.fax,
+        } : NULL ,
+      ]
+  }])%}
+{% endif %}
+{% if (node.locationsRooms) %}
+  {% set locations = [] %}
+  {% for key, place in node.locationsRooms %}
+    {# get formatted_locations from preprocess function #}
+    {% set locations = locations|merge([{
+      icon: mc_icon('phosphor:map-pin-line'),
+      label: 'Location'|t,
+      additional_info: formatted_locations.(key).full,
+    }]) %}
+  {% endfor %}
+  {% set columns = columns|merge([{
+      heading: 'Location'|t,
+      items: locations,
+  }])%}
+{% endif %}
+{% if (node.link or node.linkCv) %}
+  {% set columns = columns|merge([{
+      heading: 'Contact'|t,
+      items: [
+        node.link ? {
+          icon: mc_icon('phosphor:link'),
+          content: drupal_link(node.link.title|default('Faculty Website'|t), node.link.url),
+        },
+        node.linkCv ? {
+          icon: mc_icon('phosphor:link'),
+          content: drupal_link(node.linkCv.title|default('Curriculum Vitae'|t), node.linkCv.url),
+        },
+      ]
+  }])%}
+{% endif %}
+{% if (columns) %}
+  {% set info_panel %}
+    {{ include('mc_theme:info-panel', {
+      panel_theme: 'light',
+      label_display: 'inline',
+      columns
+    }) }}
+  {% endset %}
+{% endif %}
+
+{{ include('mc_theme:hero', {
+  background_color: 'neutral',
+  eyebrow: node.label ?? NULL,
+  heading: full_title ?? node.title,
+  subheading: node.jobTitle ?? NULL,
+  image: image ?? NULL,
+  split_content: image or media ? TRUE : NULL,
+  inline_links: node.organizations,
+}) }}

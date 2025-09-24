@@ -1,0 +1,8 @@
+{% block content %}
+  {# Load WYSIWYG component #}
+  {{ include('mc_theme:module', {
+    module_type: 'wysiwyg',
+    intro: content.field_intro.0,
+    wysiwyg: content.field_body.0,
+  }) }}
+{% endblock %}

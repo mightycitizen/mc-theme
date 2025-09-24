@@ -1,0 +1,29 @@
+{#
+/**
+ * @file sitewide_alerts.html.twig
+ *
+ * @see Drupal\mc_alerts\Controller\AlertsListingController::buildPage()
+ */
+#}
+
+{% set active_alerts = drupal_view('alerts', 'block_1') %}
+{% set inactive_alerts = drupal_view('alerts', 'block_2') %}
+
+{% if drupal_view_result('alerts', 'block_1')|length > 0 %}
+  {{ include('mc_theme:section', {
+    section_heading: config_pages.active_heading,
+    section_description: config_pages.active_description,
+    section_class: 'bg-neutrals-50',
+    divider: true,
+    section_content: active_alerts,
+  }) }}
+{% endif %}
+
+{% if drupal_view_result('alerts', 'block_2')|length > 0 %}
+  {{ include('mc_theme:section', {
+    section_heading: config_pages.inactive_heading,
+    section_description: config_pages.inactive_description,
+    divider: true,
+    section_content: inactive_alerts,
+  }) }}
+{% endif %}

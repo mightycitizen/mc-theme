@@ -1,0 +1,38 @@
+{#
+/**
+ * @file
+ * Template for the hero block displaying a sitewide alert.
+ *
+ * Available variables:
+ * - alert
+ *    - id: The ID of the alert.
+ *    - type: The type of the alert (e.g., Emergency, Advisory).
+ *    - heading: The heading of the alert.
+ *    - status: The status of the alert (e.g., Active, Inactive).
+ *    - last_updated: The last updated timestamp of the alert.
+ *    - message: The message content of the alert.
+ *
+ * @see mc_theme_preprocess_block__hero_block()
+#}
+
+{% if alert.status == 1 %}
+  {% set alert_status = {
+    'text': 'Status: Active',
+    'style': 'warning',
+  } %}
+{% else %}
+  {% set alert_status = {
+    'text': 'Status: Inactive',
+    'style': 'inactive',
+  } %}
+{% endif %}
+
+{{ include('mc_theme:hero', {
+  background_color: 'neutral',
+  content_type: 'alert',
+  heading: alert.heading,
+  alert_type: alert.type,
+  badge: alert_status,
+  last_updated: alert.last_updated|date('l, F j, g:i A T'),
+  summary: alert.message.0,
+}) }}

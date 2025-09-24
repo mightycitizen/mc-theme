@@ -1,0 +1,36 @@
+name: MC Theme
+type: theme
+description: This is the MC Theme, a custom sub theme of Stable9
+core_version_requirement: ^9 || ^10 || ^11
+
+# Defines the base theme
+base theme: stable9
+
+# Defines libraries group in which we can add css/js.
+libraries:
+  - mc_theme/global
+  - mc_theme/fonts
+
+# Component namespaces - requires the components module to be enabled.
+components:
+  namespaces:
+    base: storybook/src/stories/00-base
+    atoms: storybook/src/stories/01-atoms
+    molecules: storybook/src/stories/02-molecules
+    organisms: storybook/src/stories/03-organisms
+    templates: storybook/src/stories/04-templates
+
+# Regions
+regions:
+  header: Header
+  featured: Featured
+  title: Title
+  content: Content
+  sidebar_first: First sidebar
+  sidebar_second: Second sidebar
+  footer: Footer
+
+# Enable Vite on all libraries and components.
+vite:
+  enableInAllLibraries: true
+  enableInAllComponents: true

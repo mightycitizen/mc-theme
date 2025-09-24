@@ -1,0 +1,14 @@
+$schema: 'https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json'
+name: Page
+status: stable
+group: Templates/Page
+description: General page template.
+slots:
+  header:
+    title: Header
+  top:
+    title: Top
+  main:
+    title: Main
+  footer:
+    title: Footer

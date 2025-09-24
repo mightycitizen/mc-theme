@@ -1,0 +1,39 @@
+{#
+/**
+ * @file
+ * Theme override for a views exposed form.
+ *
+ * Available variables:
+ * - form: A render element representing the form.
+ *
+ * @see template_preprocess_views_exposed_form()
+ */
+#}
+{% if q is not empty %}
+  {#
+    This ensures that, if clean URLs are off, the 'q' is added first,
+    as a hidden form element, so that it shows up first in the POST URL.
+  #}
+{{ q }}
+{% endif %}
+
+{% if form['#split_form'] == 'primary' %}
+      {{ form.actions.reset }}
+      <div class="collapsible-wrapper pt-2" x-data="{ collapse: false }">
+        <span class="collapsible-button cursor-pointer md:hidden"
+              @click="collapse = ! collapse"
+              :class="{ 'active': collapse, '' : !collapse }"
+        >Filter Results</span>
+        <div class="collapsible-inner-wrapper md:!block"  x-show="collapse" x-collapse>
+          {{ form|without('actions', 'sort_by') }}
+        </div>
+      </div>
+      {{ form.actions|without('reset') }}
+      {{ form.sort_by }}
+{% elseif form['#split_form'] == 'secondary' %}
+  {{ form.secondary }}
+  {{ form|without('sort_by', 'secondary') }}
+  {{ form.sort_by }}
+{% else %}
+  {{ form }}
+{% endif %}

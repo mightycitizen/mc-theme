@@ -1,0 +1,27 @@
+{% set fields = [
+  'field_person_types',
+  'field_organizations',
+] %}
+
+{% set view_args = [] %}
+{% for field in fields %}
+  {% set terms = attribute(paragraph, field).value %}
+  {% if terms %}
+    {% set term_ids = terms|map(t => t['target_id'])|join('+') %}
+    {% set view_args = view_args|merge([term_ids]) %}
+  {% else %}
+    {% set view_args = view_args|merge(['all']) %}
+  {% endif %}
+{% endfor %}
+{% set view_args = view_args|default(['all']) %}
+
+{% set view_display = (paragraph.field_card_view_mode.0.value == 'card') ? 'block_card' : 'block_list' %}
+
+{% block content %}
+  {{ include('mc_theme:section', {
+    padding: 'tight',
+    section_class: "section--form " ~ section_class | default,
+    intro: content.field_intro.0,
+    section_content: drupal_view('directory', view_display, ...view_args)
+  }) }}
+{% endblock %}

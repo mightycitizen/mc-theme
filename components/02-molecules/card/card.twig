@@ -1,0 +1,9 @@
+{% if view_mode == 'list' %}
+  {% include "@molecules/card-horizontal.twig" with card only %}
+{% elseif view_mode == 'teaser' %}
+  {% include "@molecules/card-teaser.twig" with card only %}
+{% elseif view_mode == 'featured' %}
+  {% include "@molecules/card-featured.twig" with card only %}
+{% else %}
+  {% include "@molecules/card.twig" with card only %}
+{% endif %}

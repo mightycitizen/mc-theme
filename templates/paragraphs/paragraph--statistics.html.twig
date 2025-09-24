@@ -1,0 +1,57 @@
+{# twig-cs-fixer-disable-next-line #}
+{#graphql
+query($paragraph_id: ID!) {
+  paragraph(id: $paragraph_id) {
+    ... on ParagraphStatistic {
+      id
+      paragraphs {
+        ... on ParagraphStatisticItem {
+          id
+          icon
+          statPrimary {
+            processed
+          }
+          description {
+            processed
+          }
+          statSecondary {
+            processed
+          }
+        }
+      }
+    }
+  }
+}
+#}
+
+{% block content %}
+  {% set statistics = graphql.paragraph %}
+
+  {# Format statistics items #}
+  {% set rendered_statistics = [] %}
+
+  {% set items = [] %}
+  {% for item in statistics.paragraphs %}
+    {% set items = items|merge([{
+      stat_bg: 'primary-50',
+      icon: item.icon ? mc_icon(item.icon, 'primary') : NULL,
+      value: item.statPrimary.processed,
+      caption: item.statSecondary.processed,
+      description: item.description.processed,
+    }]) %}
+  {% endfor %}
+
+  {% if view_mode == 'content_only' %}
+    {# Load individual statistics #}
+    {% for key, item in items %}
+      {{ include('mc_theme:statistic', item|merge({style: 'inline'}), with_context = false) }}
+    {% endfor %}
+  {% else %}
+    {# Load statistics component #}
+    {{ include('mc_theme:module', {
+      module_type: 'statistics',
+      intro: content.field_intro.0,
+      cards: items,
+    }) }}
+  {% endif %}
+{% endblock %}

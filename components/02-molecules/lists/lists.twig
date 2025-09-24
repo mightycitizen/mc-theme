@@ -1,0 +1,8 @@
+{# Column options: 1, 2, 3 #}
+{% set columns = columns|default('1') %}
+
+{% include '@molecules/list-content.twig' with {
+  columns: columns,
+  item_modifiers: item_modifiers|default(''),
+  items,
+} only %}

@@ -1,0 +1,40 @@
+global:
+  vite:
+    # By default true, if not set explicitly to false assumed true.
+    enabled: true
+    # Path to manifest.json, by default `dist/manifest.json`.
+    manifest: storybook/dist/.vite/manifest.json
+    # By default `<path_to_module|theme>/dist/`.
+    baseUrl: '/themes/custom/mc_theme/storybook/dist/'
+    # Vite dev server url, by default http://localhost:5173.
+    # devServerUrl: 'https://heb.ddev.site:5173'
+  css:
+    base:
+      dist/css/app.css: {}
+  js:
+    dist/js/app.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+
+fonts:
+  css:
+    base:
+      https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css: { type: external }
+
+# Attach each library by using attach_library() within the components twig template.
+# More info: https://www.drupal.org/node/2456753
+
+# Example component library.
+# site-logo:
+#   css:
+#     component:
+#       dist/css/site-logo.css: {}
+#   # If this library had JavaScript you could specify it like this:
+#   js:
+#     js/script.js: {}
+#   # If this library had dependencies on other libraries, you could specify it like this:
+#   dependencies:
+#     - rain_theme/clearfix
+#     - rain_theme/visually-hidden
+

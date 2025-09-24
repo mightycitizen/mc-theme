@@ -1,0 +1,99 @@
+{#graphql
+query($node_id: ID!) {
+  node(id: $node_id) {
+    ... on NodeNews {
+      newsPublications {
+        ... on TermNewsPublication {
+          id
+          text: name
+          url: path
+        }
+      }
+      newsTopics {
+        ... on TermNewsTopic {
+          id
+          text: name
+          url: path
+        }
+      }
+      author {
+        ... on NodeAuthor {
+          body {
+            processed
+            summary
+          }
+          image {
+            ... on MediaImage {
+              mediaImage {
+                md: variations(styles: SQUARE_MD) { url }
+                alt
+              }
+            }
+          }
+          title
+          url: path
+        }
+      }
+    }
+  }
+}
+#}
+
+{% from 'block--sidebar-block.html.twig' import parse_taxonomy %}
+
+{% set news = graphql.node %}
+{% set primary_sections = [] %}
+{% set secondary_sections = [] %}
+
+{% set share_top = TRUE %}
+
+{% if news.newsTopics %}
+  {% set primary_sections = primary_sections|merge([{
+    title: 'Topics'|t,
+    content: parse_taxonomy(news.newsTopics, 'inline'),
+  }]) %}
+{% endif %}
+
+{% if news.newsPublications %}
+  {% set primary_sections = primary_sections|merge([{
+    title: 'Publication'|t,
+    content: parse_taxonomy(news.newsPublications, 'inline'),
+  }]) %}
+{% endif %}
+
+{% if news.author %}
+  {% set authors %}
+    {# TODO: componentize this #}
+    <ul class="list-none space-y-3.5">
+      {% for item in news.author %}
+        <li class="space-y-3">
+          <img class="rounded-full max-w-20" src="{{ item.image.mediaImage.md.0.url }}" alt="{{ item.image.alt }}" />
+          <a class="font-semibold text-lg" href="{{ item.url }}">{{ item.title }}</a>
+          {# <p class="font-bold text-base">{{ item.org_name }}</p> #}
+          <p class="text-lg">{{ item.body.summary ? item.body.summary|striptags : item.body.processed|striptags }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endset %}
+  {% set primary_sections = primary_sections|merge([{
+    content: authors,
+  }]) %}
+{% endif %}
+
+{% if news %}
+  {% set mediaContact %}
+    TODO
+  {% endset %}
+  {% set primary_sections = primary_sections|merge([{
+    title: 'Media Contact',
+    content: mediaContact,
+  }]) %}
+{% endif %}
+
+{# {% include 'block--sidebar-block.html.twig' %} #}
+{{ include('mc_theme:sidebar', {
+  share_top: share_top,
+  share_bottom: FALSE,
+  primary_sections,
+  secondary_sections,
+}) }}

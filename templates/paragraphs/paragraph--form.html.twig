@@ -1,0 +1,12 @@
+{% block content %}
+  {% if view_mode == 'content_only' %}
+    {{ content.field_form.0 }}
+  {% else %}
+    {{ include('mc_theme:section', {
+      padding: 'tight',
+      section_class: "section--form " ~ section_class | default,
+      intro: content.field_intro.0,
+      section_content: content.field_form.0,
+    }) }}
+  {% endif %}
+{% endblock %}

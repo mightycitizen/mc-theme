@@ -1,0 +1,25 @@
+{% set fields = [
+  'field_event_topics',
+] %}
+
+{% set view_args = [] %}
+{% for field in fields %}
+  {% set terms = attribute(paragraph, field).value %}
+  {% if terms %}
+    {% set term_ids = terms|map(t => t['target_id'])|join('+') %}
+    {% set view_args = view_args|merge([term_ids]) %}
+  {% endif %}
+{% endfor %}
+{% set view_args = view_args|default(['all']) %}
+
+{# {% set view_display = (paragraph.field_card_view_mode.0.value == 'card') ? 'block_card' : 'block_teaser' %} #}
+{% set view_display = 'block_card' %}
+
+{% block content %}
+  {{ include('mc_theme:section', {
+    padding: 'tight',
+    section_class: "section--form " ~ section_class | default,
+    intro: content.field_intro.0,
+    section_content: drupal_view('events', view_display, ...view_args)
+  }) }}
+{% endblock %}

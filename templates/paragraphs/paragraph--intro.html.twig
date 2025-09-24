@@ -1,0 +1,38 @@
+{# twig-cs-fixer-disable-next-line #}
+{#graphql
+query($paragraph_id: ID!) {
+  paragraph(id: $paragraph_id) {
+    ... on ParagraphIntro {
+      id
+      body {
+        processed
+      }
+      heading
+      label
+      icon
+      link {
+        text: title
+        url
+        internal
+      }
+    }
+  }
+}
+#}
+
+{% block content %}
+  {% set intro = graphql.paragraph %}
+
+  {# Render section intro #}
+  {{ include('mc_theme:intro', {
+    section_id: id,
+    section_heading: intro.heading,
+    section_description: intro.body.processed,
+    section_label: {
+      icon: intro.icon ? mc_icon(intro.icon) : NULL,
+      text: intro.label,
+    },
+    section_button: intro.link,
+    divider: true,
+  }) }}
+{% endblock %}

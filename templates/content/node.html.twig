@@ -1,0 +1,106 @@
+{% set card_data = card_data|default([]) %}
+{% set list_items = list_items|default([]) %}
+
+{% set image_uri = node.field_image|file_uri %}
+{% set summary = content.body|render|striptags %}
+
+{% if node.bundle == 'person' or node.bundle == 'organization' %}
+  {% if content.field_email.0 %}
+    {% set list_items = list_items|merge([{
+      icon: mc_icon('phosphor:envelope', NULL, 'text-primary'),
+      text: drupal_link('Email'|t, 'mailto:' ~ content.field_email.0['#title']),
+    }]) %}
+  {% endif %}
+  {% if content.field_phone.0 %}
+    {% set list_items = list_items|merge([{
+      icon: mc_icon('phosphor:phone', NULL, 'text-primary'),
+      text: content.field_phone,
+    }]) %}
+  {% endif %}
+  {% if node.bundle == 'person' %}
+    {% if content.field_organizations.0 %}
+      {% set list_items = list_items|merge([{
+        icon: mc_icon('phosphor:buildings', NULL, 'text-primary'),
+        text: content.field_organizations.0,
+      }]) %}
+    {% endif %}
+  {% endif %}
+  {% set card_data = card_data|merge({
+    subheading: content.field_job_title,
+    list_items
+  })%}
+{% endif %}
+
+{% if node.bundle == 'program' %}
+  {% set heading = node.field_heading.0.value ?? label %}
+  {% set summary = content.field_program_formats_info %}
+  {% if content.field_program_types.0 %}
+    {% set card_data = card_data|merge({
+      subheading: content.field_program_types,
+    })%}
+  {% endif %}
+  {% if content.field_programs.0 %}
+    {% set card_data = card_data|merge({
+      specializations_label: node.field_programs_label.0.value ?? 'Specializations'|t,
+      specializations: content.field_programs,
+    })%}
+  {% endif %}
+  {% if content.field_program_formats.0 %}
+    {# @TODO: refactor with badges #}
+    {% set campus = false %}
+    {% set online = false %}
+    {% set formats = mc_entities(node.field_program_formats.value, 'taxonomy_term') %}
+    {% for format in formats %}
+      {% if (format.text == 'Campus') %}{% set campus = true %}{% endif %}
+      {% if (format.text == 'Online') %}{% set online = true %}{% endif %}
+    {% endfor %}
+    {% set card_data = card_data|merge({
+      campus,
+      online,
+    })%}
+  {% endif %}
+{% endif %}
+
+{% if node.bundle == 'news' %}
+  {% set card_data = card_data|merge({
+    label: node.created.value|date('F j, Y'),
+  })%}
+{% endif %}
+
+{% if node.bundle == 'event' %}
+  {% set list_items = [{
+    icon: mc_icon('phosphor:calendar-blank', NULL, 'text-primary'),
+    text: content.field_dates,
+  }] %}
+  {% if formatted_location.0 %}
+    {% set list_items = list_items|merge([{
+      icon: mc_icon('phosphor:map-pin', NULL, 'text-primary'),
+      text: formatted_location.0.inline,
+    }]) %}
+  {% endif %}
+  {% set card_data = card_data|merge({
+    type: node.bundle,
+    list_items,
+  })%}
+{% endif %}
+
+{% set card_data = card_data|merge({
+  badges: [],
+  heading: {
+    text: heading|default(label),
+    url: url,
+    level: 3
+  },
+  summary: (node.bundle != 'person' and node.bundle != 'organization') ? summary|truncate(150, true, true) : null,
+  image: image_uri ? {
+    src: image_uri|image_style(image_style|default('horizontal_5_3_md')),
+    alt: '',
+    alignment: 'right'
+  } : null,
+  image_position: image_position|default(''),
+})%}
+
+{{ include('mc_theme:card', {
+  view_mode: view_mode|default('card'),
+  card: card_data,
+}) }}

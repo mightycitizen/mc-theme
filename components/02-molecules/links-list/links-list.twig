@@ -1,0 +1,7 @@
+{% if view_mode == 'content_only' %}
+  {# Vertical list view #}
+  {% include '@molecules/links-list.twig' %}
+{% else %}
+  {# Full module view #}
+  {% include '@molecules/links.twig' %}
+{% endif %}

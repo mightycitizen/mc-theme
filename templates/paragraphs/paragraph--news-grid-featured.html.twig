@@ -1,0 +1,39 @@
+{% set featured_view_mode = paragraph.field_featured_view_mode.0.value %}
+{% set list_length = featured_view_mode == 'full_width' ? 4 : 5 %}
+{% set col_1 = '' %}
+{% set col_2 = [] %}
+
+{% for news_item in featured_news_items|slice(0, list_length) %}
+  {% if loop.first %}
+    {% set col_1 = news_item|view('card_featured') %}
+  {% else %}
+    {% set col_2 = col_2|merge([news_item|view('teaser_short')]) %}
+  {% endif %}
+{% endfor %}
+
+{% set section_content %}
+  {% if featured_view_mode == 'full_width' %}
+    {{ include('mc_theme:lists', {
+      columns: 1,
+      item_modifiers: 'mb-8',
+      items: [col_1],
+    }) }}
+    {{ include('mc_theme:lists', {
+      columns: 3,
+      items: col_2,
+    }) }}
+  {% else %}
+    {{ include('mc_theme:columns', {
+      columns: 'half',
+      col_1,
+      col_2,
+    }) }}
+  {% endif %}
+{% endset %}
+{% block content %}
+  {{ include('mc_theme:section', {
+    padding: 'tight',
+    intro: content.field_intro.0,
+    section_content,
+  }) }}
+{% endblock %}

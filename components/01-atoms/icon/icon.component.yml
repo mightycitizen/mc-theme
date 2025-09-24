@@ -1,0 +1,17 @@
+$schema: 'https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json'
+name: Icon
+status: stable
+group: Atoms/Icon
+props:
+  type: object
+  properties:
+    icon:
+      type: string
+      title: Icon
+      description: The icon to display alongside the link text.
+
+    icon_position:
+      type: string
+      title: Icon position
+      description: Position of the icon relative to the link text.
+

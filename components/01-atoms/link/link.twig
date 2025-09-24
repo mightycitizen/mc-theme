@@ -1,0 +1,5 @@
+{% if arrow | default %}
+  {% include "@atoms/read-more.twig" with link only %}
+{% else %}
+  {% include "@atoms/link.twig" with link only %}
+{% endif %}
