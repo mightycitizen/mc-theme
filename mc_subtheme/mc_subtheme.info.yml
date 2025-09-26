@@ -1,0 +1,43 @@
+name: MC Subtheme
+type: theme
+core_version_requirement: ^11
+
+# Defines the base theme
+base theme: mc_theme
+
+# Defines libraries group in which we can add css/js.
+libraries:
+  - mc_subtheme/global
+  - mc_subtheme/fonts
+
+libraries-override:
+  mc_theme/global:
+    css:
+      base:
+        dist/css/app.css: false
+    js:
+      dist/js/app.js: false
+
+# Component namespaces - requires the components module to be enabled.
+components:
+  namespaces:
+    base: storybook/src/stories/00-base
+    atoms: storybook/src/stories/01-atoms
+    molecules: storybook/src/stories/02-molecules
+    organisms: storybook/src/stories/03-organisms
+    templates: storybook/src/stories/04-templates
+
+# Regions
+regions:
+  header: Header
+  featured: Featured
+  title: Title
+  content: Content
+  sidebar_first: First sidebar
+  sidebar_second: Second sidebar
+  footer: Footer
+
+# Enable Vite on all libraries and components.
+vite:
+  enableInAllLibraries: true
+  enableInAllComponents: true

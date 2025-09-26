@@ -1,0 +1,23 @@
+global:
+  vite:
+    # By default true, if not set explicitly to false assumed true.
+    enabled: true
+    # Path to manifest.json, by default `dist/manifest.json`.
+    manifest: storybook/dist/.vite/manifest.json
+    # By default `<path_to_module|theme>/dist/`.
+    baseUrl: '/themes/custom/mc_subtheme/storybook/dist/'
+    # Vite dev server url, by default http://localhost:5173.
+    # devServerUrl: 'https://d11.ddev.site:5173'
+  css:
+    base:
+      dist/css/app.css: {}
+  js:
+    dist/js/app.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+
+fonts:
+  css:
+    base:
+      https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css: { type: external }
