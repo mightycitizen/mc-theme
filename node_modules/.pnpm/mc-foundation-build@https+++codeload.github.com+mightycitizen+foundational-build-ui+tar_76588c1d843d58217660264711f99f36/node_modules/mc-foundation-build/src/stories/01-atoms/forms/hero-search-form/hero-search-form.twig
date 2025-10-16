@@ -1,0 +1,10 @@
+<form class="" action="{{ action | default('/search') }}">
+  <div class="lg:flex relative">
+    <label for="{{ input_id | default('keywords') }}" class="sr-only">Keywords</label>
+    <input class="w-full pr-6 pl-5 py-[10px] lg:py-3 shadow rounded-sm" placeholder="Search" type="search" id="{{ input_id | default('keywords') }}"
+           name="{{ name | default('q') }}">
+    <button class="button py-[9px] lg:py-3 rounded-l-[0px] rounded-r-[4px] absolute lg:relative right-0 top-0" type="submit"  value="Submit">
+      <span class="inline-block">{{ button_text | default('Search') }}</span>
+    </button>
+  </div>
+</form>

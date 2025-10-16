@@ -1,0 +1,12 @@
+{% embed '@organisms/section/section-embed.twig' with {
+    section_heading: section_heading | default,
+    section_description: section_description | default,
+    section_class: section_class | default,
+    intro_class: "text-center",
+    section_style: "narrow"
+  }
+%}
+  {% block section_content %}
+    {% include '@molecules/carousel/carousel-testimonial/carousel-testimonial.twig' %}
+  {% endblock %}
+{% endembed %}

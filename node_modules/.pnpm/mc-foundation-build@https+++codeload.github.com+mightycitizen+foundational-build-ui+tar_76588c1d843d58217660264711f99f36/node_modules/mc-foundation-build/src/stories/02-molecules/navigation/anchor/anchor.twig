@@ -1,0 +1,40 @@
+{% if anchor_items %}
+  <div x-data="stickyAnchor()" x-init="init()" class="sticky top-0 py-11 bg-neutrals-50 w-full z-20" id="anchormenu">
+    <div class="container">
+      {% set anchor_dropdown = [] %}
+      {% for item in anchor_items %}
+        {% set anchor_dropdown = anchor_dropdown | merge([{
+          value: item.anchor,
+          title: item.text
+        }]) %}
+      {% endfor %}
+      <div class="lg:hidden anchormenu_mobile">
+        {% include '@molecules/navigation/dropdown/dropdown.twig' with {
+            id: 'anchor_mobile',
+            label_trigger: true,
+            placeholder: 'Select a section',
+            label_mobile: 'Jump to',
+            items: anchor_dropdown
+        } %}
+      </div>
+
+      <ul class="list-none gap-5 justify-center items-center lg:flex hidden p-3">
+        {% for item in anchor_items %}
+          <li :class="{ 'is-active': activeAnchor === '{{ item.anchor }}' }">
+            <a class="read-more" href="{{ item.anchor }}" @click.prevent="scrollToSection('{{ item.anchor }}')">{{ item.text }}</a>
+          </li>
+        {% endfor %}
+        {% if anchor_button %}
+          <li>
+            <a class="button" href="{{ anchor_button.url }}">{{ anchor_button.text }}</a>
+          </li>
+        {% endif %}
+        {% if anchor_button_two %}
+          <li>
+            <a class="button secondary" href="{{ anchor_button_two.url }}">{{ anchor_button_two.text }}</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,13 @@
+{% embed '@organisms/section/section-embed.twig' with {
+  section_class: section_class | default
+
+}
+%}
+
+  {% block section_content %}
+    <div class="map">
+      <p class="text-right"><span class="ph ph-[map-pin-simple] text-xl text-primary"></span> <a class="font-bold text-xl" href="{{ map_directions }}">Directions</a></p>
+      {{ map_embed }}
+    </div>
+  {% endblock %}
+{% endembed %}

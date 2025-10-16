@@ -1,0 +1,65 @@
+{% set style = style ?? null %}
+{% set content_only = content_only ?? false %}
+{% set icon = icon ?? false %}
+{% set name = name ?? null %}
+{% set background = background ?? null %}
+{% set value = value ?? null %}
+{% set caption = caption ?? null %}
+{% set description = description ?? null %}
+{% set stat_bg = stat_bg ?? null %}
+
+{# Determine card classes based on style and background #}
+{% if style == 'list' %}
+  {% set card_classes = 'flex-row items-center gap-x-4 mb-5' %}
+{% elseif style == 'inline' %}
+  {% set card_classes = 'gap-x-10 mb-5' %}
+{% else %}
+  {% set card_classes = 'h-full flex-col' %}
+{% endif %}
+
+{% if stat_bg %}
+  {% set card_classes = card_classes ~ ' bg-' ~ stat_bg ~ ' py-7 px-6' %}
+{% endif %}
+
+{% if style == 'list' and stat_bg %}
+  {% set card_classes = card_classes ~ ' py-7 px-6' %}
+{% endif %}
+
+<div class="statistic flex {{ card_classes }}">
+  {% if content_only %}
+
+  {% endif %}
+  {% if icon %}
+    <div class="{{ style == 'inline' ? 'self-center' : 'mb-4' }}">
+      {% include '@atoms/icon/icon.twig' with {
+        name: name,
+        background: background
+      } %}
+    </div>
+  {% endif %}
+
+{{ style == 'inline' ? '<div>' }}
+
+  {% if value %}
+    <p class="text-4xl font-bold mb-3{% if style == 'list' %} value-width{% endif %}">{{ value }}</p>
+  {% endif %}
+
+  {% if caption or description %}
+    <div class="text-group">
+      {% if caption %}
+      <p class="font-bold text-lg mb-3">
+        {{ caption }}
+      </p>
+      {% endif %}
+
+      {% if description %}
+      <p class="text-lg mb-0">
+        {{ description }}
+      </p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+{{ style == 'inline' ? '</div>' }}
+
+</div>

@@ -1,0 +1,17 @@
+{# Define style colors for different badge styles #}
+{% set style = style | default('primary') %}
+{% set style_colors = {
+  'inactive': 'bg-gray-700 text-white',
+  'warning': 'bg-tertiary-700 text-white',
+  'primary': 'bg-primary-500 text-white',
+  'light': 'bg-primary-50 text-primary-500'
+} %}
+{# Can set own color_classes, otherwise use style_colors #}
+{% set color_classes = color_classes | default(style_colors[style]) %}
+
+<span class="badge {{ color_classes }} font-medium text-xs rounded-full px-3 py-1 flex flex-nowrap gap-x-1{% if class | default %} {{ class }}{% endif %}">
+  {% if icon %}
+    <span class="{{ icon }}"></span>
+  {% endif %}
+  {{ text }}
+</span>

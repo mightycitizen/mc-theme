@@ -10,7 +10,7 @@ importers:
     dependencies:
       mc-foundation-build:
         specifier: github:mightycitizen/foundational-build-ui
-        version: https://codeload.github.com/mightycitizen/foundational-build-ui/tar.gz/a23537e78f83a89c845af98bea46d8323bb512ad(postcss@8.5.6)(storybook@8.6.14)(tailwindcss@3.4.17)(vite@6.3.5(jiti@1.21.7)(yaml@2.8.1))
+        version: https://codeload.github.com/mightycitizen/foundational-build-ui/tar.gz/4c6e909d5a7f045f301f09180eb3a29ebf18fddb(postcss@8.5.6)(storybook@8.6.14)(tailwindcss@3.4.17)(vite@6.3.5(jiti@1.21.7)(yaml@2.8.1))
       mc_foundation:
         specifier: github:mightycitizen/foundational-build-ui
         version: mc-foundation-build@https://codeload.github.com/mightycitizen/foundational-build-ui/tar.gz/a23537e78f83a89c845af98bea46d8323bb512ad(postcss@8.5.6)(storybook@8.6.14)(tailwindcss@3.4.17)(vite@6.3.5(jiti@1.21.7)(yaml@2.8.1))
@@ -984,6 +984,10 @@ packages:
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
+
+  mc-foundation-build@https://codeload.github.com/mightycitizen/foundational-build-ui/tar.gz/4c6e909d5a7f045f301f09180eb3a29ebf18fddb:
+    resolution: {tarball: https://codeload.github.com/mightycitizen/foundational-build-ui/tar.gz/4c6e909d5a7f045f301f09180eb3a29ebf18fddb}
+    version: 2.0.0
 
   mc-foundation-build@https://codeload.github.com/mightycitizen/foundational-build-ui/tar.gz/a23537e78f83a89c845af98bea46d8323bb512ad:
     resolution: {tarball: https://codeload.github.com/mightycitizen/foundational-build-ui/tar.gz/a23537e78f83a89c845af98bea46d8323bb512ad}
@@ -2669,6 +2673,38 @@ snapshots:
   markdown-table@3.0.4: {}
 
   math-intrinsics@1.1.0: {}
+
+  mc-foundation-build@https://codeload.github.com/mightycitizen/foundational-build-ui/tar.gz/4c6e909d5a7f045f301f09180eb3a29ebf18fddb(postcss@8.5.6)(storybook@8.6.14)(tailwindcss@3.4.17)(vite@6.3.5(jiti@1.21.7)(yaml@2.8.1)):
+    dependencies:
+      '@alpinejs/collapse': 3.14.9
+      '@alpinejs/focus': 3.14.9
+      '@alpinejs/intersect': 3.14.9
+      '@splidejs/splide': 4.1.4
+      '@storybook/html-vite': 8.6.14(storybook@8.6.14)(vite@6.3.5(jiti@1.21.7)(yaml@2.8.1))
+      '@styleshit/vite-plugin-twig-loader': 0.1.1(twig@1.17.1)(vite@6.3.5(jiti@1.21.7)(yaml@2.8.1))
+      '@tailwindcss/aspect-ratio': 0.4.2(tailwindcss@3.4.17)
+      '@tailwindcss/forms': 0.5.10(tailwindcss@3.4.17)
+      '@tailwindcss/nesting': 0.0.0-insiders.565cd3e(postcss@8.5.6)
+      '@tailwindcss/typography': 0.5.16(tailwindcss@3.4.17)
+      alpinejs: 3.14.9
+      babel-polyfill: 6.26.0
+      cssnano: 7.1.1(postcss@8.5.6)
+      drupal-attribute: 1.1.0
+      js-yaml-loader: 1.2.2
+      litepicker: 2.0.12
+      remark-gfm: 4.0.1
+      twig: 1.17.1
+      twigjs: 0.0.4
+      vite-plugin-image-optimizer: 1.1.9(vite@6.3.5(jiti@1.21.7)(yaml@2.8.1))
+      vite-tsconfig-paths: 5.1.4(vite@6.3.5(jiti@1.21.7)(yaml@2.8.1))
+      yargs: 16.2.0
+    transitivePeerDependencies:
+      - postcss
+      - storybook
+      - supports-color
+      - tailwindcss
+      - typescript
+      - vite
 
   mc-foundation-build@https://codeload.github.com/mightycitizen/foundational-build-ui/tar.gz/a23537e78f83a89c845af98bea46d8323bb512ad(postcss@8.5.6)(storybook@8.6.14)(tailwindcss@3.4.17)(vite@6.3.5(jiti@1.21.7)(yaml@2.8.1)):
     dependencies:

@@ -1,0 +1,24 @@
+{% if image | default %}
+  {% set col_1 %}
+    <div class="card_image {% if var != 'short' %}image-size--landscapeCroppedMedium{% endif %}">
+      <img {% if lazyload_attr | default %}{{ lazyload_attr }}="{{ image.src }}"{% else %}src="{{ image.src }}" {% if disable_lazy | default != true %}loading="lazy"{% endif %}{% endif %}  alt="{{ image.alt }}" class="w-full ">
+    </div>
+  {% endset %}
+{% endif %}
+
+{% set col_2 %}
+  {% include '@molecules/cards/card/_card-content.twig' %}
+{% endset %}
+
+<div class="card card--horizontal {% if no_outline is empty | default %}md:shadow-lg bg-white {% endif %}{{ modifier | default }} {% if clickCard | default %}card--click{% endif %}" data-scroll-show>
+
+  <div {% if image_position | default != 'flush' %}class="card_section {% if no_outline is empty | default %}md:py-8 md:px-8{% endif %}"{% endif %}>
+      {% include '@molecules/split-content/split-content.twig' with {
+        columns: 'narrow',
+        col_reverse: true,
+        col_1: col_1,
+        col_2: col_2
+      } only %}
+
+  </div>
+</div>

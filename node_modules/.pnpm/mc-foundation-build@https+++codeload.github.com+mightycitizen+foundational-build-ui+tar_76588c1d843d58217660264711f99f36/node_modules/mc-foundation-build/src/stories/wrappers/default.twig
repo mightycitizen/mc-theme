@@ -1,0 +1,35 @@
+<div class="l-wrapper no-js" x-data="{backToTop: false}"
+    @scroll.window="backToTop = window.scrollY > 100">
+
+  {% block header %}
+    {% include "@organisms/header/header.twig" %}
+  {% endblock %}
+
+  <main class="l-main" id="main">
+{#    {% include '@molecules/cards/alert/alert.twig' with {#}
+{#      alert_label: "Alert",#}
+{#      text: "Important message goes here and is an optional link lorem ipsum dolor sit amet, consectetur adipiscing elit."#}
+{#    }%}#}
+    <div class="l-top" id="top">
+      {% block top %}
+      {% endblock %}
+    </div>
+    <div class="l-body">
+      {% block main %}
+      {% endblock %}
+    </div>
+  </main>
+
+  {% block footer %}
+    {% include "@organisms/footer/footer.twig" %}
+  {% endblock %}
+
+  {% if cookie | default %}
+    {% include '@molecules/cards/alert/alert.twig' with {
+      text: cookie,
+      closable: true,
+      closable_text: "Accept",
+      class: 'fixed bottom-0 left-0 z-20 w-full'
+    } only %}
+  {% endif %}
+</div>

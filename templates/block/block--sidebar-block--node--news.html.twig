@@ -34,6 +34,20 @@ query($node_id: ID!) {
           url: path
         }
       }
+      contact {
+        ... on NodeOrganization {
+          id
+          email
+          phone
+          title
+        }
+        ... on NodePerson {
+          id
+          email
+          phone
+          title
+        }
+      }
     }
   }
 }
@@ -80,9 +94,13 @@ query($node_id: ID!) {
   }]) %}
 {% endif %}
 
-{% if news %}
+{% if news.contact %}
   {% set mediaContact %}
-    TODO
+    <ul class="list-none">
+      <li>{{ news.contact.title }}</li>
+      <li>{{ news.contact.email }}</li>
+      <li>{{ news.contact.phone }}</li>
+    </ul>
   {% endset %}
   {% set primary_sections = primary_sections|merge([{
     title: 'Media Contact',

@@ -1,0 +1,53 @@
+<div class="bg-neutrals-50 lg:shadow space-y-6 px-6 py-5">
+  <div class="text-right">
+    {% include '@base/utils/add2any/add2any.twig' with {
+      class: 'mb-0'
+    } %}
+  </div>
+  {% if topics | default %}
+  <div class="topics border-b-[1px] border-b-neutrals-200 pb-6">
+    <h2 class="text-lg font-semibold">Topics</h2>
+    <ul class="list-none flex flex-wrap gap-2.5">
+    {% for item in topics %}
+      <li>
+        <a href="{{ item.url }}">{{ item.text }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  {% if publication | default %}
+  <div class="publication border-b-[1px] border-b-neutrals-200 pb-6">
+    <h2 class="text-lg font-semibold">Publication</h2>
+    <a href="{{ publication.url }}">{{ publication.text }}</a>
+  </div>
+  {% endif %}
+  {% if authors | default %}
+  <div class="authors border-b-[1px] border-b-neutrals-200 pb-6">
+    <ul class="list-none space-y-3.5">
+      {% for item in authors %}
+        <li class="space-y-3">
+          <img class="rounded-full" src="{{ item.thumbnail.src }}" alt="{{ item.thumbnail.alt }}" />
+          <a class="font-semibold text-lg" href="{{ item.url }}">{{ item.name }}</a>
+          <p class="font-bold text-base">{{ item.org_name }}</p>
+          <p class="text-lg">{{ item.description }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  {% if media_name | default %}
+    <div class="media-contact border-b-[1px] border-b-neutrals-200 pb-6">
+      <h2 class="text-lg font-semibold">Media contact</h2>
+      <ul class="list-none space-y-2.5">
+        <li>{{ media_name }}</li>
+        {% if media_email | default %}
+          <li><a href="mailto:{{ media_email }}">{{ media_email }}</a></li>
+        {% endif %}
+        {% if media_phone | default %}
+        <li>{{ media_phone }}</li>
+        {% endif %}
+      </ul>
+    </div>
+  {% endif %}
+</div>

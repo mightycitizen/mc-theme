@@ -1,0 +1,19 @@
+<div id="body" class="{{ wrapper_class | default }}">
+  <div class="grid grid-cols-12 md:gap-8">
+    <div class="col-span-12 md:col-span-3">
+      <div data-sticky data-anchor="body" data-sticky-on="medium">
+        {{ sidebar }}
+      </div>
+    </div>
+    <div class="col-span-12 md:col-span-9 lg:pl-10" id="hero">
+      {{ hero_section }}
+    </div>
+    <div class="col-span-12 md:col-span-3">
+      {{ sidebar_bottom }}
+    </div>
+    <div class="col-span-12 md:col-span-9 lg:pl-10 l-content" id="content">
+      {{ content }}
+    </div>
+
+  </div>
+</div>

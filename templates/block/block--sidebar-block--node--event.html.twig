@@ -40,8 +40,8 @@ query($node_id: ID!) {
           title
         }
       }
-      personTypes {
-        ... on TermPersonType {
+      audiences {
+        ... on TermAudience {
           id
           text: name
           url: path
@@ -49,6 +49,20 @@ query($node_id: ID!) {
       }
       roomNumber
       title
+      contact {
+        ... on NodeOrganization {
+          id
+          email
+          phone
+          title
+        }
+        ... on NodePerson {
+          id
+          email
+          phone
+          title
+        }
+      }
     }
   }
 }
@@ -103,10 +117,19 @@ query($node_id: ID!) {
           text: event.location.title,
         })}}
       {% endif %}
+    </div>
+    <div>
       <p>
         {% if event.roomNumber %}{{ event.roomNumber }}<br />{% endif %}
         {{ formatted_location.0.full }}
       </p>
+      {{include('mc_theme:link', {
+        arrow: TRUE,
+        link: {
+          text: 'Get directions'|t,
+          url: 'https://www.google.com/maps/search/?api=1&query=' ~ formatted_location.0.inline|url_encode,
+        }
+      })}}
     </div>
   {% endset %}
   {% set primary_sections = primary_sections|merge([{
@@ -120,7 +143,7 @@ query($node_id: ID!) {
     {{include('mc_theme:link', {
       arrow: TRUE,
       link: {
-        text: event.linkVirtual.text|default('Virtual meeting link'),
+        text: event.linkVirtual.text|default('Virtual meeting link'|t),
         url: event.linkVirtual.url,
       }
     })}}
@@ -132,20 +155,24 @@ query($node_id: ID!) {
 {% endif %}
 
 {# secondary_sections #}
-{% if event %}
+{% if event.contact %}
   {% set eventContact %}
-    TODO
+    <ul class="list-none">
+      <li>{{ event.contact.title }}</li>
+      <li>{{ event.contact.email }}</li>
+      <li>{{ event.contact.phone }}</li>
+    </ul>
   {% endset %}
   {% set secondary_sections = secondary_sections|merge([{
-    title: 'Event Contact',
+    title: 'Event Contact'|t,
     content: eventContact,
   }]) %}
 {% endif %}
 
-{% if event.personTypes %}
+{% if event.audiences %}
   {% set secondary_sections = secondary_sections|merge([{
     title: 'Who it\'s for'|t,
-    content: macros.parse_taxonomy(event.personTypes, 'inline', TRUE),
+    content: macros.parse_taxonomy(event.audiences, 'inline', TRUE),
   }]) %}
 {% endif %}
 

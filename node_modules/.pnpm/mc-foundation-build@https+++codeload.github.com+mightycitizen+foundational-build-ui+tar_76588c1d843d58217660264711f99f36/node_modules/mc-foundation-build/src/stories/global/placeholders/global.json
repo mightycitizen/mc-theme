@@ -1,0 +1,809 @@
+{
+  "footer_links": [
+    {
+      "text": "Sub-footer link",
+      "url": "#",
+      "modifier": "text-black font-semibold"
+    },
+    {
+      "text": "Sub-footer link",
+      "url": "#",
+      "modifier": "text-black font-semibold"
+    },
+    {
+      "text": "Sub-footer link",
+      "url": "#",
+      "modifier": "text-black font-semibold"
+    },
+    {
+      "text": "Sub-footer link",
+      "url": "#",
+      "modifier": "text-black font-semibold"
+    }
+  ],
+  "address": "5555 Street 1\r\nUnit B\r\nAustin, TX 78702",
+  "site_name": "Mighty Citizen",
+  "social": [
+    {
+      "handle": "facebook",
+      "icon": "facebook",
+      "url": "#"
+    },
+    {
+      "handle": "instagram",
+      "icon": "instagram",
+      "url": "#"
+    },
+    {
+      "handle": "twitter",
+      "icon": "x-logo",
+      "url": "#"
+    },
+    {
+      "handle": "linkedin",
+      "icon": "linkedin",
+      "url": "#"
+    },
+    {
+      "handle": "youtube",
+      "icon": "youtube",
+      "url": "#"
+    }
+  ],
+  "logo": {
+    "logo": {
+      "src": "/images/logos/mc-logo.png",
+      "alt": "Logo Alt Text"
+    }
+  },
+  "menu": [
+    {
+      "text": "Main Menu Link",
+      "url": "#",
+      "children": [
+        {
+          "text": "Item 1",
+          "url": "#"
+        },
+        {
+          "text": "Item 2",
+          "url": "#",
+          "children": [
+            {
+              "text": "Item 1",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            }
+          ]
+        },
+        {
+          "text": "Item 3",
+          "url": "#"
+        },
+        {
+          "text": "Item 4",
+          "url": "#"
+        },
+        {
+          "text": "Item 5",
+          "url": "#"
+        },
+        {
+          "text": "Item 6",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "text": "Main Menu Link",
+      "url": "#",
+      "children": [
+        {
+          "text": "Item 1",
+          "url": "#"
+        },
+        {
+          "text": "Item 2",
+          "url": "#",
+          "children": [
+            {
+              "text": "Item 1",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            }
+          ]
+        },
+        {
+          "text": "Item 3",
+          "url": "#"
+        },
+        {
+          "text": "Item 4",
+          "url": "#"
+        },
+        {
+          "text": "Item 5",
+          "url": "#"
+        },
+        {
+          "text": "Item 6",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "text": "Main Menu Link",
+      "url": "#",
+      "children": [
+        {
+          "text": "Item 1",
+          "url": "#"
+        },
+        {
+          "text": "Item 2",
+          "url": "#",
+          "children": [
+            {
+              "text": "Item 1",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            }
+          ]
+        },
+        {
+          "text": "Item 3",
+          "url": "#"
+        },
+        {
+          "text": "Item 4",
+          "url": "#"
+        },
+        {
+          "text": "Item 5",
+          "url": "#"
+        },
+        {
+          "text": "Item 6",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "text": "Main Menu Link",
+      "url": "#",
+      "children": [
+        {
+          "text": "Item 1",
+          "url": "#"
+        },
+        {
+          "text": "Item 2",
+          "url": "#",
+          "children": [
+            {
+              "text": "Item 1",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            }
+          ]
+        },
+        {
+          "text": "Item 3",
+          "url": "#"
+        },
+        {
+          "text": "Item 4",
+          "url": "#"
+        },
+        {
+          "text": "Item 5",
+          "url": "#"
+        },
+        {
+          "text": "Item 6",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "text": "Main Menu Link",
+      "url": "#",
+      "children": [
+        {
+          "text": "Item 1",
+          "url": "#"
+        },
+        {
+          "text": "Item 2",
+          "url": "#",
+          "children": [
+            {
+              "text": "Item 1",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            }
+          ]
+        },
+        {
+          "text": "Item 3",
+          "url": "#"
+        },
+        {
+          "text": "Item 4",
+          "url": "#"
+        },
+        {
+          "text": "Item 5",
+          "url": "#"
+        },
+        {
+          "text": "Item 6",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "text": "Main Menu Link",
+      "url": "#",
+      "children": [
+        {
+          "text": "Item 1",
+          "url": "#"
+        },
+        {
+          "text": "Item 2",
+          "url": "#",
+          "children": [
+            {
+              "text": "Item 1",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            }
+          ]
+        },
+        {
+          "text": "Item 3",
+          "url": "#"
+        },
+        {
+          "text": "Item 4",
+          "url": "#"
+        },
+        {
+          "text": "Item 5",
+          "url": "#"
+        },
+        {
+          "text": "Item 6",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "text": "Main Menu Link",
+      "url": "#",
+      "children": [
+        {
+          "text": "Item 1",
+          "url": "#"
+        },
+        {
+          "text": "Item 2",
+          "url": "#",
+          "children": [
+            {
+              "text": "Item 1",
+              "url": "#"
+            },
+            {
+              "text": "Item 2",
+              "url": "#"
+            },
+            {
+              "text": "Item 3",
+              "url": "#"
+            },
+            {
+              "text": "Item 4",
+              "url": "#"
+            }
+          ]
+        },
+        {
+          "text": "Item 3",
+          "url": "#"
+        },
+        {
+          "text": "Item 4",
+          "url": "#"
+        },
+        {
+          "text": "Item 5",
+          "url": "#"
+        },
+        {
+          "text": "Item 6",
+          "url": "#"
+        }
+      ]
+    }
+  ],
+  "menu_column": [
+    {
+      "text": "Example menu sublink",
+      "url": "#"
+    },
+    {
+      "text": "Example menu sublink",
+      "url": "#"
+    },
+    {
+      "text": "Example menu sublink",
+      "url": "#"
+    },
+    {
+      "text": "Example menu sublink",
+      "url": "#"
+    },
+    {
+      "text": "Example menu sublink",
+      "url": "#"
+    }
+  ],
+  "header_dropdown": [
+    {
+      "text": "Example menu sublink",
+      "url": "#"
+    },
+    {
+      "text": "Example menu sublink",
+      "url": "#"
+    },
+    {
+      "text": "Example menu sublink",
+      "url": "#"
+    },
+    {
+      "text": "Example menu sublink",
+      "url": "#"
+    },
+    {
+      "text": "Example menu sublink",
+      "url": "#"
+    }
+  ],
+  "links_bar_menu": [
+    {
+      "text": "Eyebrow menu item",
+      "url": "#",
+      "icon": "user-circle"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#",
+      "icon": "user-circle"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#",
+      "icon": "user-circle"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#",
+      "icon": "user-circle"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#",
+      "icon": "user-circle"
+    }
+  ],
+  "anchor_nav": [
+    {
+      "text": "Getting started",
+      "url": "#"
+    },
+    {
+      "text": "Another link goes here",
+      "url": "#"
+    },
+    {
+      "text": "Requesting transcripts",
+      "url": "#"
+    },
+    {
+      "text": "Paying your enrollment deposit",
+      "url": "#"
+    },
+    {
+      "text": "Attending orientation",
+      "url": "#"
+    },
+    {
+      "text": "Directions to campus",
+      "url": "#"
+    },
+    {
+      "text": "Link goes here",
+      "url": "#"
+    }
+  ],
+  "local_nav": [
+    {
+      "text": "Current Page Title"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    },
+    {
+      "text": "Eyebrow menu item",
+      "url": "#"
+    }
+  ],
+  "utility_menu": [
+  {
+    "text": "Eyebrow menu item",
+    "url": "#",
+    "children": [
+      {
+        "text": "Item 1",
+        "url": "#"
+      },
+      {
+        "text": "Item 2",
+        "url": "#"
+      },
+      {
+        "text": "Item 3",
+        "url": "#"
+      },
+      {
+        "text": "Item 4",
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "text": "Eyebrow menu item",
+    "url": "#",
+    "children": [
+      {
+        "text": "Item 1",
+        "url": "#"
+      },
+      {
+        "text": "Item 2",
+        "url": "#"
+      },
+      {
+        "text": "Item 3",
+        "url": "#"
+      },
+      {
+        "text": "Item 4",
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "text": "Eyebrow menu item",
+    "url": "#",
+    "children": [
+      {
+        "text": "Item 1",
+        "url": "#"
+      },
+      {
+        "text": "Item 2",
+        "url": "#"
+      },
+      {
+        "text": "Item 3",
+        "url": "#"
+      },
+      {
+        "text": "Item 4",
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "text": "Eyebrow menu item",
+    "url": "#",
+    "children": [
+      {
+        "text": "Item 1",
+        "url": "#"
+      },
+      {
+        "text": "Item 2",
+        "url": "#"
+      },
+      {
+        "text": "Item 3",
+        "url": "#"
+      },
+      {
+        "text": "Item 4",
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "text": "Eyebrow menu item",
+    "url": "#",
+    "children": [
+      {
+        "text": "Item 1",
+        "url": "#"
+      },
+      {
+        "text": "Item 2",
+        "url": "#"
+      },
+      {
+        "text": "Item 3",
+        "url": "#"
+      },
+      {
+        "text": "Item 4",
+        "url": "#"
+      }
+    ]
+  }
+],
+"cta_menu": [
+    {
+      "text": "CTA Link",
+      "url": "#",
+      "children": [
+        {
+          "text": "Item 1",
+          "url": "#"
+        },
+        {
+          "text": "Item 2",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "text": "CTA Link",
+      "url": "#",
+      "children": [
+        {
+          "text": "Item 1",
+          "url": "#"
+        },
+        {
+          "text": "Item 2",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "text": "CTA Link",
+      "url": "#",
+      "children": [
+        {
+          "text": "Item 1",
+          "url": "#"
+        },
+        {
+          "text": "Item 2",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "text": "CTA Link",
+      "url": "#",
+      "children": [
+        {
+          "text": "Item 1",
+          "url": "#"
+        },
+        {
+          "text": "Item 2",
+          "url": "#"
+        }
+      ]
+    }
+  ]
+}

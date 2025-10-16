@@ -1,0 +1,237 @@
+{% set hero_inline = hero_inline ?? false %}
+{% set content_type = content_type ?? null %}
+{% set split_content = split_content ?? false %}
+{% set background_image = background_image ?? null %}
+{% set media = media ?? null %}
+{% set alert_type = alert_type ?? null %}
+{% set badge = badge ?? null %}
+{% set background_color = background_color ?? 'light' %}
+{% set categories = categories ?? null %}
+{% set date = date ?? null %}
+{% set endDate = endDate ?? null %}
+{% set eyebrow = eyebrow ?? null %}
+{% set heading = heading ?? 'Heading' %}
+{% set subheading = subheading ?? null %}
+{% set tagline = tagline ?? null %}
+{% set list = list ?? null %}
+{% set inline_links = inline_links ?? null %}
+{% set summary = summary ?? null %}
+{% set image = image ?? null %}
+{% set last_updated = last_updated ?? null %}
+{% set byline = byline ?? null %}
+{% set hero_button = hero_button ?? null %}
+{% set readmore_link = readmore_link ?? null %}
+{% set links_bar_menu = links_bar_menu ?? null %}
+{% set modifier = modifier ?? null %}
+{% set info_panel = info_panel ?? null %}
+{% set below_hero = below_hero ?? null %}
+{% set breadcrumbs = breadcrumbs ?? null %}
+
+{#
+  hero.twig
+
+  Props:
+    - alert_type
+      - type: 'emergency', 'weather', 'default', etc.
+      - label: 'Emergency Alert', 'Weather Alert', 'Notice', etc.
+      - icon
+      - icon_colors
+    - background_image
+      - alt
+      - src
+    - badge
+      - icon
+      - style: 'inactive', 'warning', 'primary'
+      - text
+    - background_color: 'light' or 'dark'
+    - categories
+    - content_type
+    - date
+    - endDate
+    - eyebrow
+    - heading
+    - hero_button
+    - image
+      - alt
+      - src
+    - last_updated
+    - links_bar_menu
+      - item
+        - icon
+        - text
+        -url
+    - list
+      - item
+    - modifier
+    - readmore_link
+    - split_content: boolean
+    - subheading
+    - summary
+
+  Slots:
+    - breadcrumbs
+    - media
+#}
+
+{% set background_color = background_color|default('light') %}
+{% if image | default %}{% set split_content = true %}{% endif %}
+
+<div class="hero{% if background_image | default %} hero--background-image{% endif %}{% if background_color == 'dark' %} text-white bg-primary-800 {% endif%}{% if background_color == 'neutral' %} bg-neutrals-50{% endif%} relative">
+  {% if background_image | default %}
+  <div class="inset-0 w-full h-full max-h-[600px] overflow-hidden">
+    <img src="{{ background_image.src }}" alt="{{ background_image.alt }}" class="w-full h-full object-cover object-center">
+  </div>
+  {% endif %}
+  <div class="hero--inner-wrapper pb-4{{ not hero_inline ? ' lg:py-11' }}{% if background_image %} {{ background_color == 'dark' ? 'bg-primary-800' : 'bg-white' }}{% endif %}">
+    <div class="container">
+      <div class="grid grid-cols-12 gap-6 gap-y-8 lg:g-y-0">
+        <div class="{% if content_type == 'alert' %}col-span-10{% else %}col-span-12{% endif%} md:order-3">
+          <div class="hero_content">
+            <div class="grid grid-cols-12 gap-6 items-center">
+              <div class="col-span-12 {% if split_content | default %}md:col-span-6 order-2 md:order-1{% endif %}">
+                <div class="{% if split_content | default %}mb-2{% else %}mb-8 lg:mb-4{% endif %} {% if background_color == 'light' %}text-primary-500{% endif %}">
+                  {{ breadcrumbs }}
+                </div>
+
+                {% if date | default and endDate | default %}
+                  {% include '@molecules/lists/meta/meta.twig' with {
+                    modifier: 'mb-4',
+                    date: date,
+                    endDate: endDate
+                  } only %}
+                {% endif %}
+
+                {% if alert_type | default or badge | default %}
+                  <div class="flex items-center gap-x-4 mb-5">
+                    {% if alert_type %}
+                      {% include '@atoms/icon/icon.twig' with {
+                        icon: alert_type.icon,
+                        modifiers: 'inline-block w-[40px] h-[40px] rounded-full flex items-center justify-center ' ~ alert_type.icon_colors
+                      } %}
+                      <span class="font-bold text-lg">{{ alert_type.label }}</span>
+                      <span class="border-r-2 border-r-neutrals-900">&nbsp;</span>
+                    {% endif %}
+                    {% if badge %}
+                      {% include '@atoms/inline-text/badge/badge.twig' with badge %}
+                    {% endif %}
+                  </div>
+                {% endif %}
+
+                {% if eyebrow | default %}
+                  <p class="font-bold">{{ eyebrow }}</p>
+                {% endif %}
+
+                <h1 class="text-5xl">{{ heading }}</h1>
+
+                {% if subheading | default %}
+                  <p class="text-xl md:text-2xl font-bold mb-3">{{ subheading }}</p>
+                {% endif %}
+
+                {% if tagline | default %}
+                  <p class="text-2xl ">{{ tagline }}</p>
+                {% endif %}
+
+                {% if list | default %}
+                  <ul class="list-none flex gap-4 list-divided font-bold text-sm mb-3">
+                    {% for item in list %}
+                      <li>{{ item }}</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+
+                {% if inline_links | default %}
+                  <ul class="list-none">
+                    {% for item in inline_links %}
+                      <li class="inline-block"><a class="text-neutrals-800 md:text-lg" href="{{ item.url }}">{{ item.text }}</a>{{ not loop.last ? ',' }}</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+
+                {% if last_updated %}
+                  <p class="text-lg font-bold">Last Updated: {{ last_updated }}</p>
+                {% endif %}
+
+                {% if summary | default %}
+                  <div class="text-lg mb-8{{ content_type == 'alert' ? ' text-neutrals-900' : '' }}">{{ summary }}</div>
+                {% endif %}
+
+                {% if byline %}
+                  <ul class="list-none flex font-semibold gap-x-10{{ below_hero ? ' mb-12' }}">
+                    {% if byline.authors %}<li>By {{ byline.authors }}</li>{% endif %}
+                    {% if byline.publish_date %}<li>{{ byline.publish_date }}</li>{% endif %}
+                  </ul>
+                {% endif %}
+
+                {% if hero_button | default or readmore_link | default %}
+                  <div class="flex flex-wrap flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-8 pb-5 lg:pb-0">
+                    {% if hero_button | default %}
+                      {% include '@atoms/links/button/button.twig' with hero_button | merge({
+                        classes: 'text-lg items-center',
+                        icon: 'arrow-circle-right'
+                      }) only %}
+                    {% endif %}
+
+                    {% if readmore_link | default %}
+                      {% include '@atoms/links/read-more/read-more.twig' with readmore_link | merge({
+                        class: 'text-white justify-left lg:justify-center'
+                      }) only %}
+                    {% endif %}
+                  </div>
+                {% endif %}
+
+                {% if categories | default %}
+                  {% include '@molecules/lists/meta/meta.twig' with {
+                    date: endDate | default is empty ? date : false,
+                    modifier: 'mt-4',
+                    categories: categories
+                  } only %}
+                {% endif %}
+
+                {% if below_hero|default %}
+                  <div class="col-span-12 mt-4 lg:mt-5">
+                    {{ below_hero }}
+                  </div>
+                {% endif %}
+              </div>
+              {% if split_content | default %}
+                <div class="col-span-12 md:col-span-6 order-1 md:order-2 -mx-4 md:mx-0 md:pl-9">
+                  {% if image | default %}
+                    <img src="{{ image.src }}" alt="{{ image.alt }}" loading="lazy"/>
+                  {% elseif media | default %}
+                    {{ media }}
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+{#        <div class="col-span-12 lg:col-span-4 md:col-span-6 md:order-2 flex md:justify-end">#}
+{#          {% include '@base/utils/add2any/add2any.twig' with {#}
+{#            class: 'mb-0'#}
+{#          } %}#}
+{#        </div>#}
+      </div>
+    </div>
+    {% if info_panel | default %}
+      <div class="container pt-8">
+        {{ info_panel }}
+      </div>
+    {% endif %}
+  </div>
+  {% if links_bar_menu | default %}
+  <div class="links-bar {% if background_color == 'dark' %}bg-neutrals-50 text-primary-500 shadow{% else %}bg-primary-500 text-white{% endif %}">
+    <div class="container">
+      <ul class="menu lg:flex lg:gap-x-3 py-4 lg:py-4 space-y-3 lg:space-y-0 list-none lg:justify-between lg:text-lg items-center">
+        {% for item in links_bar_menu %}
+          <li class="shrink-0">
+            {% if item.icon %}
+              {% include '@atoms/icon/icon.twig' with { icon: item.icon, modifiers: 'text-xl align-middle' }%}
+            {% endif %}
+            <a class="no-underline hover:underline" href="{{ item.url }}">{{ item.text }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endif %}
+</div>

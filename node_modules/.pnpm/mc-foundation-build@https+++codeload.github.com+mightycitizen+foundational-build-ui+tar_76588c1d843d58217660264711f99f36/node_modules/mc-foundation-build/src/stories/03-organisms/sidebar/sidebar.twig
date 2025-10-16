@@ -1,0 +1,48 @@
+{% set share %}
+  <div class="text-right">
+    {% include '@base/utils/add2any/add2any.twig' with {
+      class: 'mb-0'
+    } %}
+  </div>
+{% endset %}
+
+{% if primary_sections %}
+<div class="bg-neutrals-50 lg:shadow space-y-6 px-6 py-5">
+  {{ share_top ? share : NULL }}
+
+  <div>
+    {% if sidebar_title %}<p class="font-bold text-2xl">{{ sidebar_title }}</p>{% endif %}
+    {% if sidebar_cta | default %}
+      <div class="mb-2">
+      {% include "@atoms/links/button/button.twig" with sidebar_cta %}
+      </div>
+    {% endif %}
+    {% if sidebar_link | default %}
+      <div class="flex items-center gap-x-2 pt-4">
+        {% if sidebar_link.icon %}<span class="text-primary">{% include '@atoms/icon/icon.twig' with sidebar_link %}</span>{% endif %}
+        {% include "@atoms/links/read-more/read-more.twig" with sidebar_link %}
+      </div>
+    {% endif %}
+  </div>
+
+  {% for section in primary_sections %}
+    <div class="border-b-[1px] border-b-neutrals-200 pb-6">
+      {% if section.title %}<h2 class="text-lg font-semibold">{{ section.title }}</h2>{% endif %}
+      {{ section.content }}
+    </div>
+  {% endfor %}
+
+  {{ share_bottom ? share : NULL }}
+</div>
+{% endif %}
+
+{% if secondary_sections %}
+  <div class="sidebar-bottom pt-8 space-y-6">
+    {% for section in secondary_sections %}
+      <div class="border-b-[1px] border-b-neutrals-200 pb-6">
+        {% if section.title %}<h2 class="text-lg font-semibold">{{ section.title }}</h2>{% endif %}
+        {{ section.content }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

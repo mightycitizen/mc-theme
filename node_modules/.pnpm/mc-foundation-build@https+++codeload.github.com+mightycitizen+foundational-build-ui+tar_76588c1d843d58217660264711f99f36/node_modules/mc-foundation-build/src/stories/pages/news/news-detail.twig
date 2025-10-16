@@ -1,0 +1,50 @@
+{% extends '@wrappers/default.twig' %}
+{% block top %}
+
+{% endblock %}
+{% block main %}
+  {% if narrow_modules | default | length > 0 %}
+    {% set content %}
+      <div>
+        {{ breadcrumbs }}
+        <h1>{{ page_title }}</h1>
+        {% if page_subheading | default %}
+        <div class="mb-4">{{ page_subheading }}</div>
+        {% endif %}
+        <ul class="list-none flex font-semibold mb-12 gap-x-10">
+          <li>By <a class="text-black" href="{{ page_author_url }}">{{ page_author }}</a></li>
+          <li>{{ page_date }}</li>
+        </ul>
+        {% if page_image | default %}
+          <img src="{{ page_image.src }}" alt="{{ page_image.alt }}" />
+        {% endif %}
+      </div>
+      {% for module in narrow_modules %}
+        {% if module.module_type == 'wysiwyg' %}
+          {{ module.wysiwyg }}
+        {% elseif module.module_type == 'accordion' %}
+          {% include '@components/modules/accordion/accordion-module.twig' with module only %}
+        {% endif %}
+      {% endfor %}
+    {% endset %}
+    {% if sidebar_modules | default | length > 0 %}
+      {% set sidebar %}
+        {% include '@organisms/sidebar/sidebar-news.twig' with page_sidebar %}
+
+        {% for module in sidebar_modules %}
+          {% if module.module_type == 'accordion' %}
+            {% include '@components/modules/accordion/accordion-module.twig' with module only %}
+          {% endif %}
+        {% endfor %}
+      {% endset %}
+    {% endif %}
+    {% embed '@organisms/section/section-embed.twig' with {
+      padding: 'tight',
+    } %}
+      {% block section_content %}
+        {% include '@base/layout/content-with-sidebar.twig' %}
+      {% endblock %}
+    {% endembed %}
+  {% endif %}
+
+{% endblock %}

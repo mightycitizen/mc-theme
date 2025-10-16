@@ -1,0 +1,10 @@
+<ul class="list-none inline-flex gap-4 mb-0 social-media">
+  {% for item in social | default %}
+      <li>
+        <a href="{{ item.url }}" target="_blank" class="icon aspect-square rounded-full text-white text-[32px] w-8 flex items-center justify-center no-underline text-lg hover:opacity-80">
+          <span class="sr-only">{{ item.handle }}</span>
+          <span class="icon-{{ item.icon is not empty ? item.icon : item.handle }}"></span>
+        </a>
+      </li>
+  {% endfor %}
+  </ul>

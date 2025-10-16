@@ -1,0 +1,115 @@
+{# Module types:
+    accordion
+    callout
+    card-carousel
+    card-carousel-center
+    card-group
+    contact
+    cta
+    info-panel
+    split-content
+    statistics
+    tabs
+    testimonial
+    testimonial-carousel
+    video
+    wysiwyg
+#}
+
+{# Section styling #}
+{% if module_type in ['wysiwyg', 'video'] %}
+  {% set padding = 'tight' %}
+  {% set section_style = 'narrower' %}
+
+{% elseif module_type in ['accordion', 'callout', 'tabs', 'testimonial'] %}
+  {% set padding = 'tight' %}
+  {% set section_style = 'narrow' %}
+
+{% elseif module_type in ['split-content'] %}
+  {% set section_style = 'narrow' %}
+  {% set exclude_container = true %}
+
+{% elseif module_type in ['card-carousel'] %}
+  {% set intro_class = 'text-center' %}
+
+{% elseif module_type in ['contact'] %}
+  {% set exclude_container = true %}
+
+{% elseif module_type in ['card-carousel-center'] %}
+  {% set intro_class = 'text-center' %}
+  {% set exclude_container = true %}
+
+{% elseif module_type in ['testimonial-carousel'] %}
+  {% set section_style = 'narrow' %}
+  {% set intro_class = 'text-center' %}
+{% endif %}
+
+{# Section content #}
+{% set section_content %}
+  {% if module_type == 'wysiwyg' %}
+    <section class="prose">
+      {{ wysiwyg }}
+    </section>
+
+  {% elseif module_type == 'accordion' %}
+    {% include '@molecules/accordion/accordion.twig' %}
+
+  {% elseif module_type == 'callout' %}
+    {% include '@molecules/callout/callout.twig' %}
+
+  {% elseif module_type == 'card-carousel' %}
+    {% include '@molecules/carousel/carousel-cards/carousel-cards.twig' %}
+
+  {% elseif module_type == 'card-carousel-center' %}
+    {% include '@molecules/carousel/carousel-cards-center/carousel-cards-center.twig' %}
+
+  {% elseif module_type == 'card-group' %}
+    {% include '@molecules/listings/listing.twig' %}
+
+  {% elseif module_type == 'contact' %}
+    {% include '@molecules/panels/contact-panel/contact-panel.twig' %}
+
+  {% elseif module_type == 'split-content' %}
+    {% include '@molecules/split-content/split-content.twig' with { columns: 'half' } %}
+
+  {% elseif module_type == 'statistics' %}
+    {% include '@molecules/listings/listing.twig' with { view_mode: 'statistic' } %}
+
+  {% elseif module_type == 'tabs' %}
+    {% include '@molecules/tabs/tabs.twig' %}
+
+  {% elseif module_type == 'testimonial' %}
+    {% include '@molecules/cards/card/card-testimonial.twig' %}
+
+  {% elseif module_type == 'testimonial-carousel' %}
+    {% include '@molecules/carousel/carousel-testimonial/carousel-testimonial.twig' %}
+
+  {% elseif module_type == 'video' %}
+    {% include '@atoms/video/video.twig' with {
+      trigger: "click"
+    } %}
+
+  {% else %}
+    {{ section_content | default }}
+  {% endif %}
+
+{% endset %}
+
+{# Section #}
+{% if section_content|trim is not empty %}
+  {% include '@organisms/section/section.twig' with {
+    padding: padding,
+    section_class: section_class,
+    section_style: section_style,
+    exclude_container: exclude_container,
+    intro: intro,
+    section_content: section_content,
+  } %}
+
+{# These modules already include the section embed: #}
+{% elseif module_type == 'cta' %}
+  {% include '@molecules/cta/cta.twig' %}
+
+{% elseif module_type == 'info-panel' %}
+  {% include '@molecules/panels/info-panel/info-panel.twig' %}
+{% endif %}

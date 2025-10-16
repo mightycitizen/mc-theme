@@ -1,0 +1,65 @@
+{% set no_outline = no_outline ?? false %}
+{% set equalize = equalize ?? false %}
+{% set clickCard = clickCard ?? false %}
+{% set modifier = modifier ?? null %}
+{% set class = class ?? null %}
+{% set background_color = background_color ?? null %}
+{% set image = image ?? null %}
+{% set icon = icon ?? null %}
+{% set header = header ?? null %}
+{% set footer = footer ?? null %}
+{% set type = type ?? null %}
+{% set flag = flag ?? null %}
+{% set date = date ?? null %}
+{% set lazyload_attr = lazyload_attr ?? null %}
+{% set disable_lazy = disable_lazy ?? false %}
+
+<div class="card {% if no_outline is empty %}bg-{{ background_color | default('white')}} h-full shadow-md{% endif%} {{ class | default }} {{ modifier | default ? 'card--' ~ modifier : '' }}{% if clickCard | default %} card--click{% endif %}" >
+  {% if header | default %}
+  <div class="card_divider">
+    {{ header }}
+  </div>
+  {% endif %}
+
+  {% if image | default %}
+    <div class="card_image w-full relative">
+      <img {% if lazyload_attr | default %}{{ lazyload_attr }}="{{ image.src }}"{% else %}src="{{ image.src }}" {% if disable_lazy | default != true %}loading="lazy"{% endif %}{% endif %}  alt="{{ image.alt }}" class="w-full ">
+
+      {% if type.handle | default == 'events' and date | default %}
+        {% include '@atoms/inline-text/date/date.twig' with date | merge({
+          class: 'absolute top-0 left-0 z-2'
+        }) %}
+      {% endif %}
+      {% if flag | default %}
+        {% include '@atoms/inline-text/flag/flag.twig' with {
+          class: 'absolute top-0 right-0 z-2',
+          flag_text: flag
+        }%}
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if icon | default %}
+  <div class="card_icon bg-primary-100 w-full relative text-center py-8">
+    <div class="bg-white p-[8px] rounded-full inline-block border-[13px] border-primary">
+      {% include '@atoms/icon/icon.twig' with { modifiers: 'text-[2.75rem] align-middle' }%}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="card_section {% if no_outline is empty %}p-6 {% else %}py-6 {% endif%}bg-white" {% if equalize | default %}data-equalizer-watch{% endif %}>
+    {% if image | default is empty %}
+        {% if flag | default %}
+          {% include '@atoms/inline-text/flag/flag.twig' with {
+            flag_class: "card_flag"
+          }%}
+      {% endif %}
+    {% endif %}
+    {% include '@molecules/cards/card/_card-content.twig' %}
+    {% if footer | default %}
+      <div class="card_footer">
+        {{ footer }}
+      </div>
+    {% endif %}
+  </div>
+</div>

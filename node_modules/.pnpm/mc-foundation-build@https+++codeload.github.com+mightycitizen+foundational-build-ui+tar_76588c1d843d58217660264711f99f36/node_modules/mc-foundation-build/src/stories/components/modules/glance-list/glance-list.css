@@ -1,0 +1,10 @@
+.glance-list {
+  > div {
+    @apply pb-4 lg:pb-0 border-b-[1px] border-b-primary-300 md:border-b-0 md:border-r-2 md:border-r-primary-400;
+  }
+  > div:nth-child(3),
+  > div:nth-child(4){
+    border-right: 0px none;
+  }
+
+}

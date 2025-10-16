@@ -1,0 +1,12 @@
+{% embed '@organisms/section/section-embed.twig' with {
+    section_heading: section_heading | default,
+    padding: 'tight',
+    section_style: "narrower"
+  }
+%}
+  {% block section_content %}
+      {% include '@atoms/video/video.twig' with {
+        trigger: "click"
+      }%}
+  {% endblock %}
+{% endembed %}

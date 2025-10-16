@@ -7,7 +7,6 @@
 
 function mc_theme_preprocess_views_view(&$variables) {
   $view = $variables['view'];
-
   // Look for a views argument with the format columns:<number>
   if ($view->id() == 'news' && !empty($view->args)) {
     foreach ($view->args as $arg) {
@@ -17,9 +16,8 @@ function mc_theme_preprocess_views_view(&$variables) {
       }
     }
   }
-
   // Otherwise set columns based on view mode
-  elseif (!isset($variables['columns'])) {
+  if (!isset($variables['columns']) && !isset($columns)) {
     if ($row_plugin = $view->display_handler->getPlugin('row')) {
       if (array_key_exists('view_mode', $row_plugin->options)) {
         if ($row_plugin->options['view_mode'] == 'card') {

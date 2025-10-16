@@ -1,0 +1,50 @@
+{% set panel_classes = panel_theme == 'dark' ? 'bg-primary-800 text-white' : 'bg-primary-50' %}
+{% set border_classes = border ? 'pb-4 lg:pb-0 border-b-[1px] border-b-primary-300 md:border-b-0 md:border-r-2 md:border-r-primary-400' : '' %}
+{% embed '@organisms/section/section-embed.twig' with {
+  section_class: panel_classes | default,
+} %}
+  {% block section_content %}
+    <div class="{{ panel_classes }}">
+      {% if panel_heading %}
+        <h2 class="md:text-center mb-8">{{ panel_heading }}</h2>
+      {% endif %}
+      <div class="info-panel grid grid-cols-12 gap-6">
+        {% for column in columns %}
+          <div class="col-span-12 md:col-span-{{ 12 // (columns|length) }} {{ not loop.last ? border_classes }}">
+            {% if column.heading %}
+              <h3 class="text-sm md:mb-7 uppercase">{{ column.heading }}</h3>
+            {% endif %}
+
+            <ul class="list-none space-y-6 md:space-y-11">
+              {% for item in column.items %}
+                <li class="flex flex-col md:flex-row md:items-start gap-2 md:gap-4">
+
+                  <ul class="list-none space-y-6 md:space-y-11">
+                    {% if label_display == 'inline' %}
+                      <li>
+                        <div class="flex gap-x-2 items-center {{ panel_theme == 'light' ? 'text-primary-500' : NULL }}">
+                          {% if item.icon %}
+                            {% include '@atoms/icon/icon.twig' with { icon: item.icon, modifiers: 'text-xl' } only %}
+                          {% endif %}
+                          {% if item.label %}<span class="font-bold">{{ item.label }}:</span>{% endif %}
+                          {% if item.content %}<span class="font-bold">{{ item.content }}</span>{% endif %}
+                        </div>
+                        {% if item.additional_info %}<div class="leading-8 pt-2">{{ item.additional_info }}</div>{% endif %}
+                      </li>
+                    {% else %}
+                      <li class="">
+                      {% if item.label %}<label class="md:text-lg">{{ item.label }}</label>{% endif %}
+                      {% if item.content %}<div class="text-sm md:text-base">{{ item.content }}</div>{% endif %}
+                      {% if item.additional_info %}<div class="text-sm md:text-base">{{ item.additional_info }}</div>{% endif %}
+                      </li>
+                    {% endif %}
+                  </ul>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endblock %}
+{% endembed %}

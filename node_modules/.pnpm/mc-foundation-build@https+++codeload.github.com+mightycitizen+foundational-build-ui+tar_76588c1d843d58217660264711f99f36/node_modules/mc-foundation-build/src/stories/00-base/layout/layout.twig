@@ -1,0 +1,18 @@
+<div id="body" class="{{ wrapper_class | default }}">
+  <div class="grid-template">
+    <div class="sidebar-wrapper">
+      {{ sidebar }}
+    </div>
+    {% if  sidebar_bottom %}
+      <div class="sidebar-bottom-wrapper">
+        {{ sidebar_bottom }}
+      </div>
+    {% endif %}
+    <div class="hero-wrapper" id="hero">
+      {{ hero_section }}
+    </div>
+    <div class="content-wrapper" id="content">
+      {{ content }}
+    </div>
+  </div>
+</div>

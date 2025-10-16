@@ -1,0 +1,14 @@
+<div class="sidebar-bottom pt-8 space-y-6">
+  {% if departments | default %}
+    <div class="topics border-b-[1px] border-b-neutrals-100 pb-6">
+      <h2 class="text-lg font-semibold">Departments</h2>
+      <ul class="list-none flex flex-wrap gap-2.5">
+        {% for item in departments %}
+          <li>
+            <a class="read-more" href="{{ item.url }}">{{ item.text }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</div>
