@@ -25,7 +25,7 @@ function mc_theme_theme_suggestions_block_alter(array &$suggestions, array $vari
   }
 
   $plugin_id = $variables['elements']['#plugin_id'];
-  if ($plugin_id == ('hero_block' || 'sidebar_block')) {
+  if (in_array($plugin_id, ['hero_block', 'sidebar_block'])) {
     $route = \Drupal::routeMatch()->getRouteName();
     if ($route == 'entity.node.canonical') {
       $node = \Drupal::routeMatch()->getParameter('node');
@@ -41,8 +41,11 @@ function mc_theme_theme_suggestions_block_alter(array &$suggestions, array $vari
       $suggestions[] = 'block__' . $plugin_id . '__node';
       $suggestions[] = 'block__' . $plugin_id . '__node__' . $node->bundle();
     }
-    elseif (strpos($route, 'sitewide_alert')) {
+    elseif (strpos($route, 'sitewide_alert') !== FALSE) {
       $suggestions[] = 'block__' . $plugin_id . '__sitewide_alert';
+    }
+    elseif (strpos($route, 'view') !== FALSE) {
+      $suggestions[] = 'block__' . $plugin_id . '__view';
     }
   }
 }
