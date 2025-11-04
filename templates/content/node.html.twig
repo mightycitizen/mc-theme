@@ -33,7 +33,7 @@
 
 {% if node.bundle == 'program' %}
   {% set heading = node.field_heading.0.value ?? label %}
-  {% set summary = content.field_program_formats_info %}
+  {% set summary = content.field_program_formats_info|render|striptags %}
   {% if content.field_program_types.0 %}
     {% set card_data = card_data|merge({
       subheading: content.field_program_types,
