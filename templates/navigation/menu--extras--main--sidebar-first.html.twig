@@ -1,0 +1,57 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a menu.
+ *
+ * Available variables:
+ * - menu_name: The machine name of the menu.
+ * - items: A nested list of menu items. Each menu item contains:
+ *   - attributes: HTML attributes for the menu item.
+ *   - below: The menu item child items.
+ *   - title: The menu link title.
+ *   - url: The menu link URL, instance of \Drupal\Core\Url
+ *   - localized_options: Menu link localized options.
+ *   - is_expanded: TRUE if the link has visible children within the current
+ *     menu tree.
+ *   - is_collapsed: TRUE if the link has children within the current menu tree
+ *     that are not currently visible.
+ *   - in_active_trail: TRUE if the link is in the active trail.
+ *
+ * @ingroup themeable
+ */
+#}
+
+{% set parent_id = NULL %}
+{% set current_link = NULL %}
+{% set links = [] %}
+
+{% for item in items %}
+  {% if item.in_active_trail %}
+    {# Get current page title only, will be first link item #}
+    {% set current_link = [{'text': item.title}] %}
+
+    {# Get parent menu item ID #}
+    {% if item.entity.parent.0.value %}
+      {% set parent_id = item.entity.parent.0.value %}
+    {% endif %}
+  {% else %}
+    {# Get sibling links and add to link array #}
+    {% set links = links|merge([{'text': item.title, 'url': item.url}] ) %}
+  {% endif %}
+{% endfor %}
+
+{% if parent_id %}
+  {# Get parent info #}
+  {% set parent_id = parent_id|split(':')[1] %}
+  {% set parent = drupal_entity('menu_link_content', parent_id) %}
+  {% set parent_entity = parent['#menu_link_content'] %}
+{% endif %}
+
+{{ include('@molecules/navigation/local-nav/local-nav.twig', {
+  heading: 'In this section'|t,
+  local_nav: current_link|merge(links),
+  parent_item: {
+    text: parent_entity.title.value ?? 'Home'|t,
+    url: parent_entity.link.0.getUrl().toString() ?? url('<front>'),
+  }
+}) }}

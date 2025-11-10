@@ -1,4 +1,7 @@
 <ul class="list-none">
+  {% if heading | default is not empty %}
+    <h2>{{ heading }}</h2>
+  {% endif %}
   {% for link in links %}
     <li>
       {% if link | default is not empty %}

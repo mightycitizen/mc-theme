@@ -3,14 +3,41 @@
  * @file
  * Node-related hook implementations.
  */
-use Drupal\node\Entity\Node;
 use Drupal\Core\Render\Markup;
+use Drupal\node\Entity\Node;
+use Drupal\paragraphs\Entity\Paragraph;
 
 function mc_theme_preprocess_node(&$variables) {
   $node = $variables['node'];
   $elements = $variables['elements'];
   $view_mode = $variables['view_mode'];
 
+  // Table of contents
+  $table_of_contents = array();
+  if ($node->hasField('field_components_primary')) {
+    $field_components_primary = $node->field_components_primary->getValue();
+    foreach ($field_components_primary as $key => $value) {
+      if ($paragraph_id = $value['target_id']) {
+        $paragraph = Paragraph::load($paragraph_id);
+        $table_of_contents[] = _mc_theme_get_anchor_link($paragraph);
+      }
+    }
+  }
+  if ($node->hasField('field_components_secondary')) {
+    $field_components_secondary = $node->field_components_secondary->getValue();
+    foreach ($field_components_secondary as $key => $value) {
+      if ($paragraph_id = $value['target_id']) {
+        $paragraph = Paragraph::load($paragraph_id);
+        $table_of_contents[] = _mc_theme_get_anchor_link($paragraph);
+      }
+    }
+  }
+
+  if ($node->hasField('field_show_table_of_contents') or $node->bundle() == 'program') {
+    $variables['table_of_contents'] = $table_of_contents;
+  }
+
+  // Format addresses and locations
   if ($node->hasField('field_addresses')) {
     $field_addresses = $node->field_addresses->getValue();
     $addresses = _mc_theme_format_address($field_addresses);
@@ -30,6 +57,22 @@ function mc_theme_preprocess_node(&$variables) {
   }
 
   $variables['formatted_location'] = $address ?? NULL;
+}
+
+function _mc_theme_get_anchor_link($paragraph) {
+  if ($paragraph->hasField('field_intro') && !$paragraph->get('field_intro')->isEmpty()) {
+    $intro_id = $paragraph->field_intro->target_id;
+    if ($intro = Paragraph::load($intro_id)) {
+      $anchor_title = $intro->get('field_anchor_title')->value;
+      $heading = $intro->get('field_heading')->value;
+    }
+  }
+  $anchor_title = $anchor_title ?? $heading;
+  $anchor_link = $anchor_title ? [
+    'url' => '#component-' . $paragraph->id(),
+    'text' => $anchor_title ?? '',
+  ] : NULL;
+  return $anchor_link;
 }
 
 function _mc_theme_format_address($field_addresses) {

@@ -1,13 +1,15 @@
 <div class="local-nav lg:hidden" x-data="{ open: false }">
   <button x-on:click="open = ! open" class="bg-neutrals-50 border border-neutrals-200 border-l-[6px] border-l-primary-500 w-full flex items-center py-3 px-3">
     <span class="icon-list text-primary-500 text-3xl pr-5"></span>
-    <span class="font-bold text-lg text-left">In this section</span>
+    <span class="font-bold text-lg text-left">{{ heading|default('In this section') }}</span>
     <span class="icon-plus text-2xl text-primary-500 ml-auto" :class="{ 'icon-minus': open, 'icon-plus' : !open }"></span>
   </button>
   <div class="lg:shadow px-6 py-5" x-show="open" >
-    <p class="text-primary-900 font-bold text-2xl mb-5"><a href="#">Parent Page Link</a></p>
+    {% if parent_item|default %}
+      <p class="text-primary-900 font-bold text-2xl mb-5"><a href="{{ parent_item.url }}">{{ parent_item.text }}</a></p>
+    {% endif %}
     <ul class="list-none font-semibold space-y-2">
-      {% for item in local_nav %}
+      {% for item in local_nav|default %}
         <li>
           {% if item.url %}<a class="font-medium text-neutrals-800" href="{{ item.url }}">{% endif %}
             {{ item.text }}
@@ -18,11 +20,13 @@
   </div>
 </div>
 <div class="lg:shadow px-6 py-5 hidden lg:block">
-  <p class="text-primary-900 font-bold text-2xl mb-5"><a href="#">Parent Page Link</a></p>
+  {% if parent_item|default %}
+    <p class="text-primary-900 font-bold text-2xl mb-5"><a href="{{ parent_item.url }}">{{ parent_item.text }}</a></p>
+  {% endif %}
   <div x-data="{ showAll: false }">
     <div>
       <ul class="list-none font-semibold space-y-2">
-        {% for item in local_nav %}
+        {% for item in local_nav|default %}
           <li x-show="{{ loop.index }} <= 10 || showAll">
             {% if item.url %}<a class="font-medium text-neutrals-800" href="{{ item.url }}">{% endif %}
               {{ item.text }}

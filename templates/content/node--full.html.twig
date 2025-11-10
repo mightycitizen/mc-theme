@@ -60,17 +60,29 @@
  * @ingroup themeable
  */
 #}
+{% if node.field_show_menu_block.value %}
+  {% set sidebar_top = drupal_region('sidebar_first')|render %}
+{% endif %}
+
+{% set primary_components %}
+  {% if node.field_show_table_of_contents.value %}
+    {{ include('@molecules/navigation/anchor-nav/anchor-nav.twig', {
+      heading: 'Table of Contents'|t,
+      anchor_nav: table_of_contents,
+    }) }}
+  {% endif %}
+  {{ content.field_components_primary }}
+{% endset %}
 
 {# Component-based nodes such as Page, Program #}
 {% if content.field_components_primary or content.field_components_secondary %}
-  {% if content.field_components_aside.0 %}
+  {% if content.field_components_aside.0 or sidebar_top %}
     {% set section_content %}
-      {# @TODO: Add subnav menu to sidebar region #}
       {{ include('@base/layout/layout.twig', {
-        sidebar: NULL,
+        sidebar: sidebar_top ?? NULL,
         sidebar_bottom: content.field_components_aside,
         hero_section: NULL,
-        content: content.field_components_primary,
+        content: primary_components,
       }) }}
     {% endset %}
     {{ include('mc_theme:section', {
@@ -78,14 +90,14 @@
       section_content,
     }) }}
   {% else %}
-    {{ content.field_components_primary }}
+    {{ primary_components }}
   {% endif %}
 
   {{ content.field_components_secondary }}
 
 {% else %}
 
-{# Nodes that are just body fields #}
+{# Nodes that are just body fields such as News, Person, etc. #}
   {{ include('mc_theme:section', {
     padding: 'tight',
     section_style: 'narrower',
