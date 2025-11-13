@@ -1,68 +1,49 @@
-{#graphql
-fragment MenuItem on MenuItem {
-  text:title
-  url
-  internal
-  children {
-    text:title
-    url
-    internal
-  }
-  extras {
-    ... on MenuLinkContentMain {
-      icon
-    }
-    ... on MenuLinkContentMainCtum {
-      icon
-    }
-    ... on MenuLinkContentMainUtility {
-      icon
-    }
-  }
-}
-
-query Header {
-  main: menu(name: MAIN) {
-    items {
-      ...MenuItem
-    }
-  }
-  main_utility: menu(name: MAIN_UTILITY) {
-    items {
-      ...MenuItem
-    }
-  }
-  main_cta: menu(name: MAIN_CTA) {
-    items {
-      ...MenuItem
-    }
-  }
-}
+{#
+/**
+ * @file
+ * Custom block created by HeaderBlock in mc_custom module.
+ *
+ */
 #}
-
 {% set menu_data = [] %}
 
 {#
   Loop through menu items and add to new array, with a slightly different structure
   Formats icon for front end integration and moves it to the same level as other link data.
 #}
-{% for menu_name in ['main', 'main_utility', 'main_cta'] %}
+{% for menu_name in ['main', 'main-utility', 'main-cta'] %}
   {# New array for current menu #}
   {% set current_menu = [] %}
 
-  {% set items = graphql[menu_name].items %}
+  {% set items = drupal_menu(menu_name, expand=true) %}
 
-  {# Top level nav items with children #}
-  {% for item in items %}
+  {% for key, item in items['#items'] %}
+    {% set key = key|split(':')[1] %}
+
+    {# Get icon field and add to array #}
+    {% set menu_item_extras = drupal_entity('menu_link_content', key, check_access=false) %}
+
     {% set item = item|merge({
-      icon: item.extras.icon ? mc_icon(item.extras.icon) : NULL,
-    }) %}
+      text: item.title,
+      url: item.url.toString(),
+      icon: menu_item_extras['#menu_link_content'].field_icon.0 ? mc_icon(menu_item_extras['#menu_link_content'].field_icon.0.target_id) : NULL,
+    })|without('title') %}
 
-    {# Add nav items to current menu #}
+    {# Get children menu items – repeat for multiple levels #}
+    {% if item.below %}
+      {% set children = [] %}
+      {% for child in item.below %}
+        {% set children = children|merge([child|merge({
+          text: child.title,
+          url: child.url.toString(),
+        })|without('title')]) %}
+      {% endfor %}
+      {% set item = item|merge({children: children}) %}
+    {% endif %}
+
     {% set current_menu = current_menu|merge([item]) %}
   {% endfor %}
 
-  {# Add current menu to larger menu array #}
   {% set menu_data = menu_data|merge({
     (menu_name): current_menu
   }) %}
@@ -70,7 +51,7 @@ query Header {
 
 {# Pass updated menu data to SDC. #}
 {{ include('mc_theme:header', {
-  menu: menu_data.main,
-  utility_menu: menu_data.main_utility,
-  cta_menu: menu_data.main_cta,
+  menu: menu_data['main'],
+  utility_menu: menu_data['main-utility'],
+  cta_menu: menu_data['main-cta'],
 }) }}

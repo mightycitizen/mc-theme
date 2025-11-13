@@ -1,32 +1,55 @@
-{#graphql
-fragment MenuItem on MenuItem {
-  text:title
-  url
-  internal
-  children {
-    text:title
-    url
-    internal
-  }
-}
-
-query Footer {
-  footer: menu(name: FOOTER) {
-    items {
-      ...MenuItem
-    }
-  }
-  footer_utility: menu(name: FOOTER_UTILITY) {
-    items {
-      ...MenuItem
-    }
-  }
-}
+{#
+/**
+ * @file
+ * Custom block created by FooterBlock in mc_custom module.
+ *
+ * Available variables:
+ * - contact
+ * - ctas
+ * - social
+ */
 #}
+{% set menu_data = [] %}
+
+{#
+  Loop through menu items and add to new array, with a slightly different structure
+  Formats icon for front end integration and moves it to the same level as other link data.
+#}
+{% for menu_name in ['footer', 'footer-utility'] %}
+  {# New array for current menu #}
+  {% set current_menu = [] %}
+
+  {% set items = drupal_menu(menu_name, expand=true) %}
+
+  {% for key, item in items['#items'] %}
+    {% set item = item|merge({
+      text: item.title,
+      url: item.url.toString(),
+    })|without('title') %}
+
+    {# Get children menu items – repeat for multiple levels #}
+    {% if item.below %}
+      {% set children = [] %}
+      {% for child in item.below %}
+        {% set children = children|merge([child|merge({
+          text: child.title,
+          url: child.url.toString(),
+        })|without('title')]) %}
+      {% endfor %}
+      {% set item = item|merge({children: children}) %}
+    {% endif %}
+
+    {% set current_menu = current_menu|merge([item]) %}
+  {% endfor %}
+
+  {% set menu_data = menu_data|merge({
+    (menu_name): current_menu
+  }) %}
+{% endfor %}
 
 {{ include('mc_theme:footer', {
-  menu: graphql.footer.items,
-  footer_links: graphql.footer_utility.items,
+  menu: menu_data['footer'],
+  footer_links: menu_data['footer-utility'],
   social,
   ctas,
   contact,

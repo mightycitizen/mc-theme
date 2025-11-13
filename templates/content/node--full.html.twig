@@ -73,7 +73,6 @@
   {% endif %}
   {{ content.field_components_primary }}
 {% endset %}
-
 {# Component-based nodes such as Page, Program #}
 {% if content.field_components_primary or content.field_components_secondary %}
   {% if content.field_components_aside.0 or sidebar_top %}
@@ -91,6 +90,21 @@
     }) }}
   {% else %}
     {{ primary_components }}
+  {% endif %}
+
+  {% if node.bundle() == 'program' %}
+    {% set secondary_table_of_contents = table_of_contents|filter(item => item.section == 'field_components_secondary') %}
+    {{ include('@molecules/anchor.twig', {
+      anchor_items: secondary_table_of_contents,
+      anchor_button: node.field_links_2.0 ? {
+        text: node.field_links_2.0.title,
+        url: node.field_links_2.0.url.toString(),
+      },
+      anchor_button_two: node.field_links_2.1 ?{
+        text: node.field_links_2.1.title,
+        url: node.field_links_2.1.url.toString(),
+      }
+    }) }}
   {% endif %}
 
   {{ content.field_components_secondary }}

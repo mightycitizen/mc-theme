@@ -34,7 +34,7 @@ function mc_theme_preprocess_node(&$variables) {
   }
 
   if ($node->hasField('field_show_table_of_contents') or $node->bundle() == 'program') {
-    $variables['table_of_contents'] = $table_of_contents;
+    $variables['table_of_contents'] = array_filter($table_of_contents);
   }
 
   // Format addresses and locations
@@ -70,7 +70,9 @@ function _mc_theme_get_anchor_link($paragraph) {
   $anchor_title = $anchor_title ?? $heading;
   $anchor_link = $anchor_title ? [
     'url' => '#component-' . $paragraph->id(),
-    'text' => $anchor_title ?? '',
+    'anchor' => '#component-' . $paragraph->id(), // @TODO: fix redundancy because of Storybook inconsistencies
+    'text' => $anchor_title ?? NULL,
+    'section' => $paragraph->get('parent_field_name')->value ?? NULL,
   ] : NULL;
   return $anchor_link;
 }

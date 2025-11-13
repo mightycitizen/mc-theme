@@ -7,7 +7,8 @@
 
 function mc_theme_preprocess_paragraph(&$variables){
   $entity = $variables['paragraph'];
-  $variables['paragraph_id'] = $entity->id();
+  $variables['paragraph_id'] = $entity->id(); // for GraphQL
+  $variables['section_id'] = 'component-' . $entity->id(); // for anchor links
 }
 
 /**
