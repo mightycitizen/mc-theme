@@ -8,11 +8,11 @@
                   options: ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
                   get filteredOptions() {
                       const searchLower = this.search.toLowerCase();
-                      return this.options.filter(option => 
+                      return this.options.filter(option =>
                           option.toLowerCase().includes(searchLower) && !this.selected.includes(option)
                       );
                   },
-                  toggle() {                    
+                  toggle() {
                     this.open = !this.open;
                   },
                   close() {
@@ -31,7 +31,7 @@
                     }
                   },
                   toggleOption(option) {
-                    
+
                       if (this.selected.includes(option)) {
                           this.selected = this.selected.filter(item => item !== option);
                       } else {
@@ -40,7 +40,7 @@
                       this.selectedString = this.selected.join(', ');
                       this.search = ''; // Clear search input after selecting
                       // focus on first element in dropdown
-                      const firstChild = this.$refs.dropdown.children[0];                      
+                      const firstChild = this.$refs.dropdown.children[0];
                       if (firstChild) {
                         firstChild.focus();
                       }else{

@@ -7,6 +7,6 @@
         {% for option in options %}
           <option {% if value | default == option.value %}selected{% endif %} value="{{ option.value }}">{{ option.label }}</option>
         {% endfor %}
-      </select>    
+      </select>
   {% endblock %}
 {% endembed %}

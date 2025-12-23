@@ -1,4 +1,4 @@
-import twig from './label.twig';
+import twig from './inline-label.twig';
 
 //More on default export: https://storybook.js.org/docs/html/writing-stories/introduction#default-export
 export default {

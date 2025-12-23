@@ -1,7 +1,7 @@
 <ul class="list-none flex text-xs leading-4 font-bold {{ modifier | default }}">
   {% if date | default %}
     <li class="font-bold border-right-1 border-gray mr-3 pr-1 ">
-      {% embed '@atoms/inline-text/label/label.twig' %}
+      {% embed '@atoms/inline-text/label/inline-label.twig' %}
         {% block content %}
             <time datetime="{{ date.unformatted }}">{{ date.full }}</time>
             {% if endDate | default %}

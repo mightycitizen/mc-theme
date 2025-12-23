@@ -4,7 +4,7 @@
       {% block form_content %}
         {% if keyword_filter | default %}
           <div class="col-span-12 md:col-span-5">
-            {% include '@atoms/inline-text/label/label.twig' with {
+            {% include '@atoms/inline-text/label/inline-label.twig' with {
               value: queryParam | default,
               label: label | default("Keywords"),
               id: input_id | default("keywords"),
