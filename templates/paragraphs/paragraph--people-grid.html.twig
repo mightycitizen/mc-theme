@@ -13,7 +13,7 @@
     {% set view_args = view_args|merge(['all']) %}
   {% endif %}
 {% endfor %}
-{% set view_args = view_args ? view_args|join(',') : ['all'] %}
+{% set view_args = view_args|default(['all']) %}
 
 {% set view_display = (paragraph.field_card_view_mode.0.value == 'card') ? 'block_card' : 'block_list' %}
 
@@ -22,6 +22,6 @@
     padding: 'tight',
     section_class: "section--form " ~ section_class | default,
     intro: content.field_intro.0,
-    section_content: drupal_view('directory', view_display, view_args)
+    section_content: drupal_view('directory', view_display, ...view_args)
   }) }}
 {% endblock %}

@@ -60,6 +60,14 @@ function mc_theme_preprocess_node(&$variables) {
 }
 
 function _mc_theme_get_anchor_link($paragraph) {
+  if ($paragraph->bundle() == 'from_library') {
+    $library_item = $paragraph->field_reusable_paragraph->entity;
+    $paragraph_id = $library_item->paragraphs->target_id;
+    if ($paragraph_id) {
+      $paragraph = Paragraph::load($paragraph_id);
+    }
+  }
+
   if ($paragraph->hasField('field_intro') && !$paragraph->get('field_intro')->isEmpty()) {
     $intro_id = $paragraph->field_intro->target_id;
     if ($intro = Paragraph::load($intro_id)) {
@@ -67,7 +75,9 @@ function _mc_theme_get_anchor_link($paragraph) {
       $heading = $intro->get('field_heading')->value;
     }
   }
+
   $anchor_title = $anchor_title ?? $heading;
+
   $anchor_link = $anchor_title ? [
     'url' => '#component-' . $paragraph->id(),
     'anchor' => '#component-' . $paragraph->id(), // @TODO: fix redundancy because of Storybook inconsistencies
