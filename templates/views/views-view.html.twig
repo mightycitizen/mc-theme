@@ -38,7 +38,6 @@
   ]
 %}
 {% set section_content %}
-  <div{{ attributes.addClass(classes) }}>
     {{ title_prefix }}
     {{ title }}
     {{ title_suffix }}
@@ -65,9 +64,9 @@
     {{ footer }}
 
     {{ feed_icons }}
-  </div>
 {% endset %}
 
+<div{{ attributes.addClass(classes) }}>
 {% if exposed %}
   {{ include('mc_theme:columns', {
     columns: "narrow",
@@ -77,3 +76,4 @@
 {% else %}
   {{ section_content }}
 {% endif %}
+</div>
