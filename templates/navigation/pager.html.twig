@@ -73,10 +73,12 @@
     }]) %}
   {% endif %}
 
+  <div class="js-pager__items">
   {# Integrate into frontend #}
   {% include '@molecules/pagination.twig' with {
     previous: previous,
     next: next,
     pages: pages
   } %}
+  </div>
 {% endif %}

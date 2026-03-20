@@ -76,7 +76,7 @@ function _mc_theme_get_anchor_link($paragraph) {
     }
   }
 
-  $anchor_title = $anchor_title ?? $heading;
+  $anchor_title = $anchor_title ?? $heading ?? NULL;
 
   $anchor_link = $anchor_title ? [
     'url' => '#component-' . $paragraph->id(),
